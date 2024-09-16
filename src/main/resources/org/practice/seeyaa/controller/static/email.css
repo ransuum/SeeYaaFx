@@ -1,0 +1,73 @@
+.root{
+    -fx-background-color: #C7D1D6;
+}
+
+#backgroundOpyions{
+    -fx-background-radius: 15px;
+}
+
+.button:hover {
+    -fx-background-color: #cce5ff;
+    -fx-background-radius: 0px;
+}
+
+#emailOfAuthUser{
+    fx-text-fill: #baa7d9;
+}
+
+#search{
+    -fx-border-width: 0px;
+}
+
+.button:pressed {
+    -fx-background-color: #99ccff;
+}
+
+.button.selected {
+    -fx-background-color: #66b2ff;
+    -fx-text-fill: white;
+}
+
+#backHbox{
+    -fx-background-color: #202124;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.check-box{
+    -fx-background-color: #202124;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+}
+
+.text-field{
+    -fx-background-color: #464646;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-border-color: #464646 #464646 #322D2D #464646;
+    -fx-border-width: 1px;
+    -fx-background-radius: 0px 10px 0px 0px;
+}
+
+.text-field:hover {
+    -fx-background-color: #322D2D;
+}
+
+.text-field:pressed {
+    -fx-background-color: #322D2D;
+}
+
+.accordion{
+    -fx-background-color: #202124;
+    -fx-background-radius: 15px;
+}
+
+.button{
+    -fx-background-color: #202124;
+    -fx-text-fill: #baa7d9;
+}
+
+#hboxInsideInboxes{
+    -fx-background-color: #202124;
+}

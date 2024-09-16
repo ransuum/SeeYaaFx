@@ -1,0 +1,45 @@
+.root {
+    -fx-background-color: #C7D1D6;
+}
+
+#labelLogin {
+    -fx-text-fill: #202124;
+}
+
+.button {
+    -fx-background-color: #202124;
+    -fx-background-radius: 13px;
+    -fx-font-family: Garamond;
+    -fx-text-fill: #ddd2ec;
+}
+
+.button:hover {
+    -fx-background-color: #baa7d9;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: #baa7d9;
+}
+
+.button.selected {
+    -fx-background-color: #66b2ff;
+    -fx-text-fill: black;
+}
+
+#noHaveAcc {
+    -fx-text-fill: #202124;
+}
+
+#logo {
+    -fx-background-radius: 5px;
+    -fx-border-color: #C7D1D6;
+    -fx-border-width: 3px;
+    -fx-border-radius: 5px;
+}
+
+.text-field{
+    -fx-background-radius: 12px;
+    -fx-border-width: 0px;
+}

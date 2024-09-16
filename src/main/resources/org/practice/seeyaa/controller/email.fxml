@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="875.0" prefWidth="1309.0" stylesheets="@static/email.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.EmailController">
+   <children>
+      <AnchorPane fx:id="backHbox" layoutX="282.0" layoutY="171.0" prefHeight="688.0" prefWidth="1009.0">
+         <children>
+            <VBox fx:id="hboxInsideInboxes" layoutX="34.0" layoutY="24.0" prefHeight="638.0" prefWidth="972.0" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="write" layoutX="995.0" layoutY="122.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="Write">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/org/practice/seeyaa/controller/images/add.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Georgia Bold" size="12.0" />
+         </font></Button>
+      <Text fx:id="emailOfAuthUser" layoutX="1110.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" textAlignment="CENTER" wrappingWidth="181.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="0.8957345971563981" endY="0.07582938388625593" startX="0.2559241706161137" startY="0.981042654028436">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.10246101021766663" green="0.047514621168375015" blue="0.19736842811107635" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+      <Button fx:id="deleteButton" layoutX="533.0" layoutY="129.0" mnemonicParsing="false" onAction="#delete" text="🗑" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="170.0" prefHeight="688.0" prefWidth="256.0" style="-fx-background-color: #202124;">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="79.0" prefHeight="348.0" prefWidth="231.0">
+               <children>
+                  <Button fx:id="inboxes" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   Inboxes">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/org/practice/seeyaa/controller/images/dash.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sent" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   Sent">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/org/practice/seeyaa/controller/images/menu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="spam" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   Spam">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/org/practice/seeyaa/controller/images/exit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="speakWithAi" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   AI">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/org/practice/seeyaa/controller/images/exit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="282.0" layoutY="126.0" prefHeight="32.0" prefWidth="239.0">
+         <children>
+            <TextField fx:id="search" layoutX="43.0" layoutY="4.0" prefHeight="25.0" prefWidth="193.0" promptText="Search" />
+            <ImageView fx:id="searchButton" fitHeight="35.0" fitWidth="37.0" layoutX="14.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/search.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button layoutX="1183.0" layoutY="132.0" mnemonicParsing="false" onAction="#exit" text="Exit">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="1169.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/user.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="editProfile" fitHeight="19.0" fitWidth="18.0" layoutX="1231.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/edit-text.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fitHeight="128.0" fitWidth="128.0" layoutX="75.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/email.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

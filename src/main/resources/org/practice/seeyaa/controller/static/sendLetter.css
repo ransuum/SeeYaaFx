@@ -1,0 +1,37 @@
+.root{
+    -fx-background-color: white;
+}
+
+.button {
+    -fx-background-color: #202124;
+    -fx-background-radius: 13px;
+    -fx-text-fill: #ddd2ec;
+}
+
+.button:hover {
+    -fx-background-color: #baa7d9;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: #baa7d9;
+}
+
+.button.selected {
+    -fx-background-color: #66b2ff;
+    -fx-text-fill: black;
+}
+
+.text-field{
+    -fx-border-color: white white #464646 white;
+}
+
+.text-area{
+    -fx-border-color: transparent transparent transparent transparent;
+}
+
+.label{
+    -fx-font-weight: bold;
+    -fx-text-fill: #baa7d9;
+}
