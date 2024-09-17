@@ -62,6 +62,7 @@ public class SceneController {
         });
     }
 
+    @FXML
     public void go(ActionEvent event) throws IOException {
         incorrectInputEmail.setVisible(false);
         incorrectInputPassword.setVisible(false);

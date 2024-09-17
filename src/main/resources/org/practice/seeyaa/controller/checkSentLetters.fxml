@@ -6,11 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
@@ -106,5 +108,13 @@
             </DropShadow>
          </effect>
       </Button>
+      <TitledPane layoutX="407.0" layoutY="188.0" prefHeight="82.0" prefWidth="194.0" text="Answers">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+         </content>
+      </TitledPane>
    </children>
 </AnchorPane>

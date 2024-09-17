@@ -32,6 +32,7 @@ public class SignUpController {
     @Autowired
     private UsersService usersService;
 
+    @FXML
     public void signUp(ActionEvent event) {
         registry();
 

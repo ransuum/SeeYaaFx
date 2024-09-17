@@ -41,4 +41,7 @@ public class Users {
 
     @OneToMany(mappedBy = "userTo", fetch = FetchType.EAGER)
     private List<Letter> myLetters = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userByAnswered", fetch = FetchType.EAGER)
+    private List<Answer> answers = new ArrayList<>();
 }

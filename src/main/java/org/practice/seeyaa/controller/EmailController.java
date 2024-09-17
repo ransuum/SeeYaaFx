@@ -1,6 +1,5 @@
 package org.practice.seeyaa.controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.practice.seeyaa.SeeYaaApplication;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
@@ -27,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -109,6 +105,7 @@ public class EmailController {
         deleteSelectedLetters();
     }
 
+    @FXML
     public void exit(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
@@ -307,11 +304,11 @@ public class EmailController {
             if (fxmlFile.equals("checkLetter.fxml")) {
                 stage.setTitle("Check My Letter");
                 CheckMyLetterController controller = fxmlLoader.getController();
-                controller.setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), email, letter1.userBy().firstname() + " " + letter1.userBy().lastname());
+                controller.setLetter(letter1);
             } else if (fxmlFile.equals("checkSentLetters.fxml")) {
                 stage.setTitle("Check Sent Letter");
                 CheckSentLettersController controller = fxmlLoader.getController();
-                controller.setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userTo().email(), letter1.userTo().firstname() + " " + letter1.userTo().lastname());
+                controller.setLetter(letter1);
             }
 
             stage.setOnCloseRequest(event -> openStages.remove(letterId));

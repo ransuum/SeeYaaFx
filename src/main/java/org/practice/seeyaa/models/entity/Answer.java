@@ -1,0 +1,32 @@
+package org.practice.seeyaa.models.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.relational.core.mapping.Table;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+@Table(name = "answers")
+@Entity
+public class Answer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
+    private String id;
+
+    @Column(nullable = false)
+    private String answerText;
+
+    @ManyToOne
+    @JoinColumn(name = "userBy_id", referencedColumnName = "id")
+    private Users userByAnswered;
+
+    @ManyToOne
+    @JoinColumn(name = "current_letter_id", referencedColumnName = "id")
+    private Letter currentLetter;
+}

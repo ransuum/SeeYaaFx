@@ -37,6 +37,7 @@ public class SendLetterController {
 
     private Stage stage;
 
+    @FXML
     public void sendLetter(ActionEvent event) throws IOException {
 
         LetterRequest letterRequest = LetterRequest.builder()
@@ -52,6 +53,7 @@ public class SendLetterController {
         stage.close();
     }
 
+    @FXML
     public void helpRefractorTextByAi(ActionEvent event) {
 
     }

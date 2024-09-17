@@ -1,0 +1,33 @@
+.root{
+    -fx-background-color: lightgrey;
+}
+
+.text-field {
+    -fx-border-color: black lightgrey black lightgrey;
+    -fx-background-color: lightgrey;
+}
+
+.text-area {
+    -fx-background-radius: 75px;
+    -fx-border-width: 0;
+}
+
+.button{
+    -fx-background-color: #464646;
+    -fx-background-radius: 40px;
+}
+
+.button:hover {
+    -fx-background-color: #baa7d9;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: #baa7d9;
+}
+
+.button.selected {
+    -fx-background-color: #66b2ff;
+    -fx-text-fill: black;
+}

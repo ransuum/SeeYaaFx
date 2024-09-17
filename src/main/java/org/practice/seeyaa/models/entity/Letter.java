@@ -9,6 +9,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +40,7 @@ public class Letter implements Serializable {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "currentLetter", fetch = FetchType.EAGER)
+    private List<Answer> answers = new ArrayList<>();
 }
