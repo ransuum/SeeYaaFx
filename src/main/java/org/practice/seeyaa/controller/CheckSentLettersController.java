@@ -3,20 +3,27 @@ package org.practice.seeyaa.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterDto;
+import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class CheckSentLettersController {
@@ -27,9 +34,12 @@ public class CheckSentLettersController {
     private Label firstNameLast;
 
     @FXML
+    private VBox answers;
+
+    @FXML
     private TextArea textOfLetter;
 
-    private LetterDto letterDto;
+    private LetterWithAnswers letterDto;
 
     @FXML
     private Label toWhom;
@@ -40,6 +50,8 @@ public class CheckSentLettersController {
 
     @Autowired
     private ConfigurableApplicationContext springContext;
+    @Autowired
+    private DefaultErrorAttributes errorAttributes;
 
     @FXML
     public void quit(ActionEvent event) {
@@ -57,7 +69,7 @@ public class CheckSentLettersController {
         answerOnLetter();
     }
 
-    public void setLetter(LetterDto letter1) {
+    public void setLetter(LetterWithAnswers letter1) {
         this.letterDto = letter1;
         setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userTo().email(), letter1.userTo().firstname() + " " + letter1.userTo().lastname());
     }
@@ -67,6 +79,17 @@ public class CheckSentLettersController {
         this.textOfLetter.setText(text);
         this.toWhom.setText("Email:  " + toWhom);
         this.firstNameLast.setText(fullName);
+
+        for (AnswerDto answerDto : letterDto.answers()) {
+            TextField textField = new TextField();
+            textField.setCursor(Cursor.HAND);
+            textField.setEditable(false);
+            textField.setText(answerDto.userByAnswered().firstname() + "   " + checkDate(answerDto.createdAt()));
+
+            textField.setOnMouseClicked(mouseEvent -> textOfLetter.setText(answerDto.answerText()));
+
+            answers.getChildren().add(textField);
+        }
     }
 
     private void answerOnLetter() throws IOException {

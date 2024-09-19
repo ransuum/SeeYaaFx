@@ -4,14 +4,18 @@ package org.practice.seeyaa.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterDto;
+import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,6 +24,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Objects;
 
+import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
+
 
 @Component
 public class CheckMyLetterController {
@@ -27,10 +33,13 @@ public class CheckMyLetterController {
     @FXML
     private Label byEmail;
 
-    private LetterDto letterDto;
+    private LetterWithAnswers letterDto;
 
     @FXML
     private Label firstNameLast;
+
+    @FXML
+    private VBox answers;
 
     @FXML
     private TextArea textOfLetter;
@@ -62,7 +71,7 @@ public class CheckMyLetterController {
         answerOnLetter();
     }
 
-    public void setLetter(LetterDto letter1) {
+    public void setLetter(LetterWithAnswers letter1) {
         this.letterDto = letter1;
         setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userBy().email(), letter1.userBy().firstname() + " " + letter1.userBy().lastname());
     }
@@ -72,6 +81,18 @@ public class CheckMyLetterController {
         this.textOfLetter.setText(text);
         this.byEmail.setText("Email:  " + byEmail);
         this.firstNameLast.setText(fullName);
+
+        for (AnswerDto answerDto : letterDto.answers()) {
+
+            TextField textField = new TextField();
+            textField.setCursor(Cursor.HAND);
+            textField.setEditable(false);
+            textField.setText(answerDto.userByAnswered().firstname() + "   " + checkDate(answerDto.createdAt()));
+
+            textField.setOnMouseClicked(mouseEvent -> textOfLetter.setText(answerDto.answerText()));
+
+            answers.getChildren().add(textField);
+        }
     }
 
     private void answerOnLetter() throws IOException {

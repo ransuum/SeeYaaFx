@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,4 +31,7 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "current_letter_id", referencedColumnName = "id")
     private Letter currentLetter;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 }

@@ -23,25 +23,7 @@
             <Font name="Arial Bold" size="30.0" />
          </font>
       </Label>
-      <Circle fill="WHITE" layoutX="27.0" layoutY="31.0" radius="13.0" strokeType="INSIDE">
-         <stroke>
-            <LinearGradient endX="1.0" endY="1.0" startY="0.3981042654028436">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </stroke>
-      </Circle>
-      <Circle layoutX="721.0" layoutY="31.0" radius="13.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle layoutX="721.0" layoutY="31.0" radius="13.0" stroke="LIGHTGRAY" strokeType="INSIDE">
          <fill>
             <LinearGradient endX="0.7677725118483412" endY="1.0" startX="1.0" startY="0.23696682464454977">
                <stops>
@@ -52,7 +34,7 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.396300345659256" green="0.13425925374031067" blue="0.7631579041481018" />
+                        <Color red="0.8552631735801697" green="0.8552631735801697" blue="0.8552631735801697" />
                      </color>
                   </Stop>
                </stops>
@@ -69,27 +51,7 @@
             <Insets />
          </opaqueInsets>
       </TextField>
-      <Circle fill="WHITE" layoutX="27.0" layoutY="31.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#222297" layoutX="721.0" layoutY="31.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle layoutX="31.0" layoutY="565.0" radius="13.0" stroke="BLACK" strokeType="INSIDE">
-         <fill>
-            <LinearGradient endX="0.22274881516587675" startX="0.18009478672985782" startY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.5526315569877625" green="0.542397677898407" blue="0.542397677898407" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Circle>
-      <Circle fill="WHITE" layoutX="31.0" layoutY="565.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#686868" layoutX="721.0" layoutY="31.0" radius="4.0" stroke="#686868" strokeType="INSIDE" />
       <Button fx:id="circleButton" layoutX="114.0" layoutY="471.0" mnemonicParsing="false" onAction="#answer" prefHeight="90.0" prefWidth="94.0" stylesheets="@static/answer.css">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
@@ -147,5 +109,62 @@
          </graphic>
       </Button>
       <Label fx:id="idOfLetter" disable="true" layoutX="114.0" layoutY="19.0" visible="false" />
+      <Circle layoutX="29.0" layoutY="31.0" radius="13.0" stroke="LIGHTGRAY" strokeType="INSIDE">
+         <fill>
+            <LinearGradient endX="0.7677725118483412" endY="1.0" startX="1.0" startY="0.23696682464454977">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.8552631735801697" green="0.8552631735801697" blue="0.8552631735801697" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Circle>
+      <Circle fill="#686868" layoutX="29.0" layoutY="31.0" radius="4.0" stroke="#686868" strokeType="INSIDE" />
+      <Circle layoutX="721.0" layoutY="574.0" radius="13.0" stroke="LIGHTGRAY" strokeType="INSIDE">
+         <fill>
+            <LinearGradient endX="0.7677725118483412" endY="1.0" startX="1.0" startY="0.23696682464454977">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.8552631735801697" green="0.8552631735801697" blue="0.8552631735801697" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Circle>
+      <Circle fill="#686868" layoutX="721.0" layoutY="574.0" radius="4.0" stroke="#686868" strokeType="INSIDE" />
+      <Circle layoutX="29.0" layoutY="574.0" radius="13.0" stroke="LIGHTGRAY" strokeType="INSIDE">
+         <fill>
+            <LinearGradient endX="0.7677725118483412" endY="1.0" startX="1.0" startY="0.23696682464454977">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.8552631735801697" green="0.8552631735801697" blue="0.8552631735801697" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Circle>
+      <Circle fill="#686868" layoutX="29.0" layoutY="574.0" radius="4.0" stroke="#686868" strokeType="INSIDE" />
    </children>
 </AnchorPane>

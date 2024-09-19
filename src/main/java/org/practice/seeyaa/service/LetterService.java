@@ -3,6 +3,7 @@ package org.practice.seeyaa.service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.dto.LetterDto;
+import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.models.entity.Letter;
@@ -38,8 +39,8 @@ public class LetterService {
         return Mapper.INSTANCE.toLetterDto(letterRepo.save(letter));
     }
 
-    public LetterDto findById(String id) {
-        return Mapper.INSTANCE.toLetterDto(letterRepo.findById(id)
+    public LetterWithAnswers findById(String id) {
+        return Mapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
                 .orElseThrow(()
                         -> new IllegalArgumentException("No letter found with id: " + id))
         );

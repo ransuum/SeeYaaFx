@@ -1,11 +1,8 @@
 package org.practice.seeyaa.util;
 
-import org.practice.seeyaa.models.dto.AnswerDto;
-import org.practice.seeyaa.models.dto.LetterDto;
-import org.practice.seeyaa.models.dto.UserWithLettersDto;
+import org.practice.seeyaa.models.dto.*;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.models.entity.Answer;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.entity.Users;
@@ -33,6 +30,8 @@ public interface Mapper {
     AnswerDto toAnswerDto(Answer answers);
 
     List<AnswerDto> answerListToAnswerDtoList(List<Answer> answers);
+
+    LetterWithAnswers toLetterWithAnswers(Letter letter);
 
 
 }

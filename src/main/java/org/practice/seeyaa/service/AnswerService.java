@@ -12,6 +12,8 @@ import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.util.Mapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Service
 public class AnswerService {
@@ -33,6 +35,7 @@ public class AnswerService {
                 .answerText(answerRequest.getTextOfLetter())
                 .currentLetter(letter)
                 .userByAnswered(users)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         letter.getAnswers().add(answer);

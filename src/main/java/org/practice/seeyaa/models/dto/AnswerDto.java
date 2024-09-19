@@ -1,4 +1,6 @@
 package org.practice.seeyaa.models.dto;
 
-public record AnswerDto(String id, String answerText, LetterDto currentLetter) {
+import java.time.LocalDateTime;
+
+public record AnswerDto(String id, UsersDto userByAnswered, String answerText, LetterDto currentLetter, LocalDateTime createdAt) {
 }

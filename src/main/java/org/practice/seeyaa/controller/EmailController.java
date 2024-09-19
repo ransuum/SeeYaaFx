@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.dto.LetterDto;
+import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -294,7 +295,7 @@ public class EmailController {
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
 
-            LetterDto letter1 = letterService.findById(letterId);
+            LetterWithAnswers letter1 = letterService.findById(letterId);
 
             stage = new Stage();
             scene = new Scene(root);

@@ -1,11 +1,11 @@
 .root {
-    -fx-background-color: white;
+    -fx-background-color: lightgrey;
 }
 
 .button {
-    -fx-background-color: white;
+    -fx-background-color: #202124;
     -fx-background-radius: 40px;
-    -fx-text-fill: black;
+    -fx-text-fill: #ddd2ec;
 }
 
 .button:hover {
@@ -24,7 +24,7 @@
 }
 
 .text-field{
-    -fx-background-color: white;
+    -fx-background-color:lightgrey;
     -fx-font-weight: bold;
     -fx-background-radius: 15px;
 }
