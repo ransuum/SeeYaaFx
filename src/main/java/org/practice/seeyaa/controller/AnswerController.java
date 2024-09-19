@@ -56,7 +56,8 @@ public class AnswerController {
     private void setInformation(){
         answerService.createAnswer(AnswerRequest.builder()
                 .textOfLetter(textOfAnswer.getText())
-                .build(), emailBy, idOfLetter.getText());
+                .build(),
+                emailBy, idOfLetter.getText());
     }
 
 }

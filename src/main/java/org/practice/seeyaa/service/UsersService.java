@@ -10,6 +10,7 @@ import org.practice.seeyaa.models.request.SignUpRequest;
 import org.practice.seeyaa.util.Mapper;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 @Service
@@ -23,12 +24,14 @@ public class UsersService {
         usersRepo.save(Mapper.INSTANCE.toUser(signUp));
     }
 
+    @Transactional
     public UserWithLettersDto findByEmail(String email) {
         return Mapper.INSTANCE.toUserWithLettersDto(usersRepo.findByEmail(email)
                 .orElseThrow(()
                         -> new RuntimeException("Wrong password or email")));
     }
 
+    @Transactional
     public Users findByEmailReal(String email) {
         return usersRepo.findByEmail(email).orElse(null);
     }

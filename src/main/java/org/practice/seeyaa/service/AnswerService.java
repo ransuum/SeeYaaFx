@@ -11,6 +11,7 @@ import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.util.Mapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ public class AnswerService {
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
 
+    @Transactional
     public AnswerDto createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
         Letter letter = letterRepo.findById(idOfLetter)
                 .orElseThrow(()
@@ -38,12 +40,11 @@ public class AnswerService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
+        answerRepo.save(answer);
+
         letter.getAnswers().add(answer);
         users.getAnswers().add(answer);
 
-        answerRepo.save(answer);
-        usersRepo.save(users);
-
-        return Mapper.INSTANCE.toAnswerDto(answerRepo.save(answer));
+        return Mapper.INSTANCE.toAnswerDto(answer);
     }
 }

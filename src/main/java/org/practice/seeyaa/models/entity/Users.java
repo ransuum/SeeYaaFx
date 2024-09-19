@@ -36,12 +36,12 @@ public class Users {
     @Column(nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "userBy", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Letter> sendLetters = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userTo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userTo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Letter> myLetters = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userByAnswered", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userByAnswered", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 }

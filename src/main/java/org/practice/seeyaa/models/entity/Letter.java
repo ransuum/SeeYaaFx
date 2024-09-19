@@ -41,6 +41,6 @@ public class Letter implements Serializable {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "currentLetter", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "currentLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 }
