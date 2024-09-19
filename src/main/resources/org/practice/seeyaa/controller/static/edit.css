@@ -28,10 +28,6 @@
     -fx-text-fill: black;
 }
 
-#noHaveAcc {
-    -fx-text-fill: #202124;
-}
-
 .text-field{
     -fx-background-radius: 12px;
     -fx-border-width: 0px;

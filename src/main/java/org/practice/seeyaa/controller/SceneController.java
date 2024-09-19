@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -30,7 +31,7 @@ public class SceneController {
     private TextField emailInput;
 
     @FXML
-    private TextField passwordInput;
+    private PasswordField password;
 
     @FXML
     private Text noHaveAcc;
@@ -75,7 +76,7 @@ public class SceneController {
             EmailController emailController = fxmlLoader.getController();
             emailController.showEmail(usersService.findByEmailForPassword(SignInRequest.builder()
                     .email(emailInput.getText())
-                    .password(passwordInput.getText())
+                    .password(password.getText())
                     .build()).email());
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

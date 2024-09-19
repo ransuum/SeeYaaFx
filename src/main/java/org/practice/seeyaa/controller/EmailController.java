@@ -19,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
+import org.practice.seeyaa.models.dto.UserWithLettersDto;
+import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +94,39 @@ public class EmailController {
             }
         });
 
+        editProfile.setOnMouseClicked(mouseEvent -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
+                fxmlLoader.setControllerFactory(springContext::getBean);
+                root = fxmlLoader.load();
+
+                UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
+
+                EditController controller = fxmlLoader.getController();
+                controller.setIdOfUser(byEmail.id());
+                controller.getEmail().setText(byEmail.email());
+                controller.getFirstname().setText(byEmail.firstname());
+                controller.getLastname().setText(byEmail.lastname());
+                controller.getUsername().setText(byEmail.username());
+
+                stage = new Stage();
+                scene = new Scene(root);
+                scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
+
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         addToBox(inboxes, "checkLetter.fxml", "static/checkMyLetters.css", 1, "inboxes");
         addToBox(sent, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "sent");
 
         registerSearchHandlers();
     }
+
 
     public void showEmail(String email) {
         emailOfAuthUser.setText(email);
