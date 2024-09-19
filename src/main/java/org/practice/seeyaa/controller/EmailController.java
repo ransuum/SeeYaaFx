@@ -85,41 +85,9 @@ public class EmailController {
 
     @FXML
     public void initialize() {
+        write.setOnMouseClicked(mouseEvent -> write());
 
-        write.setOnMouseClicked(mouseEvent -> {
-            try {
-                write();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        editProfile.setOnMouseClicked(mouseEvent -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
-                fxmlLoader.setControllerFactory(springContext::getBean);
-                root = fxmlLoader.load();
-
-                UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
-
-                EditController controller = fxmlLoader.getController();
-                controller.setIdOfUser(byEmail.id());
-                controller.getEmail().setText(byEmail.email());
-                controller.getFirstname().setText(byEmail.firstname());
-                controller.getLastname().setText(byEmail.lastname());
-                controller.getUsername().setText(byEmail.username());
-
-                stage = new Stage();
-                scene = new Scene(root);
-                scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
-
-                stage.setScene(scene);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
         addToBox(inboxes, "checkLetter.fxml", "static/checkMyLetters.css", 1, "inboxes");
         addToBox(sent, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "sent");
@@ -170,20 +138,51 @@ public class EmailController {
         });
     }
 
-    private void write() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sendLetter.fxml"));
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        root = fxmlLoader.load();
+    private void write(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            root = fxmlLoader.load();
 
-        SendLetterController controller = fxmlLoader.getController();
-        controller.setHiding(emailOfAuthUser.getText());
+            SendLetterController controller = fxmlLoader.getController();
+            controller.setHiding(emailOfAuthUser.getText());
 
-        stage = new Stage();
-        scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
-        stage.setScene(scene);
-        stage.setTitle("Send Letter");
-        stage.show();
+            stage = new Stage();
+            scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Send Letter");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void editProfile(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            root = fxmlLoader.load();
+
+            UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
+
+            EditController controller = fxmlLoader.getController();
+            controller.setIdOfUser(byEmail.id());
+            controller.getEmail().setText(byEmail.email());
+            controller.getFirstname().setText(byEmail.firstname());
+            controller.getLastname().setText(byEmail.lastname());
+            controller.getUsername().setText(byEmail.username());
+
+            stage = new Stage();
+            scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
+
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void addToBox(Button button, String fxml, String style, int index, String choice) {
