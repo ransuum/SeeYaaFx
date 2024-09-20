@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterDto;
@@ -109,6 +110,7 @@ public class CheckMyLetterController {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/answer.css")).toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Answer");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
