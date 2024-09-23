@@ -68,8 +68,12 @@ public class CheckMyLetterController {
     }
 
     @FXML
-    public void answer(ActionEvent event) throws IOException {
-        answerOnLetter();
+    public void answer(ActionEvent event) {
+        try {
+            answerOnLetter();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setLetter(LetterWithAnswers letter1) {
