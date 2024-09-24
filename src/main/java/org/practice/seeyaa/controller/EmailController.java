@@ -238,7 +238,6 @@ public class EmailController {
     }
 
     private void updateDeleteButtonVisibility() {
-
         boolean anySelected = hboxInsideInboxes.getChildren().stream()
                 .filter(node -> node instanceof HBox)
                 .map(node -> (HBox) node)
