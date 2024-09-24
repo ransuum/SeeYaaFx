@@ -2,6 +2,7 @@ package org.practice.seeyaa.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Users;
@@ -41,6 +42,7 @@ public class LetterService {
                 .text(letterRequest.getText())
                 .topic(letterRequest.getTopic())
                 .createdAt(LocalDateTime.now())
+                .typeOfLetter(TypeOfLetter.LETTER)
                 .build();
 
         letterRepo.save(letter);
