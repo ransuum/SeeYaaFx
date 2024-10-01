@@ -17,9 +17,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
-import org.practice.seeyaa.models.dto.UserWithLettersDto;
 import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
@@ -48,7 +48,13 @@ public class EmailController {
     private Button inboxes;
 
     @FXML
+    private Button spambutton;
+
+    @FXML
     private Button spam;
+
+    @FXML
+    private Button garbage;
 
     @FXML
     private Button speakWithAi;
@@ -91,6 +97,8 @@ public class EmailController {
 
         addToBox(inboxes, "checkLetter.fxml", "static/checkMyLetters.css", 1, "inboxes");
         addToBox(sent, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "sent");
+        addToBox(spam, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "spam");
+        addToBox(garbage, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "garbage");
 
         registerSearchHandlers();
     }
@@ -100,8 +108,14 @@ public class EmailController {
         emailOfAuthUser.setText(email);
     }
 
+    @FXML
     public void delete(ActionEvent event) {
         deleteSelectedLetters();
+    }
+
+    @FXML
+    public void spam(ActionEvent event) {
+        spammedSelectedLetters();
     }
 
     @FXML
@@ -194,12 +208,28 @@ public class EmailController {
             if (choice.equals("inboxes")) {
 
                 usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
+                        .stream()
+                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                         .forEach(letter
                                 -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
 
-            } else {
+            } else if (choice.equals("spam")) {
+
+                letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText())
+                        .forEach(letter
+                                -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
+
+            }else if (choice.equals("garbage")){
+
+                letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText())
+                        .forEach(letter
+                                -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
+
+            }else {
 
                 usersService.findByEmail(emailOfAuthUser.getText()).sendLetters()
+                        .stream()
+                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                         .forEach(letterDto
                                 -> addLetterToUI(letterDto, fxml, style, letterDto.userBy().email(), index));
             }
@@ -228,9 +258,7 @@ public class EmailController {
 
         textField.setOnMouseClicked(textFieldEvent -> {
 
-            if (!checkBox.isSelected()) {
-                handleTextFieldClick(letter.id(), fxmlFile, cssFile, email);
-            }
+            if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), fxmlFile, cssFile, email);
 
         });
         hBox.setId(letter.id());
@@ -245,13 +273,15 @@ public class EmailController {
                 .filter(child -> child instanceof CheckBox)
                 .anyMatch(child -> ((CheckBox) child).isSelected());
 
+        spambutton.setVisible(anySelected);
         deleteButton.setVisible(anySelected);
     }
 
     private void resetButtonStyles() {
         inboxes.getStyleClass().remove("selected");
         sent.getStyleClass().remove("selected");
-        spam.getStyleClass().remove("selected");
+        spambutton.getStyleClass().remove("selected");
+        garbage.getStyleClass().remove("selected");
     }
 
     private void deleteSelectedLetters() {
@@ -274,7 +304,32 @@ public class EmailController {
 
         hboxInsideInboxes.getChildren().removeAll(toRemove);
 
+        spambutton.setVisible(false);
         deleteButton.setVisible(false);
+    }
+
+    private void spammedSelectedLetters() {
+        List<HBox> tospam = new ArrayList<>();
+
+        hboxInsideInboxes.getChildren().forEach(node -> {
+
+            if (node instanceof HBox hBox) {
+                CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
+                if (checkBox.isSelected()) {
+                    tospam.add(hBox);
+                }
+            }
+
+        });
+
+        for (HBox hBox : tospam) {
+            letterService.setLetterToSpam(hBox.getId());
+        }
+
+        hboxInsideInboxes.getChildren().removeAll(tospam);
+
+        deleteButton.setVisible(false);
+        spambutton.setVisible(false);
     }
 
     private TextField createTextField(LetterDto letter, int function) {

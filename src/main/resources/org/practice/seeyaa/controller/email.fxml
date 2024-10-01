@@ -59,10 +59,17 @@
             </LinearGradient>
          </fill>
       </Text>
-      <Button fx:id="deleteButton" layoutX="533.0" layoutY="129.0" mnemonicParsing="false" onAction="#delete" text="🗑" visible="false">
+      <Button fx:id="deleteButton" layoutX="533.0" layoutY="129.0" mnemonicParsing="false" onAction="#delete" visible="false">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/trash.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="170.0" prefHeight="688.0" prefWidth="256.0" style="-fx-background-color: #202124;">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="79.0" prefHeight="348.0" prefWidth="231.0">
@@ -101,16 +108,16 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/org/practice/seeyaa/controller/images/exit.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/spam-mail.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <Button fx:id="speakWithAi" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   AI">
                      <cursor>
@@ -119,7 +126,22 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/org/practice/seeyaa/controller/images/exit.png" />
+                              <Image url="@images/artificial-intelligence.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="garbage" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="Garbage">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/garbage.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -166,5 +188,14 @@
             <Image url="@images/email.png" />
          </image>
       </ImageView>
+      <Button fx:id="spambutton" layoutX="589.0" layoutY="129.0" mnemonicParsing="false" onAction="#spam" prefHeight="25.0" prefWidth="25.0" textFill="#c7d1d6" visible="false">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/spam%20(1).png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

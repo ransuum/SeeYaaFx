@@ -79,26 +79,26 @@ public class LetterService {
     }
 
     @Transactional
-    public List<LetterWithAnswers> findAllByUserWithGarbageLetters(String email) {
+    public List<LetterDto> findAllByUserWithGarbageLetters(String email) {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(()
                         -> new RuntimeException("APP ERROR"));
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.GARBAGE)
                 .stream()
-                .map(Mapper.INSTANCE::toLetterWithAnswers)
+                .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<LetterWithAnswers> findAllByUserWithSpamLetters(String email) {
+    public List<LetterDto> findAllByUserWithSpamLetters(String email) {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(()
                         -> new RuntimeException("APP ERROR"));
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.SPAM)
                 .stream()
-                .map(Mapper.INSTANCE::toLetterWithAnswers)
+                .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
 
