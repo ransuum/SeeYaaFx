@@ -44,4 +44,5 @@ public class Users {
 
     @OneToMany(mappedBy = "userByAnswered", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
+
 }

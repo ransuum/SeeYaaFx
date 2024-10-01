@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class LetterService {
     private final UsersRepo usersRepo;
 
     @Transactional
-    public LetterDto sendLetter(@Valid LetterRequest letterRequest) {
+    public void sendLetter(@Valid LetterRequest letterRequest) {
         Users usersBy = usersRepo.findByEmail(letterRequest.getUserBy())
                 .orElseThrow(()
                         -> new RuntimeException("User not found"));
@@ -50,7 +51,23 @@ public class LetterService {
         usersBy.getSendLetters().add(letter);
         usersTo.getMyLetters().add(letter);
 
-        return Mapper.INSTANCE.toLetterDto(letter);
+        Mapper.INSTANCE.toLetterDto(letter);
+    }
+
+    public void setLetterToSpam(String letterId) {
+        letterRepo.findById(letterId).ifPresent(letter -> {
+            letter.setTypeOfLetter(TypeOfLetter.SPAM);
+            letter.setDeleteTime(LocalDateTime.now().plusDays(30));
+            letterRepo.save(letter);
+        });
+    }
+
+    public void setLetterToGarbage(String letterId) {
+        letterRepo.findById(letterId).ifPresent(letter -> {
+            letter.setTypeOfLetter(TypeOfLetter.GARBAGE);
+            letter.setDeleteTime(LocalDateTime.now().plusDays(30));
+            letterRepo.save(letter);
+        });
     }
 
     @Transactional
@@ -62,13 +79,45 @@ public class LetterService {
     }
 
     @Transactional
+    public List<LetterWithAnswers> findAllByUserWithGarbageLetters(String email) {
+        Users users = usersRepo.findByEmail(email)
+                .orElseThrow(()
+                        -> new RuntimeException("APP ERROR"));
+
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.GARBAGE)
+                .stream()
+                .map(Mapper.INSTANCE::toLetterWithAnswers)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<LetterWithAnswers> findAllByUserWithSpamLetters(String email) {
+        Users users = usersRepo.findByEmail(email)
+                .orElseThrow(()
+                        -> new RuntimeException("APP ERROR"));
+
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.SPAM)
+                .stream()
+                .map(Mapper.INSTANCE::toLetterWithAnswers)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<LetterDto> findAllSentByTopic(String topic, Users usersBy) {
-        return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy));
+        return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
+                .stream()
+                .filter(letter ->
+                        letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
+                .collect(Collectors.toList()));
     }
 
     @Transactional
     public List<LetterDto> findAllInboxByTopic(String topic, Users usersTo) {
-        return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo));
+        return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo)
+                .stream()
+                .filter(letter ->
+                        letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
+                .collect(Collectors.toList()));
     }
 
     @Transactional

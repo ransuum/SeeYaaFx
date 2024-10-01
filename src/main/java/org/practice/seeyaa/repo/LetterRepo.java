@@ -1,5 +1,6 @@
 package org.practice.seeyaa.repo;
 
+import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.entity.Letter;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface LetterRepo extends JpaRepository<Letter, String> {
     List<Letter> findAllByTopicContainingAndUserBy(String topic, Users userBy);
 
     List<Letter> findAllByTopicContainingAndUserTo(String topic, Users userTo);
+
+    List<Letter> findAllByUserToOrUserByAndTypeOfLetter(Users userTo, Users userBy, TypeOfLetter typeOfLetter);
 }

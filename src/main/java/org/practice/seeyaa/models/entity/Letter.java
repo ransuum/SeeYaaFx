@@ -1,5 +1,6 @@
 package org.practice.seeyaa.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,10 +43,14 @@ public class Letter implements Serializable {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @JsonIgnore
+    private LocalDateTime deleteTime;
+
     @OneToMany(mappedBy = "currentLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @JsonIgnore
     private TypeOfLetter typeOfLetter;
 }
