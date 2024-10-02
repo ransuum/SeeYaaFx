@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,7 +33,7 @@
             <Font name="Century" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="topic" editable="false" layoutX="66.0" layoutY="277.0" prefHeight="82.0" prefWidth="755.0" text="Internship on Java Developer">
+      <TextField fx:id="topic" editable="false" layoutX="66.0" layoutY="277.0" prefHeight="65.0" prefWidth="725.0" text="Internship on Java Developer">
          <effect>
             <DropShadow />
          </effect>
@@ -42,16 +41,12 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="660.0" layoutY="282.0" prefHeight="72.0" prefWidth="155.0" text="• Topic" textFill="#00000081">
+      <Label layoutX="636.0" layoutY="274.0" prefHeight="72.0" prefWidth="155.0" text="• Topic" textFill="#00000081">
          <font>
             <Font name="Arial Bold" size="41.0" />
          </font>
       </Label>
-      <TextArea fx:id="textOfLetter" editable="false" layoutX="119.0" layoutY="384.0" prefHeight="365.0" prefWidth="649.0" text="We invite you to intership">
-         <effect>
-            <InnerShadow />
-         </effect>
-      </TextArea>
+      <TextArea fx:id="textOfLetter" editable="false" layoutX="98.0" layoutY="384.0" prefHeight="376.0" prefWidth="661.0" stylesheets="@static/checkMyLetters.css" text="We invite you to intership" />
       <Button layoutX="81.0" layoutY="778.0" mnemonicParsing="false" onAction="#quit" prefHeight="65.0" prefWidth="242.0" stylesheets="@static/checkMyLetters.css" text="Close">
          <font>
             <Font name="Calibri Bold" size="29.0" />
@@ -74,7 +69,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="795.0" layoutY="384.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="66.0" stylesheets="@static/checkMyLetters.css" text="Ai">
+      <Button layoutX="795.0" layoutY="384.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="63.0" stylesheets="@static/checkMyLetters.css" text="Ai">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

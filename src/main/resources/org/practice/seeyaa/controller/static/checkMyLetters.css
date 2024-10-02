@@ -30,5 +30,6 @@
 }
 
 .text-area {
+    -fx-border-color: transparent transparent transparent transparent;
     -fx-control-inner-background: white;
 }
