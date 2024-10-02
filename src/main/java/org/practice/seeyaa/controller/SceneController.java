@@ -83,6 +83,9 @@ public class SceneController {
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/email.css")).toExternalForm());
             stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
+            stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.show();
         } catch (ValidationException e) {
 
@@ -118,6 +121,7 @@ public class SceneController {
         scene.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("static/signUp.css")).toExternalForm());
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.centerOnScreen();
         stage.setTitle("Sign Up");
         stage.show();
     }

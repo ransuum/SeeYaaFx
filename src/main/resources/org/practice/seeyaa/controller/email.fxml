@@ -18,7 +18,7 @@
    <children>
       <AnchorPane fx:id="backHbox" layoutX="282.0" layoutY="171.0" prefHeight="688.0" prefWidth="1009.0">
          <children>
-            <VBox fx:id="hboxInsideInboxes" layoutX="34.0" layoutY="24.0" prefHeight="638.0" prefWidth="972.0" />
+            <VBox fx:id="hboxInsideInboxes" layoutX="34.0" layoutY="24.0" />
          </children>
       </AnchorPane>
       <Button fx:id="write" layoutX="995.0" layoutY="122.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="Write">

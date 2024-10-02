@@ -83,7 +83,7 @@ public class EmailController {
     @Autowired
     private UsersService usersService;
 
-    private Map<String, Stage> openStages = new HashMap<>();
+    private final Map<String, Stage> openStages = new HashMap<>();
 
     private Stage stage;
     private Scene scene;
@@ -109,12 +109,12 @@ public class EmailController {
     }
 
     @FXML
-    public void delete(ActionEvent event) {
+    public void delete() {
         deleteSelectedLetters();
     }
 
     @FXML
-    public void spam(ActionEvent event) {
+    public void spam() {
         spammedSelectedLetters();
     }
 
@@ -128,7 +128,7 @@ public class EmailController {
 
         scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/login.css")).toExternalForm());
-
+        stage.centerOnScreen();
         stage.setScene(scene);
         stage.show();
     }
@@ -138,21 +138,20 @@ public class EmailController {
 
             hboxInsideInboxes.getChildren().clear();
 
-            if (inboxes.getStyleClass().contains("selected")) {
-
+            if (inboxes.getStyleClass().contains("selected"))
                 letterService.findAllInboxByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
                                 -> addLetterToUI(letter, "checkLetter.fxml", "static/checkMyLetters.css", letter.userBy().email(), 1));
-            } else if (sent.getStyleClass().contains("selected")) {
 
+            else if (sent.getStyleClass().contains("selected"))
                 letterService.findAllSentByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
                                 -> addLetterToUI(letter, "checkSentLetters.fxml", "static/checkSentLetters.css", letter.userBy().email(), 2));
-            }
+
         });
     }
 
-    private void write(){
+    private void write() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
@@ -172,7 +171,7 @@ public class EmailController {
         }
     }
 
-    private void editProfile(){
+    private void editProfile() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
@@ -190,7 +189,9 @@ public class EmailController {
             stage = new Stage();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
-
+            stage.centerOnScreen();
+            stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
+            stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
@@ -205,34 +206,29 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
             button.getStyleClass().add("selected");
 
-            if (choice.equals("inboxes")) {
-
+            if (choice.equals("inboxes"))
                 usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
                         .stream()
                         .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                         .forEach(letter
                                 -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
 
-            } else if (choice.equals("spam")) {
-
+            else if (choice.equals("spam"))
                 letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
 
-            }else if (choice.equals("garbage")){
-
+            else if (choice.equals("garbage"))
                 letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
 
-            }else {
-
+            else
                 usersService.findByEmail(emailOfAuthUser.getText()).sendLetters()
                         .stream()
                         .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                         .forEach(letterDto
                                 -> addLetterToUI(letterDto, fxml, style, letterDto.userBy().email(), index));
-            }
         });
     }
 
@@ -258,7 +254,7 @@ public class EmailController {
 
         textField.setOnMouseClicked(textFieldEvent -> {
 
-            if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), fxmlFile, cssFile, email);
+            if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), fxmlFile, cssFile);
 
         });
         hBox.setId(letter.id());
@@ -280,7 +276,7 @@ public class EmailController {
     private void resetButtonStyles() {
         inboxes.getStyleClass().remove("selected");
         sent.getStyleClass().remove("selected");
-        spambutton.getStyleClass().remove("selected");
+        spam.getStyleClass().remove("selected");
         garbage.getStyleClass().remove("selected");
     }
 
@@ -291,19 +287,13 @@ public class EmailController {
 
             if (node instanceof HBox hBox) {
                 CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
-                if (checkBox.isSelected()) {
-                    toRemove.add(hBox);
-                }
+                if (checkBox.isSelected()) toRemove.add(hBox);
             }
 
         });
 
-        for (HBox hBox : toRemove) {
-            letterService.deleteById(hBox.getId());
-        }
-
+        for (HBox hBox : toRemove) letterService.deleteById(hBox.getId());
         hboxInsideInboxes.getChildren().removeAll(toRemove);
-
         spambutton.setVisible(false);
         deleteButton.setVisible(false);
     }
@@ -315,19 +305,13 @@ public class EmailController {
 
             if (node instanceof HBox hBox) {
                 CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
-                if (checkBox.isSelected()) {
-                    tospam.add(hBox);
-                }
+                if (checkBox.isSelected()) tospam.add(hBox);
             }
 
         });
 
-        for (HBox hBox : tospam) {
-            letterService.setLetterToSpam(hBox.getId());
-        }
-
+        for (HBox hBox : tospam) letterService.setLetterToSpam(hBox.getId());
         hboxInsideInboxes.getChildren().removeAll(tospam);
-
         deleteButton.setVisible(false);
         spambutton.setVisible(false);
     }
@@ -361,7 +345,7 @@ public class EmailController {
         return extraTextField;
     }
 
-    private void handleTextFieldClick(String letterId, String fxmlFile, String cssFile, String email) {
+    private void handleTextFieldClick(String letterId, String fxmlFile, String cssFile) {
 
         if (openStages.containsKey(letterId)) {
             Stage existingStage = openStages.get(letterId);
@@ -395,6 +379,9 @@ public class EmailController {
                 controller.setLetter(letter1);
             }
 
+            stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
+            stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
+            stage.centerOnScreen();
             stage.setOnCloseRequest(event -> openStages.remove(letterId));
             stage.initModality(Modality.APPLICATION_MODAL);
             openStages.put(letterId, stage);
