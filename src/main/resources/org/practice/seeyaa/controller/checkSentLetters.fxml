@@ -35,7 +35,7 @@
             <Font name="Century" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="topic" editable="false" layoutX="66.0" layoutY="277.0" prefHeight="65.0" prefWidth="753.0" stylesheets="@static/checkSentLetters.css" text="Internship on Java Developer">
+      <TextField fx:id="topic" editable="false" layoutX="66.0" layoutY="267.0" prefHeight="58.0" prefWidth="753.0" stylesheets="@static/checkSentLetters.css">
          <effect>
             <DropShadow height="41.52" radius="15.13" spread="0.36">
                <color>
@@ -46,13 +46,13 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="660.0" layoutY="274.0" prefHeight="72.0" prefWidth="155.0" text="• Topic" textFill="#00000081">
+      <Label layoutX="670.0" layoutY="264.0" prefHeight="65.0" prefWidth="131.0" text="• Topic" textFill="#00000081">
          <font>
-            <Font name="Arial Bold" size="41.0" />
+            <Font name="Arial Bold" size="37.0" />
          </font>
       </Label>
-      <TextArea fx:id="textOfLetter" editable="false" layoutX="119.0" layoutY="384.0" prefHeight="365.0" prefWidth="649.0" stylesheets="@static/checkSentLetters.css" text="We invite you to intership" />
-      <Button layoutX="553.0" layoutY="771.0" mnemonicParsing="false" onAction="#answer" prefHeight="65.0" prefWidth="242.0" stylesheets="@static/checkSentLetters.css" text="Answer">
+      <TextArea fx:id="textOfLetter" editable="false" layoutX="63.0" layoutY="348.0" prefHeight="429.0" prefWidth="753.0" stylesheets="@static/checkSentLetters.css" />
+      <Button layoutX="690.0" layoutY="802.0" mnemonicParsing="false" onAction="#answer" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Answer">
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font>
@@ -70,7 +70,7 @@
             <Insets left="1.0" top="1.0" />
          </opaqueInsets>
       </Button>
-      <Button layoutX="799.0" layoutY="384.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="66.0" stylesheets="@static/checkMyLetters.css" text="Ai">
+      <Button layoutX="829.0" layoutY="348.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="40.0" stylesheets="@static/checkMyLetters.css">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -88,7 +88,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="84.0" layoutY="771.0" mnemonicParsing="false" onAction="#quit" prefHeight="65.0" prefWidth="242.0" stylesheets="@static/checkSentLetters.css" text="Close">
+      <Button layoutX="31.0" layoutY="802.0" mnemonicParsing="false" onAction="#quit" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Close">
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font>
