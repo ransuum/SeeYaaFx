@@ -75,7 +75,7 @@
             <VBox fx:id="answers" maxHeight="550.0" prefHeight="249.0" prefWidth="224.0" />
          </content>
       </TitledPane>
-      <Button layoutX="31.0" layoutY="802.0" mnemonicParsing="false" onAction="#quit" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Close">
+      <Button layoutX="31.0" layoutY="800.0" mnemonicParsing="false" onAction="#quit" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Close">
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font>
@@ -90,7 +90,7 @@
             </DropShadow>
          </effect>
       </Button>
-      <Button layoutX="696.0" layoutY="802.0" mnemonicParsing="false" onAction="#answer" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Answer">
+      <Button layoutX="696.0" layoutY="800.0" mnemonicParsing="false" onAction="#answer" prefHeight="26.0" prefWidth="155.0" stylesheets="@static/checkSentLetters.css" text="Answer">
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font>

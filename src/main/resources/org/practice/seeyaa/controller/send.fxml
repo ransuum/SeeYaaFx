@@ -13,20 +13,23 @@
 
 <AnchorPane prefHeight="510.0" prefWidth="773.0" stylesheets="@static/sendLetter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.SendLetterController">
    <children>
-      <TextArea fx:id="text" layoutX="-2.0" layoutY="70.0" prefHeight="440.0" prefWidth="800.0" promptText="Text" />
-      <TextField fx:id="toWhom" prefHeight="35.0" prefWidth="798.0" promptText=" To whom">
+      <TextArea fx:id="text" layoutX="-2.0" layoutY="70.0" prefHeight="440.0" prefWidth="800.0" promptText=" Text">
+         <font>
+            <Font name="Century" size="12.0" />
+         </font></TextArea>
+      <TextField fx:id="toWhom" prefHeight="35.0" prefWidth="798.0" promptText="To whom">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
-            <Font name="Arial" size="15.0" />
+            <Font name="Century" size="15.0" />
          </font></TextField>
-      <TextField fx:id="topic" layoutX="-2.0" layoutY="35.0" prefHeight="35.0" prefWidth="800.0" promptText=" Topic">
+      <TextField fx:id="topic" layoutY="35.0" prefHeight="35.0" prefWidth="798.0" promptText="Topic">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
-            <Font size="15.0" />
+            <Font name="Century" size="15.0" />
          </font></TextField>
       <TextField fx:id="hiding" editable="false" layoutX="643.0" layoutY="4.0" visible="false" />
       <Button layoutX="718.0" layoutY="421.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="66.0" stylesheets="@static/checkMyLetters.css" text="Ai">
