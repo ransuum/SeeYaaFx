@@ -59,9 +59,9 @@
             </LinearGradient>
          </fill>
       </Text>
-      <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="170.0" prefHeight="688.0" prefWidth="256.0" style="-fx-background-color: #202124;">
+      <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="174.0" prefHeight="214.0" prefWidth="256.0" style="-fx-background-color: #202124;">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="79.0" prefHeight="348.0" prefWidth="231.0">
+            <VBox alignment="TOP_CENTER" layoutX="13.0" layoutY="20.0" prefHeight="174.0" prefWidth="231.0">
                <children>
                   <Button fx:id="inboxes" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="270.0" text="   Inboxes" textFill="#979797">
                      <cursor>
@@ -207,5 +207,7 @@
             </ImageView>
          </graphic>
       </Button>
+      <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="418.0" prefHeight="147.0" prefWidth="256.0" style="-fx-background-color: #202124;" stylesheets="@static/email.css" />
+      <AnchorPane fx:id="backgroundOpyions" layoutX="11.0" layoutY="591.0" prefHeight="147.0" prefWidth="256.0" style="-fx-background-color: #202124;" />
    </children>
 </AnchorPane>

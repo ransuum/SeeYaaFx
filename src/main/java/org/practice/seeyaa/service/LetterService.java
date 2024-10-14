@@ -1,6 +1,5 @@
 package org.practice.seeyaa.service;
 
-import jakarta.annotation.PreDestroy;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.TypeOfLetter;
