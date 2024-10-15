@@ -322,13 +322,12 @@ public class EmailController {
         textField.setId(letter.id());
         System.out.println(textField.getLength());
 
-        String byName = ((function == 1) ? letter.userBy().firstname() : letter.userTo().firstname())
-                + " " + letter.userBy().lastname();
-
-        String paddedName = String.format("%-30s", " By: " + byName);
+        String byName = ((function == 1) ?
+                String.format("%-30s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
+                : String.format("%-30s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
         String paddedTopic = String.format("%-115s", letter.topic());
 
-        textField.setText(paddedName + paddedTopic + checkDate(letter.createdAt()));
+        textField.setText(byName + paddedTopic + checkDate(letter.createdAt()));
         textField.setEditable(false);
 
         return textField;
