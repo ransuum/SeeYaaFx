@@ -235,22 +235,20 @@ public class EmailController {
     private void addLetterToUI(LetterDto letter, String fxmlFile, String cssFile,
                                String email, int function) {
         TextField textField = createTextField(letter, function);
-        TextField extraTextField = createExtraTextField(letter);
-        extraTextField.setAlignment(Pos.CENTER);
+        textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
 
         CheckBox checkBox = new CheckBox();
 
         checkBox.setOnAction(event -> {
 
             textField.setDisable(checkBox.isSelected());
-            extraTextField.setDisable(checkBox.isSelected());
             updateDeleteButtonVisibility();
 
         });
 
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.getChildren().addAll(checkBox, textField, extraTextField);
+        hBox.getChildren().addAll(checkBox, textField);
 
         textField.setOnMouseClicked(textFieldEvent -> {
 
@@ -320,29 +318,20 @@ public class EmailController {
 
         TextField textField = new TextField();
         textField.setCursor(Cursor.HAND);
-        textField.setPrefWidth(700);
+        textField.setPrefWidth(800);
         textField.setId(letter.id());
+        System.out.println(textField.getLength());
 
-        if (function == 1)
-            textField.setText("By: " + letter.userBy().firstname() + " " + letter.userBy().lastname()
-                    + "               " + letter.topic());
-        else textField.setText("To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()
-                + "               " + letter.topic());
+        String byName = ((function == 1) ? letter.userBy().firstname() : letter.userTo().firstname())
+                + " " + letter.userBy().lastname();
 
+        String paddedName = String.format("%-30s", " By: " + byName);
+        String paddedTopic = String.format("%-115s", letter.topic());
+
+        textField.setText(paddedName + paddedTopic + checkDate(letter.createdAt()));
         textField.setEditable(false);
 
-
         return textField;
-    }
-
-    private TextField createExtraTextField(LetterDto letter) {
-
-        TextField extraTextField = new TextField();
-        extraTextField.setText(checkDate(letter.createdAt()));
-        extraTextField.setEditable(false);
-        extraTextField.setPrefWidth(160);
-
-        return extraTextField;
     }
 
     private void handleTextFieldClick(String letterId, String fxmlFile, String cssFile) {

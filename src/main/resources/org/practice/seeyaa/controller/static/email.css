@@ -3,33 +3,61 @@
 }
 
 #backgroundOpyions{
-    -fx-background-radius: 15px;
+    -fx-background-radius: 20px;
 }
 
 .button:hover {
-    -fx-background-color: #cce5ff;
+    -fx-background-color: #AC8888;
     -fx-background-radius: 0px;
+    -fx-text-fill: #28032C;
 }
 
 #emailOfAuthUser{
-    fx-text-fill: #baa7d9;
+    fx-text-fill: #8D5454;
+}
+
+#write{
+    -fx-background-radius: 20px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-family: Inter;
+    -fx-font-size: 12;
+}
+
+#exit{
+    -fx-background-radius: 20px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-family: Inter;
+    -fx-font-size: 12;
 }
 
 #search{
-    -fx-border-width: 0px;
+    -fx-font-family: Kaisei Opti;
+    -fx-background-radius: 25px;
+    -fx-text-fill: white;
+    -fx-opacity: 49%;
 }
 
-.button:pressed {
-    -fx-background-color: #99ccff;
+#startChat{
+    -fx-background-radius: 12px;
+    -fx-font-family: Inter;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #632B2B;
+}
+
+#speakWith{
+    -fx-background-color: #D9D9D9;
+    -fx-background-radius: 4px;
 }
 
 .button.selected {
-    -fx-background-color: #66b2ff;
-    -fx-text-fill: white;
+    -fx-background-color: #AC8888;
+    -fx-text-fill: #28032C;
 }
 
 #backHbox{
-    -fx-background-color: #202124;
     -fx-background-radius: 15px;
     -fx-border-radius: 15px;
 }
@@ -41,32 +69,37 @@
     -fx-border-radius: 3px;
 }
 
-.text-field{
-    -fx-background-color: #464646;
-    -fx-text-fill: white;
-    -fx-font-size: 14;
-    -fx-border-color: #464646 #464646 #322D2D #464646;
-    -fx-border-width: 1px;
-    -fx-background-radius: 0px 10px 0px 0px;
-}
-
 .text-field:hover {
-    -fx-background-color: #322D2D;
+    -fx-background-color: #AC8888;
 }
 
 .text-field:pressed {
-    -fx-background-color: #322D2D;
-}
-
-.accordion{
-    -fx-background-color: #202124;
-    -fx-background-radius: 15px;
+    -fx-background-color: #AC8888;
 }
 
 .button{
-    -fx-background-color: #202124;
+    -fx-background-color: #B1B1B1;
 }
 
 #hboxInsideInboxes{
-    -fx-background-color: #202124;
+    -fx-spacing: 1px;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 3px;
+}
+
+.check-box{
+    -fx-border-color: white;
+    -fx-border-width: 0px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: black;
+}
+
+.check-box:selected .box {
+    -fx-background-color: white;
 }
