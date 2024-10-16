@@ -70,7 +70,7 @@
             <VBox fx:id="answers" maxHeight="550.0" prefHeight="249.0" prefWidth="224.0" />
          </content>
       </TitledPane>
-      <Button layoutX="394.0" layoutY="807.0" mnemonicParsing="false" onAction="#quit" prefHeight="41.0" prefWidth="104.0" style="-fx-background-color: #3F3131;" stylesheets="@static/checkMyLetters.css" text="Close">
+      <Button layoutX="394.0" layoutY="807.0" mnemonicParsing="false" onAction="#quit" prefHeight="41.0" prefWidth="104.0" stylesheets="@static/checkMyLetters.css" text="Close">
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font>
@@ -87,7 +87,7 @@
       </Button>
       <AnchorPane layoutX="63.0" layoutY="722.0" prefHeight="71.0" prefWidth="753.0">
          <children>
-            <Button layoutX="700.0" layoutY="21.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #D9D9D9;" stylesheets="@static/checkMyLetters.css">
+            <Button layoutX="700.0" layoutY="21.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0" stylesheets="@static/checkMyLetters.css">
                <font>
                   <Font name="Calibri Bold" size="28.0" />
                </font>
@@ -127,7 +127,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <graphic>
-                  <ImageView fitHeight="35.0" fitWidth="47.0" onDragDetected="#helpRefractorTextByAi" pickOnBounds="true" preserveRatio="true" styleClass="button">
+                  <ImageView fitHeight="35.0" fitWidth="47.0" onDragDetected="#helpRefractorTextByAi" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/chatbot.png" />
                      </image>
