@@ -14,9 +14,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="875.0" prefWidth="1309.0" stylesheets="@static/email.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.EmailController">
    <children>
-      <AnchorPane fx:id="backHbox" layoutX="352.0" layoutY="185.0" prefHeight="658.0" prefWidth="920.0" style="-fx-background-color: #B1B1B1;">
+      <AnchorPane fx:id="backHbox" layoutX="352.0" layoutY="185.0" prefHeight="658.0" prefWidth="920.0" style="-fx-background-color: #A5A5A5;">
          <children>
-            <VBox fx:id="hboxInsideInboxes" layoutX="31.0" layoutY="19.0" prefHeight="620.0" prefWidth="858.0" style="-fx-background-color: #B1B1B1;" />
+            <VBox fx:id="hboxInsideInboxes" layoutX="31.0" layoutY="19.0" prefHeight="620.0" prefWidth="858.0" style="-fx-background-color: #A5A5A5;" />
          </children>
       </AnchorPane>
       <Button fx:id="write" layoutX="995.0" layoutY="133.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="Write">
@@ -96,7 +96,7 @@
       </AnchorPane>
       <AnchorPane layoutX="282.0" layoutY="126.0" prefHeight="32.0" prefWidth="239.0">
          <children>
-            <AnchorPane layoutX="10.0" layoutY="-10.0" prefHeight="58.0" prefWidth="251.0">
+            <AnchorPane layoutX="17.0" layoutY="-10.0" prefHeight="58.0" prefWidth="251.0">
                <children>
                   <TextField fx:id="search" layoutX="62.0" layoutY="34.0" minWidth="209.0" prefHeight="35.0" prefWidth="215.0" promptText="Search" style="-fx-background-color: #645A5A;" />
                   <ImageView fx:id="searchButton" fitHeight="34.0" fitWidth="35.0" layoutX="242.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
@@ -133,7 +133,7 @@
             <Image url="@images/email.png" />
          </image>
       </ImageView>
-      <Button fx:id="spambutton" layoutX="623.0" layoutY="152.0" mnemonicParsing="false" onAction="#spam" prefHeight="31.0" prefWidth="35.0" stylesheets="@static/buttonOnMenu.css" textFill="#461f8d" visible="false">
+      <Button fx:id="spambutton" layoutX="623.0" layoutY="152.0" mnemonicParsing="false" onAction="#spam" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" textFill="#461f8d" visible="false">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -145,7 +145,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="deleteButton" layoutX="582.0" layoutY="152.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="35.0" stylesheets="@static/buttonOnMenu.css" textFill="#3e25a4" visible="false">
+      <Button fx:id="deleteButton" layoutX="582.0" layoutY="152.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" textFill="#3e25a4" visible="false">
          <font>
             <Font size="15.0" />
          </font>
@@ -162,13 +162,21 @@
       </Button>
       <AnchorPane fx:id="backgroundOpyions" layoutX="26.0" layoutY="424.0" prefHeight="135.0" prefWidth="269.0" style="-fx-background-color: #A5A5A5;" stylesheets="@static/email.css">
          <children>
-            <Button fx:id="startChat" layoutX="85.0" layoutY="87.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #D9D9D9;" text="Start chat">
+            <Button fx:id="startChat" layoutX="85.0" layoutY="87.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="99.0" text="Start chat">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <TextField fx:id="speakWith" layoutX="28.0" layoutY="30.0" prefHeight="35.0" prefWidth="215.0" />
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/man-with-speech-bubble.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
-      <AnchorPane fx:id="backgroundOpyions" layoutX="33.0" layoutY="594.0" prefHeight="127.0" prefWidth="255.0" style="-fx-background-color: #202124;" />
+      <AnchorPane fx:id="backgroundOpyions" layoutX="33.0" layoutY="596.0" prefHeight="247.0" prefWidth="255.0" style="-fx-background-color: #202124;">
+         <children>
+            <VBox layoutX="15.0" layoutY="17.0" prefHeight="214.0" prefWidth="221.0" />
+         </children></AnchorPane>
       <DatePicker layoutX="765.0" layoutY="159.0" />
    </children>
 </AnchorPane>

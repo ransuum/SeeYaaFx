@@ -1,11 +1,9 @@
-.root {
-    -fx-background-color: lightgrey;
-}
-
 .button {
-    -fx-background-color: #202124;
-    -fx-background-radius: 25px;
-    -fx-text-fill: #ddd2ec;
+    -fx-background-radius: 15px;
+    -fx-text-fill: White;
+    -fx-font-size: 20;
+    -fx-font-family: Inter;
+    -fx-font-weight: bold;
 }
 
 .button:hover {
@@ -24,12 +22,13 @@
 }
 
 .text-field{
-    -fx-background-color:lightgrey;
     -fx-font-weight: bold;
-    -fx-background-radius: 15px;
+    -fx-font-family: Inter;
+    -fx-font-size: 20;
 }
 
 .text-area {
-    -fx-border-color: transparent transparent transparent transparent;
-    -fx-control-inner-background: white;
+    -fx-text-fill: #6D6060;
+    -fx-font-family: Inter;
+    -fx-font-size: 18;
 }

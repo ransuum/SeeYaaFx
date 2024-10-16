@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.TypeOfLetter;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
@@ -55,9 +57,6 @@ public class EmailController {
 
     @FXML
     private Button garbage;
-
-    @FXML
-    private Button speakWithAi;
 
     @FXML
     private Button write;
@@ -95,11 +94,10 @@ public class EmailController {
 
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
-        addToBox(inboxes, "checkLetter.fxml", "static/checkMyLetters.css", 1, "inboxes");
-        addToBox(sent, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "sent");
-        addToBox(spam, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "spam");
-        addToBox(garbage, "checkSentLetters.fxml", "static/checkSentLetters.css", 2, "garbage");
-
+        addToBox(inboxes, 1, "inboxes");
+        addToBox(sent, 2, "sent");
+        addToBox(spam, 3, "spam");
+        addToBox(garbage, 4, "garbage");
         registerSearchHandlers();
     }
 
@@ -141,12 +139,12 @@ public class EmailController {
             if (inboxes.getStyleClass().contains("selected"))
                 letterService.findAllInboxByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
-                                -> addLetterToUI(letter, "checkLetter.fxml", "static/checkMyLetters.css", letter.userBy().email(), 1));
+                                -> addLetterToUI(letter, 1));
 
             else if (sent.getStyleClass().contains("selected"))
                 letterService.findAllSentByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
-                                -> addLetterToUI(letter, "checkSentLetters.fxml", "static/checkSentLetters.css", letter.userBy().email(), 2));
+                                -> addLetterToUI(letter, 2));
 
         });
     }
@@ -200,50 +198,53 @@ public class EmailController {
         }
     }
 
-    private void addToBox(Button button, String fxml, String style, int index, String choice) {
+    private void addToBox(Button button, int index, String choice) {
         button.setOnMouseClicked(event -> {
             resetButtonStyles();
             hboxInsideInboxes.getChildren().clear();
             button.getStyleClass().add("selected");
 
-            if (choice.equals("inboxes"))
-                usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
-                        .stream()
-                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                        .forEach(letter
-                                -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
+            List<LetterDto> letters = new ArrayList<>();
 
-            else if (choice.equals("spam"))
-                letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText())
-                        .forEach(letter
-                                -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
+            switch (choice) {
+                case "inboxes" -> {
+                    letters = usersService.findByEmail(emailOfAuthUser.getText()).myLetters().stream()
+                            .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                            .collect(Collectors.toList());
+                }
 
-            else if (choice.equals("garbage"))
-                letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText())
-                        .forEach(letter
-                                -> addLetterToUI(letter, fxml, style, letter.userBy().email(), index));
+                case "sent" -> {
+                    letters = usersService.findByEmail(emailOfAuthUser.getText()).sendLetters().stream()
+                            .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                            .collect(Collectors.toList());
+                }
+                case "spam" -> {
+                    letters = letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
+                }
+                case "garbage" -> {
+                    letters = letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
+                }
 
-            else
-                usersService.findByEmail(emailOfAuthUser.getText()).sendLetters()
-                        .stream()
-                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                        .forEach(letterDto
-                                -> addLetterToUI(letterDto, fxml, style, letterDto.userBy().email(), index));
+            }
+
+            if (letters.isEmpty()) {
+                Text noLetters = new Text("No letters found in this category");
+                noLetters.setTextAlignment(TextAlignment.CENTER);
+                hboxInsideInboxes.getChildren().add(noLetters);
+            } else letters.forEach(letter -> addLetterToUI(letter, index));
+
         });
     }
 
-    private void addLetterToUI(LetterDto letter, String fxmlFile, String cssFile,
-                               String email, int function) {
+    private void addLetterToUI(LetterDto letter, int function) {
         TextField textField = createTextField(letter, function);
         textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
 
         CheckBox checkBox = new CheckBox();
 
         checkBox.setOnAction(event -> {
-
             textField.setDisable(checkBox.isSelected());
             updateDeleteButtonVisibility();
-
         });
 
         HBox hBox = new HBox(10);
@@ -251,10 +252,9 @@ public class EmailController {
         hBox.getChildren().addAll(checkBox, textField);
 
         textField.setOnMouseClicked(textFieldEvent -> {
-
-            if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), fxmlFile, cssFile);
-
+            if (!checkBox.isSelected()) handleTextFieldClick(letter.id());
         });
+
         hBox.setId(letter.id());
         hboxInsideInboxes.getChildren().add(hBox);
     }
@@ -279,7 +279,7 @@ public class EmailController {
     }
 
     private void deleteSelectedLetters() {
-        List<HBox> toRemove = new ArrayList<>();
+        List<HBox> toRemove = new LinkedList<>();
 
         hboxInsideInboxes.getChildren().forEach(node -> {
 
@@ -297,7 +297,7 @@ public class EmailController {
     }
 
     private void spammedSelectedLetters() {
-        List<HBox> tospam = new ArrayList<>();
+        List<HBox> tospam = new LinkedList<>();
 
         hboxInsideInboxes.getChildren().forEach(node -> {
 
@@ -320,7 +320,6 @@ public class EmailController {
         textField.setCursor(Cursor.HAND);
         textField.setPrefWidth(800);
         textField.setId(letter.id());
-        System.out.println(textField.getLength());
 
         String byName = ((function == 1) ?
                 String.format("%-30s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
@@ -333,49 +332,35 @@ public class EmailController {
         return textField;
     }
 
-    private void handleTextFieldClick(String letterId, String fxmlFile, String cssFile) {
+    private void handleTextFieldClick(String letterId) {
 
         if (openStages.containsKey(letterId)) {
             Stage existingStage = openStages.get(letterId);
             if (existingStage.isShowing()) {
                 existingStage.requestFocus();
                 return;
-            } else {
-                openStages.remove(letterId);
-            }
+            } else openStages.remove(letterId);
+
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("checkLetter.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
-
             LetterWithAnswers letter1 = letterService.findById(letterId);
-
             stage = new Stage();
             scene = new Scene(root);
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFile)).toExternalForm());
             stage.setScene(scene);
-
-            if (fxmlFile.equals("checkLetter.fxml")) {
-                stage.setTitle("Check My Letter");
-                CheckMyLetterController controller = fxmlLoader.getController();
-                controller.setLetter(letter1);
-            } else if (fxmlFile.equals("checkSentLetters.fxml")) {
-                stage.setTitle("Check Sent Letter");
-                CheckSentLettersController controller = fxmlLoader.getController();
-                controller.setLetter(letter1);
-            }
-
+            stage.setTitle("Check Letter");
+            CheckMyLetterController controller = fxmlLoader.getController();
+            controller.setLetter(letter1);
             stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.centerOnScreen();
             stage.setOnCloseRequest(event -> openStages.remove(letterId));
             stage.initModality(Modality.APPLICATION_MODAL);
             openStages.put(letterId, stage);
-
-            if (fxmlFile.equals("checkSentLetters.fxml")) stage.showAndWait();
-            else stage.show();
+            stage.show();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

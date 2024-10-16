@@ -84,7 +84,7 @@ public class LetterService {
                 .orElseThrow(()
                         -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.GARBAGE)
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
                 .stream()
                 .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
@@ -96,7 +96,7 @@ public class LetterService {
                 .orElseThrow(()
                         -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, users, TypeOfLetter.SPAM)
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
                 .stream()
                 .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());

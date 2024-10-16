@@ -44,7 +44,6 @@
     -fx-font-family: Inter;
     -fx-font-size: 16;
     -fx-font-weight: bold;
-    -fx-text-fill: #632B2B;
 }
 
 #speakWith{
@@ -63,8 +62,8 @@
 }
 
 .check-box{
-    -fx-background-color: #202124;
-    -fx-border-color: white;
+    -fx-background-color: #B7B7B7;
+    -fx-border-color: #B7B7B7;
     -fx-border-width: 1px;
     -fx-border-radius: 3px;
 }
@@ -77,6 +76,11 @@
     -fx-background-color: #AC8888;
 }
 
+.text-field:disabled{
+    -fx-background-color: #8E8F8B;
+
+}
+
 .button{
     -fx-background-color: #B1B1B1;
 }
@@ -86,14 +90,9 @@
 }
 
 .check-box .box {
-    -fx-background-color: white;
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 3px;
-}
-
-.check-box{
+    -fx-background-color: #B7B7B7;
     -fx-border-color: white;
-    -fx-border-width: 0px;
+    -fx-border-radius: 3px;
 }
 
 .check-box:selected .mark {
@@ -101,5 +100,5 @@
 }
 
 .check-box:selected .box {
-    -fx-background-color: white;
+    -fx-background-color: #B7B7B7;
 }

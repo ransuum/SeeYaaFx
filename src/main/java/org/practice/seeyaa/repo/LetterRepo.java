@@ -4,6 +4,8 @@ import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.entity.Letter;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,5 +20,9 @@ public interface LetterRepo extends JpaRepository<Letter, String> {
 
     List<Letter> findAllByTopicContainingAndUserTo(String topic, Users userTo);
 
-    List<Letter> findAllByUserToOrUserByAndTypeOfLetter(Users userTo, Users userBy, TypeOfLetter typeOfLetter);
+    @Query("SELECT l FROM Letter l WHERE (l.userTo = :user OR l.userBy = :user) AND l.typeOfLetter = :type")
+    List<Letter> findAllByUserToOrUserByAndTypeOfLetter(
+            @Param("user") Users user,
+            @Param("type") TypeOfLetter typeOfLetter
+    );
 }

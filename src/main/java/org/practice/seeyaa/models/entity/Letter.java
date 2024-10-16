@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-@Table(name = "letters")
+@Table(name = "letter")
 @Entity
 public class Letter implements Serializable {
     @Id
@@ -51,6 +51,5 @@ public class Letter implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @JsonIgnore
     private TypeOfLetter typeOfLetter;
 }

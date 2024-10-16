@@ -32,7 +32,7 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 public class CheckMyLetterController {
 
     @FXML
-    private Label byEmail;
+    private Label email;
 
     private LetterWithAnswers letterDto;
 
@@ -84,7 +84,7 @@ public class CheckMyLetterController {
     private void setTopicAndTextAndToWhom(String topic, String text, String byEmail, String fullName){
         this.topic.setText(topic);
         this.textOfLetter.setText(text);
-        this.byEmail.setText("Email:  " + byEmail);
+        this.email.setText("Email:  " + byEmail);
         this.firstNameLast.setText(fullName);
 
         for (AnswerDto answerDto : letterDto.answers()) {
