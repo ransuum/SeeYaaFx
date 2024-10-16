@@ -51,7 +51,7 @@
             <Font name="Arial Bold" size="37.0" />
          </font>
       </Label>
-      <TextArea fx:id="textOfLetter" editable="false" layoutX="63.0" layoutY="348.0" prefHeight="374.0" prefWidth="753.0" style="-fx-control-inner-background: #D9D9D9;" stylesheets="@static/checkMyLetters.css">
+      <TextArea fx:id="textOfLetter" editable="false" layoutX="63.0" layoutY="348.0" prefHeight="374.0" prefWidth="753.0" style="-fx-control-inner-background: #D9D9D9; -fx-wrap-text: true;" stylesheets="@static/checkMyLetters.css">
          <opaqueInsets>
             <Insets bottom="1.0" />
          </opaqueInsets>

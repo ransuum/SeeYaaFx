@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,6 +87,7 @@ public class LetterService {
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
                 .stream()
+                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
@@ -98,6 +100,7 @@ public class LetterService {
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
                 .stream()
+                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .map(Mapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
@@ -106,6 +109,7 @@ public class LetterService {
     public List<LetterDto> findAllSentByTopic(String topic, Users usersBy) {
         return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
                 .stream()
+                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .filter(letter ->
                         letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
                 .collect(Collectors.toList()));
@@ -115,6 +119,7 @@ public class LetterService {
     public List<LetterDto> findAllInboxByTopic(String topic, Users usersTo) {
         return Mapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo)
                 .stream()
+                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .filter(letter ->
                         letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
                 .collect(Collectors.toList()));

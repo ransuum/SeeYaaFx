@@ -22,6 +22,8 @@ import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.dto.UsersDto;
+import org.practice.seeyaa.models.entity.Letter;
+import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,31 +209,29 @@ public class EmailController {
             List<LetterDto> letters = new ArrayList<>();
 
             switch (choice) {
-                case "inboxes" -> {
-                    letters = usersService.findByEmail(emailOfAuthUser.getText()).myLetters().stream()
+                case "inboxes" ->
+                    letters = usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
+                            .stream()
                             .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                             .collect(Collectors.toList());
-                }
 
-                case "sent" -> {
+                case "sent" ->
                     letters = usersService.findByEmail(emailOfAuthUser.getText()).sendLetters().stream()
                             .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                             .collect(Collectors.toList());
-                }
-                case "spam" -> {
-                    letters = letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
-                }
-                case "garbage" -> {
-                    letters = letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
-                }
 
+                case "spam" -> letters = letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
+                case "garbage" -> letters = letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
             }
 
             if (letters.isEmpty()) {
                 Text noLetters = new Text("No letters found in this category");
                 noLetters.setTextAlignment(TextAlignment.CENTER);
                 hboxInsideInboxes.getChildren().add(noLetters);
-            } else letters.forEach(letter -> addLetterToUI(letter, index));
+            } else
+                letters.stream()
+                        .sorted(Comparator.comparing(LetterDto::createdAt)).toList()
+                        .forEach(letter -> addLetterToUI(letter, index));
 
         });
     }

@@ -32,4 +32,5 @@
     -fx-text-fill: #6D6060;
     -fx-font-family: Inter;
     -fx-font-size: 18;
+    -fx-wrap-text: true;
 }

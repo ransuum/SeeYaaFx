@@ -32,7 +32,7 @@
             <Font name="Century" size="15.0" />
          </font></TextField>
       <TextField fx:id="hiding" editable="false" layoutX="643.0" layoutY="4.0" visible="false" />
-      <Button layoutX="718.0" layoutY="421.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="66.0" stylesheets="@static/checkMyLetters.css" text="Ai">
+      <Button layoutX="742.0" layoutY="421.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="35.0" text="Ai">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -42,15 +42,8 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
-         <graphic>
-            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/ai.png" />
-               </image>
-            </ImageView>
-         </graphic>
       </Button>
-      <Button layoutX="699.0" layoutY="462.0" mnemonicParsing="false" onAction="#sendLetter" prefHeight="34.0" prefWidth="85.0" stylesheets="@static/checkMyLetters.css" text="Send">
+      <Button layoutX="699.0" layoutY="462.0" mnemonicParsing="false" onAction="#sendLetter" prefHeight="34.0" prefWidth="85.0" text="Send">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

@@ -28,7 +28,7 @@
 }
 
 .text-area{
-    -fx-border-color: transparent transparent transparent transparent;
+    -fx-wrap-text: true;
 }
 
 .label{
