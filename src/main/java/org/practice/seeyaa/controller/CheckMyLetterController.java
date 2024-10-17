@@ -76,9 +76,11 @@ public class CheckMyLetterController {
         }
     }
 
-    public void setLetter(LetterWithAnswers letter1) {
+    public void setLetter(LetterWithAnswers letter1, int function) {
         this.letterDto = letter1;
-        setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userBy().email(), letter1.userBy().firstname() + " " + letter1.userBy().lastname());
+        setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userBy().email(),
+                (function == 1) ? letterDto.userBy().firstname() + " " + letterDto.userBy().lastname()
+                        : letterDto.userTo().firstname() + " " + letterDto.userTo().lastname());
     }
 
     private void setTopicAndTextAndToWhom(String topic, String text, String byEmail, String fullName){

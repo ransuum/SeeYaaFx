@@ -252,7 +252,7 @@ public class EmailController {
         hBox.getChildren().addAll(checkBox, textField);
 
         textField.setOnMouseClicked(textFieldEvent -> {
-            if (!checkBox.isSelected()) handleTextFieldClick(letter.id());
+            if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), function);
         });
 
         hBox.setId(letter.id());
@@ -332,7 +332,7 @@ public class EmailController {
         return textField;
     }
 
-    private void handleTextFieldClick(String letterId) {
+    private void handleTextFieldClick(String letterId, int function) {
 
         if (openStages.containsKey(letterId)) {
             Stage existingStage = openStages.get(letterId);
@@ -353,7 +353,7 @@ public class EmailController {
             stage.setScene(scene);
             stage.setTitle("Check Letter");
             CheckMyLetterController controller = fxmlLoader.getController();
-            controller.setLetter(letter1);
+            controller.setLetter(letter1, function);
             stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.centerOnScreen();

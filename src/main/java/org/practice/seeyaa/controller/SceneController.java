@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.request.SignInRequest;
 import org.practice.seeyaa.service.UsersService;
+import org.practice.seeyaa.util.authField.AuthorizationValidator;
+import org.practice.seeyaa.util.authField.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
@@ -89,22 +91,11 @@ public class SceneController {
             stage.show();
         } catch (ValidationException e) {
 
-            Matcher matcher = Pattern.compile("findByEmailForPassword.signInRequest.email: ").matcher(e.getLocalizedMessage());
-            Matcher matcher2 = Pattern.compile("findByEmailForPassword.signInRequest.password: ").matcher(e.getLocalizedMessage());
+            AuthorizationValidator check = new AuthorizationValidator(incorrectInputEmail, incorrectInputPassword);
+            check.checkFieldsLogin(e);
 
-            if (matcher.find() && matcher2.find()) {
-                incorrectInputEmail.setText("Email and password is blank or not correct for input");
-                incorrectInputEmail.setVisible(true);
-            } else if (!matcher.find() && matcher2.find()) {
-                incorrectInputPassword.setText("One upper case, 9-36 length, special symbol, numbers");
-                incorrectInputPassword.setVisible(true);
-            } else if (!matcher2.find() && matcher.find()) {
-                incorrectInputEmail.setText(e.getLocalizedMessage().replace("findByEmailForPassword.signInRequest.email: ", ""));
-                incorrectInputEmail.setVisible(true);
-            } else {
-                incorrectInputPassword.setText("APP ERROR");
-                incorrectInputEmail.setVisible(true);
-            }
+            incorrectInputPassword = check.getIncorrectInputPassword();
+            incorrectInputEmail = check.getIncorrectInputEmail();
 
         } catch (RuntimeException e) {
             incorrectInputPassword.setText("Wrong password or email");

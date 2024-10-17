@@ -133,7 +133,7 @@
             <Image url="@images/email.png" />
          </image>
       </ImageView>
-      <Button fx:id="spambutton" layoutX="623.0" layoutY="152.0" mnemonicParsing="false" onAction="#spam" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" textFill="#461f8d" visible="false">
+      <Button fx:id="spambutton" layoutX="623.0" layoutY="152.0" mnemonicParsing="false" onAction="#spam" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" stylesheets="@static/email.css" textFill="#461f8d" visible="false">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -145,7 +145,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="deleteButton" layoutX="582.0" layoutY="152.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" textFill="#3e25a4" visible="false">
+      <Button fx:id="deleteButton" layoutX="582.0" layoutY="152.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="35.0" style="-fx-background-color: #D9D9D9;" stylesheets="@static/email.css" textFill="#3e25a4" visible="false">
          <font>
             <Font size="15.0" />
          </font>
