@@ -1,15 +1,15 @@
 .root {
-    -fx-background-color: #C7D1D6;
+    -fx-background-color: #A5A5A5;
 }
 
 #labelLogin {
-    -fx-text-fill: #202124;
+    -fx-text-fill: #584747;
 }
 
 .button {
-    -fx-background-color: #202124;
+    -fx-background-color: #3F3131;
     -fx-background-radius: 13px;
-    -fx-font-family: Garamond;
+    -fx-font-family: Inter;
     -fx-text-fill: #ddd2ec;
 }
 
@@ -32,7 +32,7 @@
     -fx-text-fill: #202124;
 }
 
-.text-field{
+.text-field {
     -fx-background-radius: 12px;
     -fx-border-width: 0px;
 }

@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: #C7D1D6;
+    -fx-background-color: #A5A5A5;
 }
 
 #labelLogin {
@@ -7,9 +7,9 @@
 }
 
 .button {
-    -fx-background-color: #202124;
-    -fx-background-radius: 13px;
-    -fx-font-family: Garamond;
+    -fx-background-color: #3F3131;
+    -fx-background-radius: 14px;
+    -fx-font-family: Inter;
     -fx-text-fill: #ddd2ec;
 }
 
