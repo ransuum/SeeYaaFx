@@ -52,6 +52,9 @@ public class EmailController {
     private Button inboxes;
 
     @FXML
+    private Button startChat;
+
+    @FXML
     private Button spambutton;
 
     @FXML
@@ -93,6 +96,7 @@ public class EmailController {
     @FXML
     public void initialize() {
         write.setOnMouseClicked(mouseEvent -> write());
+        startChat.setOnMouseClicked(mouseEvent -> startChat());
 
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
@@ -169,6 +173,10 @@ public class EmailController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void startChat(){
+
     }
 
     private void editProfile() {
