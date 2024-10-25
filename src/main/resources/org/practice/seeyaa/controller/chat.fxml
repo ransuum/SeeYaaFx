@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="797.0" prefWidth="653.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="797.0" prefWidth="653.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.ChatController">
    <children>
       <AnchorPane layoutX="53.0" layoutY="605.0" prefHeight="167.0" prefWidth="548.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <AnchorPane layoutY="133.0" prefHeight="34.0" prefWidth="564.0">
                <children>
-                  <Button layoutX="512.0" layoutY="1.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="38.0" style="-fx-background-color: white;">
+                  <Button fx:id="send" layoutX="512.0" layoutY="1.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="38.0" style="-fx-background-color: white;">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -24,7 +24,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <TextArea layoutX="14.0" layoutY="18.0" prefHeight="109.0" prefWidth="536.0" />
+            <TextArea fx:id="wroteText" layoutX="14.0" layoutY="18.0" prefHeight="109.0" prefWidth="536.0" />
          </children>
       </AnchorPane>
       <HBox layoutX="22.0" layoutY="27.0" prefHeight="546.0" prefWidth="609.0" />

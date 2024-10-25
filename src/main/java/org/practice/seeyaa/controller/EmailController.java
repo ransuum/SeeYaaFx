@@ -52,6 +52,9 @@ public class EmailController {
     private Button inboxes;
 
     @FXML
+    private TextField speakWith;
+
+    @FXML
     private Button startChat;
 
     @FXML
@@ -176,7 +179,21 @@ public class EmailController {
     }
 
     private void startChat(){
+        try {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chat.fxml"));
+        fxmlLoader.setControllerFactory(springContext::getBean);
+        root = fxmlLoader.load();
 
+        ChatController controller = fxmlLoader.getController();
+
+        stage = new Stage();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Chat");
+        stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void editProfile() {
