@@ -79,7 +79,7 @@ public class SceneController {
             emailController.showEmail(usersService.findByEmailForPassword(SignInRequest.builder()
                     .email(emailInput.getText())
                     .password(password.getText())
-                    .build()).email());
+                    .build()));
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);

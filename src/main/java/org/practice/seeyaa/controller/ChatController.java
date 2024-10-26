@@ -12,4 +12,12 @@ public class ChatController {
 
     @FXML
     private TextArea wroteText;
+
+    private String emailBy;
+    private String emailTo;
+
+    public void setInfo(String emailBy, String emailTo) {
+        this.emailBy = emailBy;
+        this.emailTo = emailTo;
+    }
 }

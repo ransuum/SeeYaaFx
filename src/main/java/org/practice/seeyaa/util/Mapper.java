@@ -3,9 +3,7 @@ package org.practice.seeyaa.util;
 import org.practice.seeyaa.models.dto.*;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.practice.seeyaa.models.entity.Answer;
-import org.practice.seeyaa.models.entity.Letter;
-import org.practice.seeyaa.models.entity.Users;
+import org.practice.seeyaa.models.entity.*;
 import org.practice.seeyaa.models.request.SignUpRequest;
 
 import java.util.List;
@@ -33,5 +31,9 @@ public interface Mapper {
 
     LetterWithAnswers toLetterWithAnswers(Letter letter);
 
+    MessageDto toMessageDto(Message message);
 
+    ChatDto toChatDto(Chat chat);
+
+    UsersWithMessagesDto toUsersWithMessagesDto(Users users);
 }

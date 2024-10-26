@@ -29,5 +29,10 @@ public class Message {
     @JoinColumn(name = "chat_id", referencedColumnName = "id")
     private Chat chat;
 
+    @Column(nullable = false)
+    private String text;
+
     private LocalDateTime localDateTime;
+
+    private boolean isRead = false;
 }

@@ -21,9 +21,8 @@ import javafx.stage.Stage;
 import org.practice.seeyaa.models.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
+import org.practice.seeyaa.models.dto.UserWithLettersDto;
 import org.practice.seeyaa.models.dto.UsersDto;
-import org.practice.seeyaa.models.entity.Letter;
-import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +76,7 @@ public class EmailController {
 
     @FXML
     private VBox hboxInsideInboxes;
+    private UsersDto usersDto;
 
     @FXML
     private ImageView editProfile;
@@ -111,8 +111,8 @@ public class EmailController {
     }
 
 
-    public void showEmail(String email) {
-        emailOfAuthUser.setText(email);
+    public void showEmail(UsersDto usersDto) {
+        emailOfAuthUser.setText(usersDto.email());
     }
 
     @FXML
@@ -162,35 +162,35 @@ public class EmailController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
-            root = fxmlLoader.load();
+            this.root = fxmlLoader.load();
 
             SendLetterController controller = fxmlLoader.getController();
             controller.setHiding(emailOfAuthUser.getText());
 
-            stage = new Stage();
-            scene = new Scene(root);
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Send Letter");
-            stage.show();
+            this.stage = new Stage();
+            this.scene = new Scene(root);
+            this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
+            this.stage.setScene(scene);
+            this.stage.setTitle("Send Letter");
+            this.stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void startChat(){
+    private void startChat() {
         try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chat.fxml"));
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chat.fxml"));
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            this.root = fxmlLoader.load();
 
-        ChatController controller = fxmlLoader.getController();
-
-        stage = new Stage();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Chat");
-        stage.show();
+            ChatController controller = fxmlLoader.getController();
+            UserWithLettersDto byEmail = usersService.findByEmail(emailOfAuthUser.getText());
+            this.stage = new Stage();
+            this.scene = new Scene(root);
+            this.stage.setScene(scene);
+            this.stage.setTitle("Chat");
+            this.stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -200,7 +200,7 @@ public class EmailController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
-            root = fxmlLoader.load();
+            this.root = fxmlLoader.load();
 
             UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
 
@@ -211,15 +211,15 @@ public class EmailController {
             controller.getLastname().setText(byEmail.lastname());
             controller.getUsername().setText(byEmail.username());
 
-            stage = new Stage();
-            scene = new Scene(root);
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
-            stage.centerOnScreen();
-            stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
-            stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
+            this.stage = new Stage();
+            this.scene = new Scene(this.root);
+            this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
+            this.stage.centerOnScreen();
+            this.stage.widthProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
+            this.stage.heightProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
+            this.stage.setScene(this.scene);
+            this.stage.initModality(Modality.APPLICATION_MODAL);
+            this.stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -234,19 +234,17 @@ public class EmailController {
             List<LetterDto> letters = new ArrayList<>();
 
             switch (choice) {
-                case "inboxes" ->
-                    letters = usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
-                            .stream()
-                            .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                            .collect(Collectors.toList());
+                case "inboxes" -> letters = this.usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
+                        .stream()
+                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                        .collect(Collectors.toList());
 
-                case "sent" ->
-                    letters = usersService.findByEmail(emailOfAuthUser.getText()).sendLetters().stream()
-                            .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                            .collect(Collectors.toList());
+                case "sent" -> letters = this.usersService.findByEmail(emailOfAuthUser.getText()).sendLetters().stream()
+                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                        .collect(Collectors.toList());
 
-                case "spam" -> letters = letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
-                case "garbage" -> letters = letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
+                case "spam" -> letters = this.letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
+                case "garbage" -> letters = this.letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
             }
 
             if (letters.isEmpty()) {
