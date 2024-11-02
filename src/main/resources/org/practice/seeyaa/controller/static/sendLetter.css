@@ -2,10 +2,15 @@
     -fx-background-color: white;
 }
 
-.button {
+#sendLetter {
     -fx-background-color: #202124;
     -fx-background-radius: 13px;
     -fx-text-fill: #ddd2ec;
+}
+
+#attachFile{
+    -fx-background-color: white;
+    -fx-background-radius: 13px;
 }
 
 .button:hover {

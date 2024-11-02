@@ -29,7 +29,7 @@ public class LetterService {
     private final UsersRepo usersRepo;
 
     @Transactional
-    public void sendLetter(@Valid LetterRequest letterRequest) {
+    public Letter sendLetter(@Valid LetterRequest letterRequest) {
         Users usersBy = usersRepo.findByEmail(letterRequest.getUserBy())
                 .orElseThrow(()
                         -> new RuntimeException("User not found"));
@@ -52,7 +52,7 @@ public class LetterService {
         usersBy.getSendLetters().add(letter);
         usersTo.getMyLetters().add(letter);
 
-        Mapper.INSTANCE.toLetterDto(letter);
+        return letter;
     }
 
     public void setLetterToSpam(String letterId) {

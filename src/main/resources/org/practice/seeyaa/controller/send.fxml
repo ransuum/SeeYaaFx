@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -13,7 +14,7 @@
 
 <AnchorPane prefHeight="510.0" prefWidth="773.0" stylesheets="@static/sendLetter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.SendLetterController">
    <children>
-      <TextArea fx:id="text" layoutX="-2.0" layoutY="70.0" prefHeight="440.0" prefWidth="800.0" promptText=" Text">
+      <TextArea fx:id="text" layoutY="70.0" prefHeight="387.0" prefWidth="798.0" promptText=" Text">
          <font>
             <Font name="Century" size="12.0" />
          </font></TextArea>
@@ -32,18 +33,7 @@
             <Font name="Century" size="15.0" />
          </font></TextField>
       <TextField fx:id="hiding" editable="false" layoutX="643.0" layoutY="4.0" visible="false" />
-      <Button layoutX="742.0" layoutY="421.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="34.0" prefWidth="35.0" text="Ai">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="699.0" layoutY="462.0" mnemonicParsing="false" onAction="#sendLetter" prefHeight="34.0" prefWidth="85.0" text="Send">
+      <Button fx:id="sendLetter" layoutX="699.0" layoutY="466.0" mnemonicParsing="false" onAction="#sendLetter" prefHeight="34.0" prefWidth="85.0" text="Send">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -61,5 +51,21 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="attachFile" layoutX="648.0" layoutY="466.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="29.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/attachment.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label fx:id="attachmentLabel" layoutX="30.0" layoutY="475.0" />
    </children>
 </AnchorPane>

@@ -70,21 +70,6 @@
             <VBox fx:id="answers" maxHeight="550.0" prefHeight="249.0" prefWidth="224.0" />
          </content>
       </TitledPane>
-      <Button layoutX="394.0" layoutY="807.0" mnemonicParsing="false" onAction="#quit" prefHeight="41.0" prefWidth="104.0" stylesheets="@static/checkMyLetters.css" text="Close">
-         <font>
-            <Font name="Calibri Bold" size="28.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <DropShadow height="82.65" offsetX="6.0" offsetY="10.0" radius="26.4125" width="25.0">
-               <color>
-                  <Color opacity="0.7300000190734863" />
-               </color>
-            </DropShadow>
-         </effect>
-      </Button>
       <AnchorPane layoutX="63.0" layoutY="722.0" prefHeight="71.0" prefWidth="753.0">
          <children>
             <Button layoutX="700.0" layoutY="21.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0" stylesheets="@static/checkMyLetters.css">
@@ -134,7 +119,23 @@
                   </ImageView>
                </graphic>
             </Button>
+            <VBox fx:id="filesContainer" layoutX="-38.0" layoutY="30.0" prefHeight="105.0" prefWidth="295.0" />
          </children>
       </AnchorPane>
+      <Button layoutX="394.0" layoutY="807.0" mnemonicParsing="false" onAction="#quit" prefHeight="41.0" prefWidth="104.0" stylesheets="@static/checkMyLetters.css" text="Close">
+         <font>
+            <Font name="Calibri Bold" size="28.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="82.65" offsetX="6.0" offsetY="10.0" radius="26.4125" width="25.0">
+               <color>
+                  <Color opacity="0.7300000190734863" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
    </children>
 </AnchorPane>
