@@ -1,12 +1,15 @@
-package org.practice.seeyaa.util.imageProperties;
+package org.practice.seeyaa.util.fileProperties.utils;
+
+import org.practice.seeyaa.enums.FileType;
+import org.practice.seeyaa.util.fileProperties.configurator.FileConfigurator;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-public class ImageUtils {
+public class ImageUtils implements FileConfigurator {
 
-    public static byte[] compressImage(byte[] data) {
+    public byte[] compressFile(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(data);
@@ -26,7 +29,7 @@ public class ImageUtils {
     }
 
 
-    public static byte[] decompressImage(byte[] data) {
+    public byte[] decompressFile(byte[] data) {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
@@ -40,6 +43,11 @@ public class ImageUtils {
         } catch (Exception ignored) {
         }
         return outputStream.toByteArray();
+    }
+
+    @Override
+    public FileType getFileType() {
+        return FileType.Image;
     }
 
 }
