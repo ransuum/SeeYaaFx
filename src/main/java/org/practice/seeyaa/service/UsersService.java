@@ -8,7 +8,7 @@ import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.EditRequest;
 import org.practice.seeyaa.models.request.SignInRequest;
 import org.practice.seeyaa.models.request.SignUpRequest;
-import org.practice.seeyaa.util.Mapper;
+import org.practice.seeyaa.util.mappers.Mapper;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

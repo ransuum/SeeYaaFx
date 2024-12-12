@@ -7,7 +7,7 @@ import org.practice.seeyaa.repo.ChatRepo;
 import org.practice.seeyaa.repo.MessageRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.dao.MessageService;
-import org.practice.seeyaa.util.Mapper;
+import org.practice.seeyaa.util.mappers.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

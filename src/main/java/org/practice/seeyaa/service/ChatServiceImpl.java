@@ -8,7 +8,7 @@ import org.practice.seeyaa.repo.ChatRepo;
 import org.practice.seeyaa.repo.MessageRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.dao.ChatService;
-import org.practice.seeyaa.util.Mapper;
+import org.practice.seeyaa.util.mappers.Mapper;
 import org.practice.seeyaa.util.messageValidator.ChatConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

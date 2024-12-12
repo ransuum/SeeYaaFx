@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AuthorizationValidator implements Check{
+public class AuthorizationValidator implements Check {
     private Label incorrectInputEmail;
     private Label incorrectInputPassword;
 

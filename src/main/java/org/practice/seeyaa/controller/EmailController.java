@@ -25,6 +25,7 @@ import org.practice.seeyaa.models.dto.UserWithLettersDto;
 import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
+import org.practice.seeyaa.util.choices_of_letters.Choice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
@@ -37,60 +38,46 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class EmailController {
-
     @FXML
     private Text emailOfAuthUser;
-
     @FXML
     private Button sent;
-
     @FXML
     private Button deleteButton;
-
     @FXML
     private Button inboxes;
-
     @FXML
     private TextField speakWith;
-
     @FXML
     private Button startChat;
-
     @FXML
     private Button spambutton;
-
     @FXML
     private Button spam;
-
     @FXML
     private Button garbage;
-
     @FXML
     private Button write;
-
     @FXML
     private ImageView searchButton;
-
     @FXML
     private TextField search;
-
     @FXML
     private VBox hboxInsideInboxes;
-    private UsersDto usersDto;
-
     @FXML
     private ImageView editProfile;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
-
     @Autowired
     private LetterService letterService;
-
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private List<Choice> choices;
 
     private final Map<String, Stage> openStages = new HashMap<>();
+    private Map<String, Choice> typeOfLetterChoices;
 
     private Stage stage;
     private Scene scene;
@@ -98,15 +85,17 @@ public class EmailController {
 
     @FXML
     public void initialize() {
+        typeOfLetterChoices = choices.stream()
+                .collect(Collectors.toMap(Choice::getChoice, o -> o));
         write.setOnMouseClicked(mouseEvent -> write());
         startChat.setOnMouseClicked(mouseEvent -> startChat());
 
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
-        addToBox(inboxes, 1, "inboxes");
-        addToBox(sent, 2, "sent");
-        addToBox(spam, 3, "spam");
-        addToBox(garbage, 4, "garbage");
+        addToBox(inboxes, 1, org.practice.seeyaa.enums.TypeOfLetter.INBOXES.getName());
+        addToBox(sent, 2, org.practice.seeyaa.enums.TypeOfLetter.SENT.getName());
+        addToBox(spam, 3, org.practice.seeyaa.enums.TypeOfLetter.SPAM.getName());
+        addToBox(garbage, 4, org.practice.seeyaa.enums.TypeOfLetter.GARBAGE.getName());
         registerSearchHandlers();
     }
 
@@ -231,21 +220,8 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
             button.getStyleClass().add("selected");
 
-            List<LetterDto> letters = new ArrayList<>();
-
-            switch (choice) {
-                case "inboxes" -> letters = this.usersService.findByEmail(emailOfAuthUser.getText()).myLetters()
-                        .stream()
-                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                        .collect(Collectors.toList());
-
-                case "sent" -> letters = this.usersService.findByEmail(emailOfAuthUser.getText()).sendLetters().stream()
-                        .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
-                        .collect(Collectors.toList());
-
-                case "spam" -> letters = this.letterService.findAllByUserWithSpamLetters(emailOfAuthUser.getText());
-                case "garbage" -> letters = this.letterService.findAllByUserWithGarbageLetters(emailOfAuthUser.getText());
-            }
+            List<LetterDto> letters = typeOfLetterChoices.get(choice)
+                    .addToBox(index, emailOfAuthUser.getText());
 
             if (letters.isEmpty()) {
                 Text noLetters = new Text("No letters found in this category");

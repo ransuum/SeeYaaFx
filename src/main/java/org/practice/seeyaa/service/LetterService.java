@@ -10,7 +10,7 @@ import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
-import org.practice.seeyaa.util.Mapper;
+import org.practice.seeyaa.util.mappers.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

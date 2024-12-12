@@ -9,7 +9,7 @@ import org.practice.seeyaa.models.request.AnswerRequest;
 import org.practice.seeyaa.repo.AnswerRepo;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
-import org.practice.seeyaa.util.Mapper;
+import org.practice.seeyaa.util.mappers.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

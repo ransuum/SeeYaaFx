@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util;
+package org.practice.seeyaa.util.mappers;
 
 import org.practice.seeyaa.models.dto.*;
 import org.mapstruct.Mapping;
