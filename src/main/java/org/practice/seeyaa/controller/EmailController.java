@@ -106,12 +106,12 @@ public class EmailController {
 
     @FXML
     public void delete() {
-        deleteSelectedLetters();
+        processSelectedLetters(false);
     }
 
     @FXML
     public void spam() {
-        spammedSelectedLetters();
+        processSelectedLetters(true);
     }
 
     @FXML
@@ -277,40 +277,24 @@ public class EmailController {
         garbage.getStyleClass().remove("selected");
     }
 
-    private void deleteSelectedLetters() {
-        List<HBox> toRemove = new LinkedList<>();
+    private void processSelectedLetters(boolean moveToSpam) {
+        List<HBox> selectedBoxes = new LinkedList<>();
 
         hboxInsideInboxes.getChildren().forEach(node -> {
-
             if (node instanceof HBox hBox) {
                 CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
-                if (checkBox.isSelected()) toRemove.add(hBox);
+                if (checkBox.isSelected()) selectedBoxes.add(hBox);
             }
-
         });
 
-        for (HBox hBox : toRemove) letterService.deleteById(hBox.getId());
-        hboxInsideInboxes.getChildren().removeAll(toRemove);
+        for (HBox hBox : selectedBoxes) {
+            if (moveToSpam) letterService.setLetterToSpam(hBox.getId());
+            else letterService.deleteById(hBox.getId());
+        }
+
+        hboxInsideInboxes.getChildren().removeAll(selectedBoxes);
         spambutton.setVisible(false);
         deleteButton.setVisible(false);
-    }
-
-    private void spammedSelectedLetters() {
-        List<HBox> tospam = new LinkedList<>();
-
-        hboxInsideInboxes.getChildren().forEach(node -> {
-
-            if (node instanceof HBox hBox) {
-                CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
-                if (checkBox.isSelected()) tospam.add(hBox);
-            }
-
-        });
-
-        for (HBox hBox : tospam) letterService.setLetterToSpam(hBox.getId());
-        hboxInsideInboxes.getChildren().removeAll(tospam);
-        deleteButton.setVisible(false);
-        spambutton.setVisible(false);
     }
 
     private TextField createTextField(LetterDto letter, int function) {
@@ -332,7 +316,6 @@ public class EmailController {
     }
 
     private void handleTextFieldClick(String letterId, int function) {
-
         if (openStages.containsKey(letterId)) {
             Stage existingStage = openStages.get(letterId);
             if (existingStage.isShowing()) {
@@ -341,7 +324,6 @@ public class EmailController {
             } else openStages.remove(letterId);
 
         }
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("checkLetter.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
@@ -360,7 +342,6 @@ public class EmailController {
             stage.initModality(Modality.APPLICATION_MODAL);
             openStages.put(letterId, stage);
             stage.show();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
