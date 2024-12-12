@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import static org.practice.seeyaa.util.dateCheck.StringCheck.checkStringParametrs;
+import static org.practice.seeyaa.util.dateCheck.StringCheck.checkStringParameters;
 
 @Service
 @RequiredArgsConstructor
@@ -64,11 +64,11 @@ public class UsersService {
     public UsersDto editProfile(@Valid EditRequest editRequest, String idOfUser) {
         Users users = usersRepo.findById(idOfUser).orElseThrow(() -> new RuntimeException("Wrong id of user"));
 
-        if (checkStringParametrs(editRequest.getFirstname())) users.setFirstname(editRequest.getFirstname());
-        if (checkStringParametrs(editRequest.getPassword()) && !editRequest.getPassword().equals(users.getPassword()))
+        if (checkStringParameters(editRequest.getFirstname())) users.setFirstname(editRequest.getFirstname());
+        if (checkStringParameters(editRequest.getPassword()) && !editRequest.getPassword().equals(users.getPassword()))
             users.setPassword(editRequest.getPassword());
-        if (checkStringParametrs(editRequest.getLastname())) users.setLastname(editRequest.getLastname());
-        if (checkStringParametrs(editRequest.getUsername())) users.setUsername(editRequest.getUsername());
+        if (checkStringParameters(editRequest.getLastname())) users.setLastname(editRequest.getLastname());
+        if (checkStringParameters(editRequest.getUsername())) users.setUsername(editRequest.getUsername());
 
         return Mapper.INSTANCE.toUsersDto(usersRepo.save(users));
     }
