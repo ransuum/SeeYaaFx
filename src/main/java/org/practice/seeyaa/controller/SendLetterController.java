@@ -25,24 +25,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class SendLetterController {
-
-    @FXML
-    private Button attachFile;
-
-    @FXML
-    private TextField hiding;
-
-    @FXML
-    private Button sendLetter;
-
-    @FXML
-    private TextArea text;
-
-    @FXML
-    private TextField toWhom;
-
-    @FXML
-    private TextField topic;
+    @FXML private Button attachFile;
+    @FXML private TextField hiding;
+    @FXML private Button sendLetter;
+    @FXML private TextArea text;
+    @FXML private TextField toWhom;
+    @FXML private TextField topic;
 
     @Autowired
     private LetterService letterService;
@@ -67,7 +55,6 @@ public class SendLetterController {
 
     @FXML
     public void sendLetter(ActionEvent event) throws IOException {
-
         try {
             LetterRequest letterRequest = LetterRequest.builder()
                     .topic(topic.getText())

@@ -38,26 +38,13 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class CheckMyLetterController {
-
-    @FXML
-    private Label email;
-
-    private LetterWithAnswers letterDto;
-
-    @FXML
-    private Label firstNameLast;
-
-    @FXML
-    private VBox answers;
-
-    @FXML
-    private VBox filesContainer;
-
-    @FXML
-    private TextArea textOfLetter;
-
-    @FXML
-    private TextField topic;
+    @FXML private Label email;
+    @FXML private LetterWithAnswers letterDto;
+    @FXML private Label firstNameLast;
+    @FXML private VBox answers;
+    @FXML private VBox filesContainer;
+    @FXML private TextArea textOfLetter;
+    @FXML private TextField topic;
 
     private Stage stage;
     private Parent root;
@@ -65,10 +52,8 @@ public class CheckMyLetterController {
 
     @Autowired
     private ConfigurableApplicationContext springContext;
-
     @Autowired
     private LetterService letterService;
-
     @Autowired
     private StorageService storageService;
 

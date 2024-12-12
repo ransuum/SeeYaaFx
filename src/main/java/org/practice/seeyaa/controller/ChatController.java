@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChatController {
-    @FXML
-    private Button send;
-
-    @FXML
-    private TextArea wroteText;
+    @FXML private Button send;
+    @FXML private TextArea wroteText;
 
     private String emailBy;
     private String emailTo;

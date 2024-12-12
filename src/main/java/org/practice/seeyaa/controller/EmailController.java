@@ -38,34 +38,20 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class EmailController {
-    @FXML
-    private Text emailOfAuthUser;
-    @FXML
-    private Button sent;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private Button inboxes;
-    @FXML
-    private TextField speakWith;
-    @FXML
-    private Button startChat;
-    @FXML
-    private Button spambutton;
-    @FXML
-    private Button spam;
-    @FXML
-    private Button garbage;
-    @FXML
-    private Button write;
-    @FXML
-    private ImageView searchButton;
-    @FXML
-    private TextField search;
-    @FXML
-    private VBox hboxInsideInboxes;
-    @FXML
-    private ImageView editProfile;
+    @FXML private Text emailOfAuthUser;
+    @FXML private Button sent;
+    @FXML private Button deleteButton;
+    @FXML private Button inboxes;
+    @FXML private TextField speakWith;
+    @FXML private Button startChat;
+    @FXML private Button spambutton;
+    @FXML private Button spam;
+    @FXML private Button garbage;
+    @FXML private Button write;
+    @FXML private ImageView searchButton;
+    @FXML private TextField search;
+    @FXML private VBox hboxInsideInboxes;
+    @FXML private ImageView editProfile;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
@@ -78,7 +64,6 @@ public class EmailController {
 
     private final Map<String, Stage> openStages = new HashMap<>();
     private Map<String, Choice> typeOfLetterChoices;
-
     private Stage stage;
     private Scene scene;
     private Parent root;

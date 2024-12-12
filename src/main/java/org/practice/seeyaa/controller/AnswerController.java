@@ -16,20 +16,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 public class AnswerController {
-
-    @FXML
-    private Button circleButton;
+    @FXML private Button circleButton;
+    @FXML private Label idOfLetter;
+    @FXML private TextArea textOfAnswer;
 
     private String emailBy;
 
     @Autowired
     private AnswerService answerService;
-
-    @FXML
-    private Label idOfLetter;
-
-    @FXML
-    private TextArea textOfAnswer;
 
     @FXML
     void helpRefractorTextByAi(ActionEvent event) {

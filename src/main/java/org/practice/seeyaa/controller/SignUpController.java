@@ -12,20 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SignUpController {
-    @FXML
-    private TextField email;
-
-    @FXML
-    private TextField firstName;
-
-    @FXML
-    private TextField lastName;
-
-    @FXML
-    private TextField password;
-
-    @FXML
-    private TextField username;
+    @FXML private TextField email;
+    @FXML private TextField firstName;
+    @FXML private TextField lastName;
+    @FXML private TextField password;
+    @FXML private TextField username;
 
     private Stage stage;
 

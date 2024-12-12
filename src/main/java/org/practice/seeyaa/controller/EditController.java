@@ -16,35 +16,16 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class EditController {
-    @FXML
-    private TextField email;
-
-    @FXML
-    private TextField firstname;
-
-    @FXML
-    private CheckBox firstnameCheck;
-
-    @FXML
-    private TextField lastname;
-
-    @FXML
-    private CheckBox lastnameCheck;
-
-    @FXML
-    private TextField password1;
-
-    @FXML
-    private CheckBox password1Check;
-
-    @FXML
-    private TextField password2;
-
-    @FXML
-    private TextField username;
-
-    @FXML
-    private CheckBox usernameCheck;
+    @FXML private TextField email;
+    @FXML private TextField firstname;
+    @FXML private CheckBox firstnameCheck;
+    @FXML private TextField lastname;
+    @FXML private CheckBox lastnameCheck;
+    @FXML private TextField password1;
+    @FXML private CheckBox password1Check;
+    @FXML private TextField password2;
+    @FXML private TextField username;
+    @FXML private CheckBox usernameCheck;
 
     private String idOfUser;
 
@@ -67,15 +48,13 @@ public class EditController {
     @FXML
     void confirm(ActionEvent event) {
         updateUser();
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     private void updateUser(){
-
-        if (!password1.getText().equals(password2.getText())) throw new RuntimeException("Passwords do not match");
-
+        if (!password1.getText().equals(password2.getText()))
+            throw new RuntimeException("Passwords do not match");
         usersService.editProfile(
                 EditRequest.builder()
                         .firstname(firstname.getText())

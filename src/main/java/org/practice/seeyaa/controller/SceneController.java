@@ -28,21 +28,11 @@ import java.util.regex.Pattern;
 
 @Component
 public class SceneController {
-
-    @FXML
-    private TextField emailInput;
-
-    @FXML
-    private PasswordField password;
-
-    @FXML
-    private Text noHaveAcc;
-
-    @FXML
-    private Label incorrectInputEmail;
-
-    @FXML
-    private Label incorrectInputPassword;
+    @FXML private TextField emailInput;
+    @FXML private PasswordField password;
+    @FXML private Text noHaveAcc;
+    @FXML private Label incorrectInputEmail;
+    @FXML private Label incorrectInputPassword;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
