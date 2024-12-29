@@ -33,12 +33,10 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public Letter sendLetter(@Valid LetterRequest letterRequest) {
         Users usersBy = usersRepo.findByEmail(letterRequest.getUserBy())
-                .orElseThrow(()
-                        -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Users usersTo = usersRepo.findByEmail(letterRequest.getUserTo())
-                .orElseThrow(()
-                        -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Letter letter = Letter.builder()
                 .userBy(usersBy)
@@ -48,7 +46,6 @@ public class LetterServiceImpl implements LetterService {
                 .createdAt(LocalDateTime.now())
                 .typeOfLetter(TypeOfLetter.LETTER)
                 .build();
-
         letterRepo.save(letter);
 
         usersBy.getSendLetters().add(letter);
@@ -88,8 +85,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public List<LetterDto> findAllByUserWithGarbageLetters(String email) {
         Users users = usersRepo.findByEmail(email)
-                .orElseThrow(()
-                        -> new RuntimeException("APP ERROR"));
+                .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
                 .stream()
@@ -102,8 +98,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public List<LetterDto> findAllByUserWithSpamLetters(String email) {
         Users users = usersRepo.findByEmail(email)
-                .orElseThrow(()
-                        -> new RuntimeException("APP ERROR"));
+                .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
                 .stream()
@@ -138,10 +133,8 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public void deleteById(String id) {
         letterRepo.findById(id).ifPresent(letter1 -> {
-
             letter1.getUserBy().getSendLetters().remove(letter1);
             letter1.getUserTo().getMyLetters().remove(letter1);
-
             letterRepo.delete(letter1);
         });
     }
