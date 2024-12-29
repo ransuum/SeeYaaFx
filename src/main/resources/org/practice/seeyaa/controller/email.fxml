@@ -160,22 +160,9 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="backgroundOpyions" layoutX="26.0" layoutY="424.0" prefHeight="135.0" prefWidth="269.0" style="-fx-background-color: #A5A5A5;" stylesheets="@static/email.css">
+      <AnchorPane fx:id="backgroundOpyions" layoutX="33.0" layoutY="405.0" prefHeight="438.0" prefWidth="255.0" style="-fx-background-color: #202124;">
          <children>
-            <Button fx:id="startChat" layoutX="85.0" layoutY="87.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="99.0" text="Start chat">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <TextField fx:id="speakWith" layoutX="28.0" layoutY="30.0" prefHeight="35.0" prefWidth="215.0" />
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/man-with-speech-bubble.png" />
-               </image>
-            </ImageView>
-         </children></AnchorPane>
-      <AnchorPane fx:id="backgroundOpyions" layoutX="33.0" layoutY="596.0" prefHeight="247.0" prefWidth="255.0" style="-fx-background-color: #202124;">
-         <children>
-            <VBox layoutX="15.0" layoutY="17.0" prefHeight="214.0" prefWidth="221.0" />
+            <VBox layoutX="15.0" layoutY="17.0" prefHeight="407.0" prefWidth="221.0" />
          </children></AnchorPane>
       <DatePicker layoutX="765.0" layoutY="159.0" />
    </children>

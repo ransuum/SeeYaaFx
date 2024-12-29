@@ -16,15 +16,12 @@ import javafx.stage.Stage;
 import org.practice.seeyaa.models.request.SignInRequest;
 import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.util.authField.AuthorizationValidator;
-import org.practice.seeyaa.util.authField.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class SceneController {
@@ -38,7 +35,7 @@ public class SceneController {
     private ConfigurableApplicationContext springContext;
 
     @Autowired
-    private UsersService usersService;
+    private UsersService usersServiceImpl;
 
     private Stage stage;
     private Scene scene;
@@ -66,7 +63,7 @@ public class SceneController {
             root = fxmlLoader.load();
 
             EmailController emailController = fxmlLoader.getController();
-            emailController.showEmail(usersService.findByEmailForPassword(SignInRequest.builder()
+            emailController.showEmail(usersServiceImpl.findByEmailForPassword(SignInRequest.builder()
                     .email(emailInput.getText())
                     .password(password.getText())
                     .build()));

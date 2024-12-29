@@ -8,8 +8,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.request.LetterRequest;
-import org.practice.seeyaa.service.StorageService;
 import org.practice.seeyaa.service.LetterService;
+import org.practice.seeyaa.service.impl.StorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,10 +33,10 @@ public class SendLetterController {
     @FXML private TextField topic;
 
     @Autowired
-    private LetterService letterService;
+    private LetterService letterServiceImpl;
 
     @Autowired
-    private StorageService storageService;
+    private StorageServiceImpl storageServiceImpl;
 
     private Stage stage;
 
@@ -63,13 +63,13 @@ public class SendLetterController {
                     .userBy(hiding.getText())
                     .build();
 
-            Letter savedLetter = letterService.sendLetter(letterRequest);
+            Letter savedLetter = letterServiceImpl.sendLetter(letterRequest);
 
             for (File file : selectedFiles) {
                 try {
                     MultipartFile multipartFile = convertToMultipartFile(file);
 
-                    storageService.uploadImage(multipartFile, savedLetter.getId());
+                    storageServiceImpl.uploadImage(multipartFile, savedLetter.getId());
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -19,11 +19,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.dto.AnswerDto;
-import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.StorageService;
+import org.practice.seeyaa.service.impl.LetterServiceImpl;
+import org.practice.seeyaa.service.impl.StorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
@@ -53,9 +54,9 @@ public class CheckMyLetterController {
     @Autowired
     private ConfigurableApplicationContext springContext;
     @Autowired
-    private LetterService letterService;
+    private LetterService letterServiceImpl;
     @Autowired
-    private StorageService storageService;
+    private StorageService storageServiceImpl;
 
     public void quit(ActionEvent event) {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -184,7 +185,7 @@ public class CheckMyLetterController {
         File saveFile = fileChooser.showSaveDialog(stage);
         if (saveFile != null) {
             try {
-                byte[] fileData = storageService.downloadImage(file.getName());
+                byte[] fileData = storageServiceImpl.downloadImage(file.getName());
                 java.nio.file.Files.write(saveFile.toPath(), fileData);
 
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -198,7 +199,7 @@ public class CheckMyLetterController {
 
     private void previewImage(Files file) {
         try {
-            byte[] imageData = storageService.downloadImage(file.getName());
+            byte[] imageData = storageServiceImpl.downloadImage(file.getName());
             Image image = new Image(new ByteArrayInputStream(imageData));
 
             ImageView imageView = new ImageView(image);

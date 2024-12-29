@@ -1,9 +1,8 @@
 package org.practice.seeyaa.util.choices_of_letters;
 
-import javafx.scene.layout.VBox;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
-import org.practice.seeyaa.service.UsersService;
+import org.practice.seeyaa.service.impl.UsersServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -11,15 +10,15 @@ import java.util.List;
 
 @Component
 public class SentChoice implements Choice {
-    private final UsersService usersService;
+    private final UsersServiceImpl usersServiceImpl;
 
-    public SentChoice(UsersService usersService) {
-        this.usersService = usersService;
+    public SentChoice(UsersServiceImpl usersServiceImpl) {
+        this.usersServiceImpl = usersServiceImpl;
     }
 
     @Override
     public List<LetterDto> addToBox(int index, String email) {
-        return usersService.findByEmail(email).sendLetters()
+        return usersServiceImpl.findByEmail(email).sendLetters()
                 .stream()
                 .filter(letterDto -> letterDto.typeOfLetter().equals(org.practice.seeyaa.models.TypeOfLetter.LETTER))
                 .sorted(Comparator.comparing(LetterDto::createdAt))

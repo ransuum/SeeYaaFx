@@ -10,7 +10,6 @@ public class DateChecking {
                 && date.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
             return (date.getHour() < 10 ? "0" + date.getHour() : date.getHour()) + ":"
                     + (date.getMinute() < 10 ? "0" + date.getMinute() : date.getMinute());
-        else
-            return date.getDayOfMonth() + " " + Month.of(date.getMonthValue());
+        else return date.getDayOfMonth() + " " + Month.of(date.getMonthValue());
     }
 }

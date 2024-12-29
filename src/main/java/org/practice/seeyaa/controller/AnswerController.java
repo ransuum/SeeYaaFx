@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import org.practice.seeyaa.models.request.AnswerRequest;
 import org.practice.seeyaa.service.AnswerService;
+import org.practice.seeyaa.service.impl.AnswerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class AnswerController {
     private String emailBy;
 
     @Autowired
-    private AnswerService answerService;
+    private AnswerService answerServiceImpl;
 
     @FXML
     void helpRefractorTextByAi(ActionEvent event) {
@@ -48,7 +49,7 @@ public class AnswerController {
     }
 
     private void setInformation(){
-        answerService.createAnswer(AnswerRequest.builder()
+        answerServiceImpl.createAnswer(AnswerRequest.builder()
                 .textOfLetter(textOfAnswer.getText())
                 .build(),
                 emailBy, idOfLetter.getText());
