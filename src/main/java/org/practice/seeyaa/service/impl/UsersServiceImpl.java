@@ -1,7 +1,6 @@
 package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.dto.UserWithLettersDto;
 import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.models.entity.Users;
@@ -19,11 +18,13 @@ import org.springframework.validation.annotation.Validated;
 import static org.practice.seeyaa.util.dateCheck.StringCheck.checkStringParameters;
 
 @Service
-@RequiredArgsConstructor
 @Validated
 public class UsersServiceImpl implements UsersService {
-
     private final UsersRepo usersRepo;
+
+    public UsersServiceImpl(UsersRepo usersRepo) {
+        this.usersRepo = usersRepo;
+    }
 
     public void save(@Valid SignUpRequest signUp) {
         usersRepo.save(UserMapper.INSTANCE.toUser(signUp));

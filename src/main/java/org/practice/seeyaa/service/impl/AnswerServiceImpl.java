@@ -1,6 +1,5 @@
 package org.practice.seeyaa.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.entity.Answer;
 import org.practice.seeyaa.models.entity.Letter;
@@ -16,13 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @Service
 public class AnswerServiceImpl implements AnswerService {
-
     private final AnswerRepo answerRepo;
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
+
+    public AnswerServiceImpl(AnswerRepo answerRepo, LetterRepo letterRepo, UsersRepo usersRepo) {
+        this.answerRepo = answerRepo;
+        this.letterRepo = letterRepo;
+        this.usersRepo = usersRepo;
+    }
 
     @Override
     @Transactional

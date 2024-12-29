@@ -1,6 +1,5 @@
 package org.practice.seeyaa.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.repo.FilesRepo;
 import org.practice.seeyaa.repo.LetterRepo;
@@ -9,11 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@RequiredArgsConstructor
 public class StorageServiceImpl implements StorageService {
-
     private final FilesRepo filesRepo;
     private final LetterRepo letterRepo;
+
+    public StorageServiceImpl(FilesRepo filesRepo, LetterRepo letterRepo) {
+        this.filesRepo = filesRepo;
+        this.letterRepo = letterRepo;
+    }
 
     @Override
     public String uploadImage(MultipartFile file, String id) {

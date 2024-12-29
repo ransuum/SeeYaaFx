@@ -1,7 +1,6 @@
 package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.models.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
@@ -22,12 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Validated
 public class LetterServiceImpl implements LetterService {
-
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
+
+    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo) {
+        this.letterRepo = letterRepo;
+        this.usersRepo = usersRepo;
+    }
 
     @Override
     @Transactional
