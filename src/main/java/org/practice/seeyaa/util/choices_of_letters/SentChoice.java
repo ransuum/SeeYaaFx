@@ -20,7 +20,7 @@ public class SentChoice implements Choice {
     public List<LetterDto> addToBox(int index, String email) {
         return usersServiceImpl.findByEmail(email).sendLetters()
                 .stream()
-                .filter(letterDto -> letterDto.typeOfLetter().equals(org.practice.seeyaa.models.TypeOfLetter.LETTER))
+                .filter(letterDto -> letterDto.typeOfLetter().equals(org.practice.seeyaa.models.enums.TypeOfLetter.LETTER))
                 .sorted(Comparator.comparing(LetterDto::createdAt))
                 .toList();
     }

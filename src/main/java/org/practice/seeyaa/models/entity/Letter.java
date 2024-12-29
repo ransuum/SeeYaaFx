@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.practice.seeyaa.models.TypeOfLetter;
+import org.practice.seeyaa.models.enums.TypeOfLetter;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package org.practice.seeyaa.repo;
 
-import org.practice.seeyaa.models.TypeOfLetter;
+import org.practice.seeyaa.models.enums.TypeOfLetter;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.entity.Letter;
 import org.springframework.data.jpa.repository.JpaRepository;
