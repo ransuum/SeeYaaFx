@@ -47,9 +47,11 @@ public class Letter implements Serializable {
     private LocalDateTime deleteTime;
 
     @OneToMany(mappedBy = "currentLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "letter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Files> files = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

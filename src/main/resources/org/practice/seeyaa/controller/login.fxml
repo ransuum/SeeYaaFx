@@ -14,7 +14,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="338.0" stylesheets="@static/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.SceneController">
    <children>
-      <TextField fx:id="emailInput" layoutX="47.0" layoutY="94.0" prefHeight="40.0" prefWidth="244.0" promptText="email" style="-fx-background-color: #D9D9D9;" />
+      <TextField fx:id="emailInput" layoutX="47.0" layoutY="94.0" prefHeight="40.0" prefWidth="244.0" promptText="Email" style="-fx-background-color: #D9D9D9;">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></TextField>
       <Button fx:id="goButton" layoutX="138.0" layoutY="243.0" mnemonicParsing="false" onAction="#go" prefHeight="34.0" prefWidth="62.0" text="Go">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -40,6 +43,9 @@
       </Label>
       <Label fx:id="incorrectInputPassword" layoutX="47.0" layoutY="204.0" prefHeight="17.0" prefWidth="270.0" text="T, t, @, 1 - must contains or not correct password" textFill="#eb000094" visible="false" />
       <Label fx:id="incorrectInputEmail" layoutX="47.0" layoutY="137.0" prefHeight="17.0" prefWidth="244.0" text="Not email or wrote without tag @seeyaa.com" textFill="#ed000095" visible="false" />
-      <PasswordField fx:id="password" layoutX="47.0" layoutY="159.0" prefHeight="40.0" prefWidth="244.0" promptText="password" style="-fx-background-color: #D9D9D9;" />
+      <PasswordField fx:id="password" layoutX="47.0" layoutY="159.0" prefHeight="40.0" prefWidth="244.0" promptText="Password" style="-fx-background-color: #D9D9D9;">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></PasswordField>
    </children>
 </AnchorPane>
