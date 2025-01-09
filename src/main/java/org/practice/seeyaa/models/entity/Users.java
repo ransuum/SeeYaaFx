@@ -43,6 +43,6 @@ public class Users {
     private List<Letter> myLetters = new ArrayList<>();
 
     @OneToMany(mappedBy = "userByAnswered", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
-
 }

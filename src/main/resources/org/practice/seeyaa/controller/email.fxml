@@ -98,8 +98,8 @@
          <children>
             <AnchorPane layoutX="17.0" layoutY="-10.0" prefHeight="58.0" prefWidth="251.0">
                <children>
-                  <TextField fx:id="search" layoutX="62.0" layoutY="34.0" minWidth="209.0" prefHeight="35.0" prefWidth="215.0" promptText="Search" style="-fx-background-color: #645A5A;" />
-                  <ImageView fx:id="searchButton" fitHeight="34.0" fitWidth="35.0" layoutX="242.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                  <TextField fx:id="search" layoutX="51.0" layoutY="36.0" minWidth="209.0" prefHeight="35.0" prefWidth="215.0" promptText="Search" style="-fx-background-color: #645A5A;" />
+                  <ImageView fx:id="searchButton" fitHeight="34.0" fitWidth="35.0" layoutX="231.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/search.png" />
                      </image>

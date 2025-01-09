@@ -16,7 +16,6 @@ import org.practice.seeyaa.util.validator.email.ValidEmailTag;
 @Data
 @Builder
 public class SignUpRequest {
-
     @Valid
     @Email(message = "Isn't email")
     @NotBlank(message = "Email is blank")
