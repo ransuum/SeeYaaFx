@@ -18,7 +18,7 @@ public interface LetterRepo extends JpaRepository<Letter, String> {
     List<Letter> findAllByTopicContainingAndUserBy(String topic, Users userBy);
     List<Letter> findAllByTopicContainingAndUserTo(String topic, Users userTo);
 
-    @Query("SELECT l FROM Letter l WHERE (l.userTo = :user OR l.userBy = :user) AND l.typeOfLetter = :type")
+    @Query("SELECT l FROM Letter l WHERE (l.userTo = :user OR l.userBy = :user) AND l.typeOfLetter = :type ORDER BY l.createdAt DESC")
     List<Letter> findAllByUserToOrUserByAndTypeOfLetter(
             @Param("user") Users user,
             @Param("type") TypeOfLetter typeOfLetter

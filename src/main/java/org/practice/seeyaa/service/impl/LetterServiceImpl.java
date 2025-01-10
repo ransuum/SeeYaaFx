@@ -78,8 +78,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
-                .orElseThrow(()
-                        -> new IllegalArgumentException("No letter found with id: " + id))
+                .orElseThrow(() -> new IllegalArgumentException("No letter found with id: " + id))
         );
     }
 
@@ -91,7 +90,6 @@ public class LetterServiceImpl implements LetterService {
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
                 .stream()
-                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
@@ -104,7 +102,6 @@ public class LetterServiceImpl implements LetterService {
 
         return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
                 .stream()
-                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
     }
@@ -114,9 +111,7 @@ public class LetterServiceImpl implements LetterService {
     public List<LetterDto> findAllSentByTopic(String topic, Users usersBy) {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
                 .stream()
-                .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
-                .filter(letter ->
-                        letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
+                .filter(letter -> letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
                 .collect(Collectors.toList()));
     }
 
@@ -126,8 +121,7 @@ public class LetterServiceImpl implements LetterService {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo)
                 .stream()
                 .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
-                .filter(letter ->
-                        letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
+                .filter(letter -> letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
                 .collect(Collectors.toList()));
     }
 
