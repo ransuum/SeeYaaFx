@@ -11,6 +11,8 @@ import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -88,7 +90,7 @@ public class LetterServiceImpl implements LetterService {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE, PageRequest.of(1, 50))
                 .stream()
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
@@ -100,7 +102,7 @@ public class LetterServiceImpl implements LetterService {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM, PageRequest.of(1, 50))
                 .stream()
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
