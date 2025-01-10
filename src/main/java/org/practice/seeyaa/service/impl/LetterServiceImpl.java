@@ -34,17 +34,17 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional
     public Letter sendLetter(@Valid LetterRequest letterRequest) {
-        Users usersBy = usersRepo.findByEmail(letterRequest.getUserBy())
+        Users usersBy = usersRepo.findByEmail(letterRequest.userBy())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Users usersTo = usersRepo.findByEmail(letterRequest.getUserTo())
+        Users usersTo = usersRepo.findByEmail(letterRequest.userTo())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Letter letter = Letter.builder()
                 .userBy(usersBy)
                 .userTo(usersTo)
-                .text(letterRequest.getText())
-                .topic(letterRequest.getTopic())
+                .text(letterRequest.text())
+                .topic(letterRequest.topic())
                 .createdAt(LocalDateTime.now())
                 .typeOfLetter(TypeOfLetter.LETTER)
                 .build();

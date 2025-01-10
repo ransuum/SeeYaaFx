@@ -56,13 +56,7 @@ public class SendLetterController {
     @FXML
     public void sendLetter(ActionEvent event) throws IOException {
         try {
-            LetterRequest letterRequest = LetterRequest.builder()
-                    .topic(topic.getText())
-                    .text(text.getText())
-                    .userTo(toWhom.getText())
-                    .userBy(hiding.getText())
-                    .build();
-
+            LetterRequest letterRequest = new LetterRequest(text.getText(), topic.getText(), toWhom.getText(), hiding.getText());
             Letter savedLetter = letterServiceImpl.sendLetter(letterRequest);
 
             for (File file : selectedFiles) {

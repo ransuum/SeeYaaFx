@@ -33,12 +33,8 @@ public class SignUpController {
     }
 
     private void registry(){
-        usersServiceImpl.save(SignUpRequest.builder()
-                .password(password.getText())
-                .email(email.getText())
-                .firstname(firstName.getText())
-                .lastname(lastName.getText())
-                .username(username.getText())
-                .build());
+        usersServiceImpl.save(new SignUpRequest(
+                email.getText(), username.getText(), password.getText(),
+                firstName.getText(), lastName.getText()));
     }
 }

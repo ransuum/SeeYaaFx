@@ -48,13 +48,9 @@ public class CheckMyLetterController {
     @FXML private TextField topic;
 
     private Stage stage;
-    private Parent root;
-    private Scene scene;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
-    @Autowired
-    private LetterService letterServiceImpl;
     @Autowired
     private StorageService storageServiceImpl;
 
@@ -108,14 +104,14 @@ public class CheckMyLetterController {
     private void answerOnLetter() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("answer.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
-        root = fxmlLoader.load();
+        Parent root = fxmlLoader.load();
 
         AnswerController controller = fxmlLoader.getController();
         controller.setIdOfLetter(letterDto.id());
         controller.setEmailBy(letterDto.userTo().email());
 
         stage = new Stage();
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/answer.css")).toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Answer");

@@ -56,14 +56,7 @@ public class EditController {
     private void updateUser(){
         if (!password1.getText().equals(password2.getText()))
             throw new RuntimeException("Passwords do not match");
-        usersServiceImpl.editProfile(
-                EditRequest.builder()
-                        .firstname(firstname.getText())
-                        .lastname(lastname.getText())
-                        .username(username.getText())
-                        .build(),
-                idOfUser
-        );
+        usersServiceImpl.editProfile(new EditRequest(firstname.getText(), lastname.getText(), username.getText(), password1.getText()), idOfUser);
 
     }
 }

@@ -25,11 +25,16 @@ import java.util.Objects;
 
 @Component
 public class SceneController {
-    @FXML private TextField emailInput;
-    @FXML private PasswordField password;
-    @FXML private Text noHaveAcc;
-    @FXML private Label incorrectInputEmail;
-    @FXML private Label incorrectInputPassword;
+    @FXML
+    private TextField emailInput;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private Text noHaveAcc;
+    @FXML
+    private Label incorrectInputEmail;
+    @FXML
+    private Label incorrectInputPassword;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
@@ -56,18 +61,13 @@ public class SceneController {
     public void go(ActionEvent event) throws IOException {
         incorrectInputEmail.setVisible(false);
         incorrectInputPassword.setVisible(false);
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("email.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
 
             EmailController emailController = fxmlLoader.getController();
-            emailController.showEmail(usersServiceImpl.findByEmailForPassword(SignInRequest.builder()
-                    .email(emailInput.getText())
-                    .password(password.getText())
-                    .build()));
-
+            emailController.showEmail(usersServiceImpl.findByEmailForPassword(new SignInRequest(emailInput.getText(), password.getText())));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/email.css")).toExternalForm());
@@ -77,13 +77,11 @@ public class SceneController {
             stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());
             stage.show();
         } catch (ValidationException e) {
-
             AuthorizationValidator check = new AuthorizationValidator(incorrectInputEmail, incorrectInputPassword);
             check.checkFieldsLogin(e);
 
             incorrectInputPassword = check.getIncorrectInputPassword();
             incorrectInputEmail = check.getIncorrectInputEmail();
-
         } catch (RuntimeException e) {
             incorrectInputPassword.setText("Wrong password or email");
             incorrectInputPassword.setVisible(true);
@@ -96,7 +94,9 @@ public class SceneController {
         root = fxmlLoader.load();
         stage = new Stage();
         scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("static/signUp.css")).toExternalForm());
+        scene.getStylesheets().add(Objects
+                .requireNonNull(this.getClass().getResource("static/signUp.css"))
+                .toExternalForm());
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.centerOnScreen();

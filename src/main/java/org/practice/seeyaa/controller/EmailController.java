@@ -191,7 +191,7 @@ public class EmailController {
                 hboxInsideInboxes.getChildren().add(noLetters);
             } else
                 letters.stream()
-                        .sorted(Comparator.comparing(LetterDto::createdAt)).toList()
+                        .sorted(Comparator.comparing(LetterDto::createdAt).reversed()).toList()
                         .forEach(letter -> addLetterToUI(letter, index));
 
         });

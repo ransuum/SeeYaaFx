@@ -39,7 +39,7 @@ public class AnswerServiceImpl implements AnswerService {
                         -> new RuntimeException("App Error"));
 
         Answer answer = Answer.builder()
-                .answerText(answerRequest.getTextOfLetter())
+                .answerText(answerRequest.textOfLetter())
                 .currentLetter(letter)
                 .userByAnswered(users)
                 .createdAt(LocalDateTime.now())

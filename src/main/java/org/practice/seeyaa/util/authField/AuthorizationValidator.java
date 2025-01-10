@@ -2,19 +2,13 @@ package org.practice.seeyaa.util.authField;
 
 import jakarta.validation.ValidationException;
 import javafx.scene.control.Label;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.practice.seeyaa.enums.PatternError;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+public class AuthorizationValidator extends DefaultErrorLabelHandler implements Check {
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class AuthorizationValidator implements Check {
-    private Label incorrectInputEmail;
-    private Label incorrectInputPassword;
+    public AuthorizationValidator(Label incorrectInputEmail, Label incorrectInputPassword) {
+        super(incorrectInputEmail, incorrectInputPassword);
+    }
 
     @Override
     public void checkFieldsRegistration() {
@@ -23,24 +17,21 @@ public class AuthorizationValidator implements Check {
 
     @Override
     public void checkFieldsLogin(ValidationException e) {
-        Matcher matcher = Pattern.compile("findByEmailForPassword.signInRequest.email: ").matcher(e.getLocalizedMessage());
-        Matcher matcher2 = Pattern.compile("findByEmailForPassword.signInRequest.password: ").matcher(e.getLocalizedMessage());
+        String errorMessage = e.getLocalizedMessage();
+        boolean[] errors = new boolean[]{
+                errorMessage.contains(PatternError.EMAIL_PATTERN.getValue()),
+                errorMessage.contains(PatternError.PASSWORD_PATTERN.getValue())
+        };
 
-        if (matcher.find() && matcher2.find()) {
-            incorrectInputEmail = new Label();
-            incorrectInputEmail.setText("Email and password is blank or not correct for input");
-            incorrectInputEmail.setVisible(true);
-        } else if (!matcher.find() && matcher2.find()) {
-            incorrectInputPassword = new Label();
-            incorrectInputPassword.setText("One upper case, 9-36 length, special symbol, numbers");
-            incorrectInputPassword.setVisible(true);
-        } else if (!matcher2.find() && matcher.find()) {
-            incorrectInputEmail = new Label();
-            incorrectInputEmail.setText(e.getLocalizedMessage().replace("findByEmailForPassword.signInRequest.email: ", ""));
-            incorrectInputEmail.setVisible(true);
-        } else {
-            incorrectInputPassword.setText("APP ERROR");
-            incorrectInputEmail.setVisible(true);
-        }
+        resetLabels();
+
+        if (errors[0] && errors[1])
+            showEmailError("Email and password is blank or not correct for input");
+        else if (errors[1])
+            showPasswordError("One upper case, 9-36 length, special symbol, numbers");
+        else if (errors[0])
+            showEmailError(errorMessage.replace(PatternError.EMAIL_PATTERN.getValue(), ""));
+        else showAppError();
+
     }
 }

@@ -49,10 +49,7 @@ public class AnswerController {
     }
 
     private void setInformation(){
-        answerServiceImpl.createAnswer(AnswerRequest.builder()
-                .textOfLetter(textOfAnswer.getText())
-                .build(),
-                emailBy, idOfLetter.getText());
+        answerServiceImpl.createAnswer(new AnswerRequest(textOfAnswer.getText()), emailBy, idOfLetter.getText());
     }
 
 }
