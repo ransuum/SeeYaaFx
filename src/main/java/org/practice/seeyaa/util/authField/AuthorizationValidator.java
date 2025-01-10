@@ -11,9 +11,7 @@ public class AuthorizationValidator extends DefaultErrorLabelHandler implements 
     }
 
     @Override
-    public void checkFieldsRegistration() {
-
-    }
+    public void checkFieldsRegistration() {}
 
     @Override
     public void checkFieldsLogin(ValidationException e) {
