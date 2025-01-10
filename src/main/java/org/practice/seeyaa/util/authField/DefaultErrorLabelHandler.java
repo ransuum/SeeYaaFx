@@ -1,9 +1,9 @@
 package org.practice.seeyaa.util.authField;
 
 import javafx.scene.control.Label;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class DefaultErrorLabelHandler implements ErrorLabelHandler {
     protected Label incorrectInputEmail;
     protected Label incorrectInputPassword;
