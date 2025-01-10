@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class SeeYaaApplication {
 
     public static void main(String[] args) {
-            Application.launch(SeeYaaApplicationFX.class, args);
+        Application.launch(SeeYaaApplicationFX.class, args);
     }
 
 }

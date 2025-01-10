@@ -44,7 +44,6 @@ public class SeeYaaApplicationFX extends javafx.application.Application {
         public StageReadyEvent(Stage stage) {
             super(stage);
         }
-
         public Stage getStage() {
             return ((Stage) getSource());
         }
