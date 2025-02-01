@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.jdbc.BinaryJdbcType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +21,11 @@ public class Files {
 
     private String name;
     private String type;
+    private Long size;
 
     @Lob
-    @Column(name = "image_data",length = 1000)
-    private byte[] imageData;
+    @Column(name = "data")
+    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "file_id", referencedColumnName = "id")

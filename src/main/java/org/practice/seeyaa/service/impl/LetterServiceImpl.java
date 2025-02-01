@@ -12,7 +12,6 @@ import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

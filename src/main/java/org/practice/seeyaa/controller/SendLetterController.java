@@ -1,5 +1,6 @@
 package org.practice.seeyaa.controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,27 +11,32 @@ import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.impl.StorageServiceImpl;
+import org.practice.seeyaa.util.file_configuration.PathMultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 public class SendLetterController {
-    @FXML private Button attachFile;
-    @FXML private TextField hiding;
-    @FXML private Button sendLetter;
-    @FXML private TextArea text;
-    @FXML private TextField toWhom;
-    @FXML private TextField topic;
+    @FXML
+    private Button attachFile;
+    @FXML
+    private TextField hiding;
+    @FXML
+    private Button sendLetter;
+    @FXML
+    private TextArea text;
+    @FXML
+    private TextField toWhom;
+    @FXML
+    private TextField topic;
+
+    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     @Autowired
     private LetterService letterServiceImpl;
@@ -55,109 +61,43 @@ public class SendLetterController {
 
     @FXML
     public void sendLetter(ActionEvent event) throws IOException {
-        try {
-            LetterRequest letterRequest = new LetterRequest(text.getText(), topic.getText(), toWhom.getText(), hiding.getText());
-            Letter savedLetter = letterServiceImpl.sendLetter(letterRequest);
+        Task<Void> uploadTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                LetterRequest request = new LetterRequest(text.getText(), topic.getText(), toWhom.getText(), hiding.getText());
+                Letter savedLetter = letterServiceImpl.sendLetter(request);
 
-            for (File file : selectedFiles) {
-                try {
-                    MultipartFile multipartFile = convertToMultipartFile(file);
-
-                    storageServiceImpl.uploadImage(multipartFile, savedLetter.getId());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showAlert("Error", "Failed to process file: " + file.getName());
+                for (File file : selectedFiles) {
+                    MultipartFile multipartFile = new PathMultipartFile(file);
+                    storageServiceImpl.uploadFile(multipartFile, savedLetter.getId());
                 }
+                return null;
             }
+        };
 
+        uploadTask.setOnSucceeded(e -> {
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
+        });
+        uploadTask.setOnFailed(e -> showAlert("Upload Failed", uploadTask.getException().getMessage()));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to send letter: " + e.getMessage());
-        }
+        new Thread(uploadTask).start();
     }
 
     private void attachFile() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Files to Attach");
-
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Files", "*.*"),
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif"),
-                new FileChooser.ExtensionFilter("Documents", "*.pdf", "*.doc", "*.docx", "*.txt")
-        );
-
-        List<File> files = fileChooser.showOpenMultipleDialog(attachFile.getScene().getWindow());
-
+        fileChooser.setTitle("Select Files");
+        List<File> files = fileChooser.showOpenMultipleDialog(stage);
         if (files != null) {
-            selectedFiles.addAll(files);
+            for (File file : files) {
+                if (file.length() > MAX_FILE_SIZE) {
+                    showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
+                    continue;
+                }
+                selectedFiles.add(file);
+            }
             updateAttachmentLabel();
         }
-    }
-
-    private void updateAttachmentLabel() {
-        if (attachmentLabel != null) {
-            attachmentLabel.setText("Files attached: " + selectedFiles.stream()
-                    .map(File::getName)
-                    .collect(Collectors.joining(", ")));
-        }
-    }
-
-    private MultipartFile convertToMultipartFile(final File file) throws IOException {
-        return new MultipartFile() {
-            private final String name = file.getName();
-            private final String originalFilename = file.getName();
-            private final String contentType = java.nio.file.Files.probeContentType(file.toPath());
-            private final boolean empty = file.length() == 0;
-            private final long size = file.length();
-            private byte[] bytes;
-
-            @Override
-            public String getName() {
-                return name;
-            }
-
-            @Override
-            public String getOriginalFilename() {
-                return originalFilename;
-            }
-
-            @Override
-            public String getContentType() {
-                return contentType;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return empty;
-            }
-
-            @Override
-            public long getSize() {
-                return size;
-            }
-
-            @Override
-            public byte[] getBytes() throws IOException {
-                if (bytes == null) {
-                    bytes = java.nio.file.Files.readAllBytes(file.toPath());
-                }
-                return bytes;
-            }
-
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return new FileInputStream(file);
-            }
-
-            @Override
-            public void transferTo(File dest) throws IOException, IllegalStateException {
-                java.nio.file.Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-        };
     }
 
     private void showAlert(String title, String content) {
@@ -167,7 +107,15 @@ public class SendLetterController {
         alert.showAndWait();
     }
 
-    public void setHiding(String hidingEmail){
+    private void updateAttachmentLabel() {
+        if (!selectedFiles.isEmpty()) {
+            attachmentLabel.setText("Attachments: " + selectedFiles.size());
+        } else {
+            attachmentLabel.setText("");
+        }
+    }
+
+    public void setHiding(String hidingEmail) {
         hiding.setText(hidingEmail);
     }
 

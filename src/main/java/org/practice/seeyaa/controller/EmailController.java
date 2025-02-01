@@ -136,12 +136,12 @@ public class EmailController {
             SendLetterController controller = fxmlLoader.getController();
             controller.setHiding(emailOfAuthUser.getText());
 
-            this.stage = new Stage();
-            this.scene = new Scene(root);
-            this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
-            this.stage.setScene(scene);
-            this.stage.setTitle("Send Letter");
-            this.stage.show();
+            stage = new Stage();
+            scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Send Letter");
+            stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -162,15 +162,15 @@ public class EmailController {
             controller.getLastname().setText(byEmail.lastname());
             controller.getUsername().setText(byEmail.username());
 
-            this.stage = new Stage();
-            this.scene = new Scene(this.root);
-            this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
-            this.stage.centerOnScreen();
-            this.stage.widthProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
-            this.stage.heightProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
-            this.stage.setScene(this.scene);
-            this.stage.initModality(Modality.APPLICATION_MODAL);
-            this.stage.show();
+            stage = new Stage();
+            scene = new Scene(this.root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
+            stage.centerOnScreen();
+            stage.widthProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
+            stage.heightProperty().addListener((obs, oldVal, newVal) -> this.stage.centerOnScreen());
+            stage.setScene(this.scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -221,7 +221,7 @@ public class EmailController {
     }
 
     private void updateDeleteButtonVisibility() {
-        boolean anySelected = hboxInsideInboxes.getChildren().stream()
+        final boolean anySelected = hboxInsideInboxes.getChildren().stream()
                 .filter(node -> node instanceof HBox)
                 .map(node -> (HBox) node)
                 .flatMap(hbox -> hbox.getChildren().stream())
@@ -240,7 +240,7 @@ public class EmailController {
     }
 
     private void processSelectedLetters(boolean moveToSpam) {
-        List<HBox> selectedBoxes = new LinkedList<>();
+        final List<HBox> selectedBoxes = new LinkedList<>();
 
         hboxInsideInboxes.getChildren().forEach(node -> {
             if (node instanceof HBox hBox) {

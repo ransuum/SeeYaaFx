@@ -4,15 +4,11 @@ package org.practice.seeyaa.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -21,17 +17,14 @@ import javafx.stage.Stage;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
-import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.StorageService;
-import org.practice.seeyaa.service.impl.LetterServiceImpl;
-import org.practice.seeyaa.service.impl.StorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
@@ -39,13 +32,20 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class CheckMyLetterController {
-    @FXML private Label email;
-    @FXML private LetterWithAnswers letterDto;
-    @FXML private Label firstNameLast;
-    @FXML private VBox answers;
-    @FXML private VBox filesContainer;
-    @FXML private TextArea textOfLetter;
-    @FXML private TextField topic;
+    @FXML
+    private Label email;
+    @FXML
+    private LetterWithAnswers letterDto;
+    @FXML
+    private Label firstNameLast;
+    @FXML
+    private VBox answers;
+    @FXML
+    private VBox filesContainer;
+    @FXML
+    private TextArea textOfLetter;
+    @FXML
+    private TextField topic;
 
     private Stage stage;
 
@@ -120,103 +120,36 @@ public class CheckMyLetterController {
     }
 
     private void displayFiles() {
+        List<Files> files = storageServiceImpl.getFilesByLetterId(letterDto.id());
         filesContainer.getChildren().clear();
-
-        if (letterDto.files() == null || letterDto.files().isEmpty()) {
-            Label noFiles = new Label("No attachments");
-            noFiles.setStyle("-fx-text-fill: gray; -fx-padding: 10;");
-            filesContainer.getChildren().add(noFiles);
-            return;
-        }
-
-        for (Files file : letterDto.files()) {
+        for (Files file : files) {
             HBox fileRow = createFileRow(file);
             filesContainer.getChildren().add(fileRow);
         }
     }
 
     private HBox createFileRow(Files file) {
-        HBox fileRow = new HBox(10);
-        fileRow.setAlignment(Pos.CENTER_LEFT);
-        fileRow.setPadding(new Insets(5));
-        fileRow.setStyle("-fx-border-color: #e0e0e0; -fx-border-radius: 5; -fx-background-radius: 5;");
-
-        ImageView fileIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/inboxes.png"))));
-        fileIcon.setFitHeight(20);
-        fileIcon.setFitWidth(20);
-
-        Label fileName = new Label(file.getName());
-        fileName.setStyle("-fx-font-size: 14;");
-
-        Button downloadBtn = new Button("Download");
-        downloadBtn.setText("D");
-        downloadBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-        downloadBtn.setCursor(Cursor.HAND);
-        downloadBtn.setOnAction(e -> downloadFile(file));
-
-        if (isImageFile(file.getType())) {
-            Button previewBtn = new Button("Preview");
-            previewBtn.setText("O");
-            previewBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
-            previewBtn.setCursor(Cursor.HAND);
-            previewBtn.setOnAction(e -> previewImage(file));
-
-            fileRow.getChildren().addAll(fileIcon, fileName, previewBtn, downloadBtn);
-        } else {
-            fileRow.getChildren().addAll(fileIcon, fileName, downloadBtn);
-        }
-
-        return fileRow;
-    }
-
-    private boolean isImageFile(String contentType) {
-        return contentType != null && contentType.toLowerCase().startsWith("image/");
+        HBox hbox = new HBox();
+        Label fileNameLabel = new Label(file.getName());
+        Button downloadButton = new Button("Download");
+        downloadButton.setOnAction(e -> downloadFile(file));
+        hbox.getChildren().addAll(fileNameLabel, downloadButton);
+        hbox.setSpacing(10);
+        return hbox;
     }
 
     private void downloadFile(Files file) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save File");
-        fileChooser.setInitialFileName(file.getName());
-
-        File saveFile = fileChooser.showSaveDialog(stage);
-        if (saveFile != null) {
-            try {
-                byte[] fileData = storageServiceImpl.downloadImage(file.getName());
-                java.nio.file.Files.write(saveFile.toPath(), fileData);
-
-                showAlert(Alert.AlertType.INFORMATION, "Success",
-                        "File downloaded successfully to: " + saveFile.getAbsolutePath());
-            } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Error",
-                        "Failed to download file: " + e.getMessage());
-            }
-        }
-    }
-
-    private void previewImage(Files file) {
         try {
-            byte[] imageData = storageServiceImpl.downloadImage(file.getName());
-            Image image = new Image(new ByteArrayInputStream(imageData));
-
-            ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(400);
-            imageView.setFitWidth(400);
-            imageView.setPreserveRatio(true);
-
-            Stage previewStage = new Stage();
-            VBox previewBox = new VBox(10);
-            previewBox.setAlignment(Pos.CENTER);
-            previewBox.getChildren().add(imageView);
-
-            Scene previewScene = new Scene(previewBox);
-            previewStage.setScene(previewScene);
-            previewStage.setTitle("Image Preview: " + file.getName());
-            previewStage.initModality(Modality.APPLICATION_MODAL);
-            previewStage.show();
-
+            byte[] data = storageServiceImpl.downloadFile(file.getId().toString());
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName(file.getName());
+            File fileToSave = fileChooser.showSaveDialog(stage);
+            if (fileToSave != null) {
+                java.nio.file.Files.write(fileToSave.toPath(), data);
+                showAlert(Alert.AlertType.INFORMATION, "Success", "File downloaded successfully.");
+            }
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to preview image: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to download file: " + e.getMessage());
         }
     }
 
