@@ -28,16 +28,14 @@ public class StorageServiceImpl implements StorageService {
             Letter letter = letterRepo.findById(letterId)
                     .orElseThrow(() -> new RuntimeException("Letter not found with id: " + letterId));
 
-            Files newFile = Files.builder()
-                    .name(file.getOriginalFilename())
+            return filesRepo.save(Files.builder()
+                    .name(file.getName())
                     .type(file.getContentType())
                     .size(file.getSize())
                     .data(file.getBytes())
                     .letter(letter)
-                    .build();
-
-            Files savedFile = filesRepo.save(newFile);
-            return savedFile.getId().toString();
+                    .build()
+            ).getId().toString();
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload file", e);
         }
@@ -56,5 +54,4 @@ public class StorageServiceImpl implements StorageService {
     public List<Files> getFilesByLetterId(String letterId) {
         return filesRepo.findAllByLetter_Id(letterId);
     }
-
 }

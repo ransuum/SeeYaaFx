@@ -4,6 +4,8 @@ package org.practice.seeyaa.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -32,20 +34,14 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class CheckMyLetterController {
-    @FXML
-    private Label email;
-    @FXML
-    private LetterWithAnswers letterDto;
-    @FXML
-    private Label firstNameLast;
-    @FXML
-    private VBox answers;
-    @FXML
-    private VBox filesContainer;
-    @FXML
-    private TextArea textOfLetter;
-    @FXML
-    private TextField topic;
+    @FXML private Label email;
+    @FXML private LetterWithAnswers letterDto;
+    @FXML private Label firstNameLast;
+    @FXML private VBox answers;
+    @FXML private VBox filesContainer;
+    @FXML private TextArea textOfLetter;
+    @FXML private TextField topic;
+    @FXML private ScrollPane filesScrollPane;
 
     private Stage stage;
 
@@ -122,19 +118,32 @@ public class CheckMyLetterController {
     private void displayFiles() {
         List<Files> files = storageServiceImpl.getFilesByLetterId(letterDto.id());
         filesContainer.getChildren().clear();
-        for (Files file : files) {
-            HBox fileRow = createFileRow(file);
+
+        filesContainer.setSpacing(10);
+        filesContainer.setPadding(new Insets(10));
+
+        files.forEach(files1 -> {
+            HBox fileRow = createFileRow(files1);
             filesContainer.getChildren().add(fileRow);
-        }
+        });
     }
 
     private HBox createFileRow(Files file) {
         HBox hbox = new HBox();
-        Label fileNameLabel = new Label(file.getName());
-        Button downloadButton = new Button("Download");
-        downloadButton.setOnAction(e -> downloadFile(file));
-        hbox.getChildren().addAll(fileNameLabel, downloadButton);
         hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+
+        Label fileNameLabel = new Label(file.getName());
+        fileNameLabel.setPrefWidth(300);
+        fileNameLabel.setWrapText(true);
+
+        Button downloadButton = new Button("Download");
+        downloadButton.setPrefWidth(100);
+        downloadButton.setOnAction(e -> downloadFile(file));
+
+        hbox.getChildren().addAll(fileNameLabel, downloadButton);
+        hbox.setPrefHeight(40);
+
         return hbox;
     }
 

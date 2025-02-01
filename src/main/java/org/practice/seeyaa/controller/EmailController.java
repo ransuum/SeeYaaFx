@@ -1,5 +1,6 @@
 package org.practice.seeyaa.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -44,6 +46,7 @@ public class EmailController {
     @FXML private Button spam;
     @FXML private Button garbage;
     @FXML private Button write;
+    @FXML private AnchorPane backHbox;
     @FXML private ImageView searchButton;
     @FXML private TextField search;
     @FXML private VBox hboxInsideInboxes;

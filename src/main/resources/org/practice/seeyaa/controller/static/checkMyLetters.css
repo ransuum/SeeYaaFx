@@ -10,6 +10,9 @@
 .button:hover {
     -fx-background-color: #baa7d9;
     -fx-text-fill: black;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-transition: all 0.3s ease-in-out;
 }
 
 .button:pressed {
