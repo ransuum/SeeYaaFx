@@ -79,8 +79,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("No letter found with id: " + id))
-        );
+                .orElseThrow(() -> new IllegalArgumentException("No letter found with id: " + id)));
     }
 
     @Override
@@ -89,7 +88,7 @@ public class LetterServiceImpl implements LetterService {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE, PageRequest.of(1, 50))
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
                 .stream()
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
@@ -101,7 +100,7 @@ public class LetterServiceImpl implements LetterService {
         Users users = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("APP ERROR"));
 
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM, PageRequest.of(1, 50))
+        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
                 .stream()
                 .map(LetterMapper.INSTANCE::toLetterDto)
                 .collect(Collectors.toList());
