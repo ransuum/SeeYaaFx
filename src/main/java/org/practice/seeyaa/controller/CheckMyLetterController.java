@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -31,7 +32,6 @@ import java.util.Objects;
 
 import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
-
 @Component
 public class CheckMyLetterController {
     @FXML private Label email;
@@ -41,14 +41,13 @@ public class CheckMyLetterController {
     @FXML private VBox filesContainer;
     @FXML private TextArea textOfLetter;
     @FXML private TextField topic;
-    @FXML private ScrollPane filesScrollPane;
 
     private Stage stage;
 
     @Autowired
     private ConfigurableApplicationContext springContext;
     @Autowired
-    private StorageService storageServiceImpl;
+    private StorageService storageService;
 
     public void quit(ActionEvent event) {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -116,7 +115,7 @@ public class CheckMyLetterController {
     }
 
     private void displayFiles() {
-        List<Files> files = storageServiceImpl.getFilesByLetterId(letterDto.id());
+        List<Files> files = storageService.getFilesByLetterId(letterDto.id());
         filesContainer.getChildren().clear();
 
         filesContainer.setSpacing(10);
@@ -126,6 +125,15 @@ public class CheckMyLetterController {
             HBox fileRow = createFileRow(files1);
             filesContainer.getChildren().add(fileRow);
         });
+
+        if (files.size() > 2) {
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(filesContainer);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefHeight(150);
+
+            ((Pane) filesContainer.getParent()).getChildren().setAll(scrollPane);
+        } else ((Pane) filesContainer.getParent()).getChildren().setAll(filesContainer);
     }
 
     private HBox createFileRow(Files file) {
@@ -137,7 +145,7 @@ public class CheckMyLetterController {
         fileNameLabel.setPrefWidth(300);
         fileNameLabel.setWrapText(true);
 
-        Button downloadButton = new Button("Download");
+        Button downloadButton = new Button("D");
         downloadButton.setPrefWidth(100);
         downloadButton.setOnAction(e -> downloadFile(file));
 
@@ -149,7 +157,7 @@ public class CheckMyLetterController {
 
     private void downloadFile(Files file) {
         try {
-            byte[] data = storageServiceImpl.downloadFile(file.getId().toString());
+            byte[] data = storageService.downloadFile(file.getId().toString());
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialFileName(file.getName());
             File fileToSave = fileChooser.showSaveDialog(stage);
