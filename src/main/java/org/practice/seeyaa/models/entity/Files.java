@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.jdbc.BinaryJdbcType;
+import org.practice.seeyaa.enums.FileType;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@org.springframework.data.relational.core.mapping.Table(name = "avatar")
+@org.springframework.data.relational.core.mapping.Table(name = "files")
 @Entity
 public class Files {
     @Id
@@ -20,7 +19,10 @@ public class Files {
     private Integer id;
 
     private String name;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private FileType type;
+
     private Long size;
 
     @Lob

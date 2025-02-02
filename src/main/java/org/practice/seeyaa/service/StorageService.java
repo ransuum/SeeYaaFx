@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface StorageService {
-    String uploadFile(MultipartFile file, String id);
+    void uploadFile(MultipartFile file, String id);
     byte[] downloadFile(String fileName);
     List<Files> getFilesByLetterId(String letterId);
 }

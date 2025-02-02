@@ -1,5 +1,7 @@
 package org.practice.seeyaa.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.practice.seeyaa.enums.FileType;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.FilesRepo;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class StorageServiceImpl implements StorageService {
     private final FilesRepo filesRepo;
     private final LetterRepo letterRepo;
@@ -23,19 +26,18 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String uploadFile(MultipartFile file, String letterId) {
+    public void uploadFile(MultipartFile file, String letterId) {
         try {
             Letter letter = letterRepo.findById(letterId)
                     .orElseThrow(() -> new RuntimeException("Letter not found with id: " + letterId));
-
-            return filesRepo.save(Files.builder()
+            filesRepo.save(Files.builder()
                     .name(file.getName())
-                    .type(file.getContentType())
+                    .type(FileType.fromFileExtension(file.getOriginalFilename()))
                     .size(file.getSize())
                     .data(file.getBytes())
                     .letter(letter)
                     .build()
-            ).getId().toString();
+            );
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload file", e);
         }
