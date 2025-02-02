@@ -52,9 +52,9 @@
          </opaqueInsets>
       </TextField>
       <Circle fill="#686868" layoutX="721.0" layoutY="31.0" radius="4.0" stroke="#686868" strokeType="INSIDE" />
-      <Button fx:id="circleButton" layoutX="114.0" layoutY="471.0" mnemonicParsing="false" onAction="#answer" prefHeight="90.0" prefWidth="94.0" stylesheets="@static/answer.css">
+      <Button fx:id="circleButton" layoutX="595.0" layoutY="449.0" mnemonicParsing="false" onAction="#answer" prefHeight="41.0" prefWidth="50.0" stylesheets="@static/answer.css">
          <graphic>
-            <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="34.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/answer.png" />
                </image>
@@ -63,7 +63,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="455.0" layoutY="480.0" mnemonicParsing="false" onAction="#cancel" prefHeight="73.0" prefWidth="190.0" text="Cancel">
+      <Button layoutX="319.0" layoutY="523.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="114.0" text="Cancel">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -103,7 +103,7 @@
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/ai.png" />
+                  <Image url="@images/artificial-intelligence.png" />
                </image>
             </ImageView>
          </graphic>

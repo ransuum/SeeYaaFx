@@ -31,7 +31,7 @@ public class StorageServiceImpl implements StorageService {
             Letter letter = letterRepo.findById(letterId)
                     .orElseThrow(() -> new RuntimeException("Letter not found with id: " + letterId));
             filesRepo.save(Files.builder()
-                    .name(file.getName())
+                    .name(file.getOriginalFilename())
                     .type(FileType.fromFileExtension(file.getOriginalFilename()))
                     .size(file.getSize())
                     .data(file.getBytes())
