@@ -26,7 +26,7 @@ public class SpamChoice implements Choice {
     }
 
     @Override
-    public String getChoice() {
-        return TypeOfLetter.SPAM.getName();
+    public TypeOfLetter getChoice() {
+        return TypeOfLetter.SPAM;
     }
 }

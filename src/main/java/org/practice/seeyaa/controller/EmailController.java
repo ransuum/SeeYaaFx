@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.dto.UsersDto;
@@ -61,7 +62,7 @@ public class EmailController {
     private List<Choice> choices;
 
     private final Map<String, Stage> openStages = new HashMap<>();
-    private Map<String, Choice> typeOfLetterChoices;
+    private Map<TypeOfLetter, Choice> typeOfLetterChoices;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -74,10 +75,10 @@ public class EmailController {
 
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
-        addToBox(inboxes, 1, org.practice.seeyaa.enums.TypeOfLetter.INBOXES.getName());
-        addToBox(sent, 2, org.practice.seeyaa.enums.TypeOfLetter.SENT.getName());
-        addToBox(spam, 3, org.practice.seeyaa.enums.TypeOfLetter.SPAM.getName());
-        addToBox(garbage, 4, org.practice.seeyaa.enums.TypeOfLetter.GARBAGE.getName());
+        addToBox(inboxes, 1, TypeOfLetter.INBOXES);
+        addToBox(sent, 2, TypeOfLetter.SENT);
+        addToBox(spam, 3, TypeOfLetter.SPAM);
+        addToBox(garbage, 4, TypeOfLetter.GARBAGE);
         registerSearchHandlers();
     }
 
@@ -178,7 +179,7 @@ public class EmailController {
         }
     }
 
-    private void addToBox(Button button, int index, String choice) {
+    private void addToBox(Button button, int index, TypeOfLetter choice) {
         button.setOnMouseClicked(event -> {
             resetButtonStyles();
             hboxInsideInboxes.getChildren().clear();
@@ -195,7 +196,6 @@ public class EmailController {
                 letters.stream()
                         .sorted(Comparator.comparing(LetterDto::createdAt).reversed()).toList()
                         .forEach(letter -> addLetterToUI(letter, index));
-
         });
     }
 

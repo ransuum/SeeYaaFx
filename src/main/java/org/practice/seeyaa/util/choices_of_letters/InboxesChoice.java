@@ -28,7 +28,7 @@ public class InboxesChoice implements Choice {
     }
 
     @Override
-    public String getChoice() {
-        return TypeOfLetter.INBOXES.getName();
+    public TypeOfLetter getChoice() {
+        return TypeOfLetter.INBOXES;
     }
 }

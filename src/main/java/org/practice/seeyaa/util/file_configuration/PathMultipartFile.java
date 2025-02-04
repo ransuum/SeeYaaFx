@@ -1,5 +1,6 @@
 package org.practice.seeyaa.util.file_configuration;
 
+import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -14,7 +15,7 @@ public class PathMultipartFile implements MultipartFile {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return file.getName();
     }
 
@@ -44,7 +45,7 @@ public class PathMultipartFile implements MultipartFile {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
+    public @NonNull InputStream getInputStream() throws IOException {
         return new FileInputStream(file);
     }
 

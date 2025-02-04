@@ -26,7 +26,7 @@ public class GarbageChoice implements Choice {
     }
 
     @Override
-    public String getChoice() {
-        return TypeOfLetter.GARBAGE.getName();
+    public TypeOfLetter getChoice() {
+        return TypeOfLetter.GARBAGE;
     }
 }

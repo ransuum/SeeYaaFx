@@ -27,7 +27,7 @@ public class SentChoice implements Choice {
     }
 
     @Override
-    public String getChoice() {
-        return TypeOfLetter.SENT.getName();
+    public TypeOfLetter getChoice() {
+        return TypeOfLetter.SENT;
     }
 }
