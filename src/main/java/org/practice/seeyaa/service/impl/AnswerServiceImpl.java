@@ -29,12 +29,10 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     public AnswerDto createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
         var letter = letterRepo.findById(idOfLetter)
-                .orElseThrow(()
-                        -> new RuntimeException("App Error"));
+                .orElseThrow(() -> new RuntimeException("App Error"));
 
         var users = usersRepo.findByEmail(emailBy)
-                .orElseThrow(()
-                        -> new RuntimeException("App Error"));
+                .orElseThrow(() -> new RuntimeException("App Error"));
 
         var answer = answerRepo.save(Answer.builder()
                 .answerText(answerRequest.textOfLetter())

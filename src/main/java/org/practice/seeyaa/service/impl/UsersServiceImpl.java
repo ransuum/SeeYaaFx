@@ -55,8 +55,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UsersDto findByEmailForPassword(@Valid SignInRequest signInRequest) {
         Users user = usersRepo.findByEmail(signInRequest.email())
-                .orElseThrow(()
-                        -> new RuntimeException("Wrong password or email"));
+                .orElseThrow(() -> new RuntimeException("Wrong password or email"));
 
         if (user.getPassword().equals(signInRequest.password()))
             return UserMapper.INSTANCE.toUsersDto(user);
@@ -71,7 +70,8 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public UsersDto editProfile(@Valid EditRequest editRequest, String idOfUser) {
-        Users users = usersRepo.findById(idOfUser).orElseThrow(() -> new RuntimeException("Wrong id of user"));
+        Users users = usersRepo.findById(idOfUser)
+                .orElseThrow(() -> new RuntimeException("Wrong id of user"));
 
         if (checkStringParameters(editRequest.firstname())) users.setFirstname(editRequest.firstname());
         if (checkStringParameters(editRequest.password()) && !editRequest.password().equals(users.getPassword()))

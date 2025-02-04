@@ -40,15 +40,15 @@ public class LetterServiceImpl implements LetterService {
         Users usersTo = usersRepo.findByEmail(letterRequest.userTo())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Letter letter = Letter.builder()
+        var letter = letterRepo.save(Letter.builder()
                 .userBy(usersBy)
                 .userTo(usersTo)
                 .text(letterRequest.text())
                 .topic(letterRequest.topic())
                 .createdAt(LocalDateTime.now())
                 .typeOfLetter(TypeOfLetter.LETTER)
-                .build();
-        letterRepo.save(letter);
+                .build()
+        );
 
         usersBy.getSendLetters().add(letter);
         usersTo.getMyLetters().add(letter);
