@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
@@ -34,6 +35,7 @@ import java.util.Objects;
 import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
+@Slf4j
 public class CheckMyLetterController {
     @FXML private Label email;
     @FXML private LetterWithAnswers letterDto;
@@ -157,8 +159,10 @@ public class CheckMyLetterController {
     }
 
     private void downloadFile(Files file) {
+        log.info("File name: {}", file.getName());
         var fileChooser = new FileChooser();
-        fileChooser.setTitle(file.getName());
+        fileChooser.setTitle("Save file");
+        fileChooser.setInitialFileName(file.getName());
         var fileToSave = fileChooser.showSaveDialog(stage);
 
         if (fileToSave == null) return;
