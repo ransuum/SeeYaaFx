@@ -96,7 +96,7 @@
       </AnchorPane>
       <AnchorPane layoutX="282.0" layoutY="126.0" prefHeight="32.0" prefWidth="239.0">
          <children>
-            <AnchorPane layoutX="17.0" layoutY="-10.0" prefHeight="58.0" prefWidth="251.0">
+            <AnchorPane layoutX="17.0" layoutY="-12.0" prefHeight="58.0" prefWidth="251.0">
                <children>
                   <TextField fx:id="search" layoutX="51.0" layoutY="36.0" minWidth="209.0" prefHeight="35.0" prefWidth="215.0" promptText="Search" style="-fx-background-color: #645A5A;" />
                   <ImageView fx:id="searchButton" fitHeight="34.0" fitWidth="35.0" layoutX="231.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
@@ -160,10 +160,10 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="backgroundOpyions" layoutX="33.0" layoutY="405.0" prefHeight="438.0" prefWidth="255.0" style="-fx-background-color: #202124;">
+      <AnchorPane fx:id="backgroundOpyions" layoutX="19.0" layoutY="404.0" prefHeight="439.0" prefWidth="283.0" style="-fx-background-color: #B1B1B1;">
          <children>
-            <VBox layoutX="15.0" layoutY="17.0" prefHeight="407.0" prefWidth="221.0" />
+            <VBox layoutX="15.0" layoutY="17.0" prefHeight="407.0" prefWidth="254.0" />
          </children></AnchorPane>
-      <DatePicker layoutX="765.0" layoutY="159.0" />
+      <DatePicker layoutX="765.0" layoutY="159.0" style="-fx-background-color: #B1B1B1;" />
    </children>
 </AnchorPane>
