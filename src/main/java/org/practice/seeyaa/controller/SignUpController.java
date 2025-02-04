@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.practice.seeyaa.models.request.SignUpRequest;
 import org.practice.seeyaa.service.UsersService;
-import org.practice.seeyaa.service.impl.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,7 @@ public class SignUpController {
     private Stage stage;
 
     @Autowired
-    private UsersService usersServiceImpl;
+    private UsersService usersService;
 
     @FXML
     public void signUp(ActionEvent event) {
@@ -33,8 +32,9 @@ public class SignUpController {
     }
 
     private void registry(){
-        usersServiceImpl.save(new SignUpRequest(
+        usersService.save(new SignUpRequest(
                 email.getText(), username.getText(), password.getText(),
-                firstName.getText(), lastName.getText()));
+                firstName.getText(), lastName.getText())
+        );
     }
 }

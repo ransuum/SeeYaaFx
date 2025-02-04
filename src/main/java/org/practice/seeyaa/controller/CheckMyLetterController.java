@@ -26,7 +26,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +83,6 @@ public class CheckMyLetterController {
         this.firstNameLast.setText(fullName);
 
         for (AnswerDto answerDto : letterDto.answers()) {
-
             TextField textField = new TextField();
             textField.setCursor(Cursor.HAND);
             textField.setEditable(false);
@@ -156,17 +157,22 @@ public class CheckMyLetterController {
     }
 
     private void downloadFile(Files file) {
-        try {
-            byte[] data = storageService.downloadFile(file.getId().toString());
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName(file.getName());
-            File fileToSave = fileChooser.showSaveDialog(stage);
-            if (fileToSave != null) {
-                java.nio.file.Files.write(fileToSave.toPath(), data);
-                showAlert(Alert.AlertType.INFORMATION, "Success", "File downloaded successfully.");
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to download file: " + e.getMessage());
+        var fileChooser = new FileChooser();
+        fileChooser.setTitle(file.getName());
+        var fileToSave = fileChooser.showSaveDialog(stage);
+
+        if (fileToSave == null) return;
+
+        try (InputStream inputStream = storageService.downloadFile(file.getId().toString());
+             FileOutputStream outputStream = new FileOutputStream(fileToSave)) {
+
+            byte[] buffer = new byte[1024 * 1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) outputStream.write(buffer, 0, bytesRead);
+
+            showAlert(Alert.AlertType.CONFIRMATION, "Download Complete", "File downloaded successfully!");
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Download Failed", "Error: " + e.getMessage());
         }
     }
 

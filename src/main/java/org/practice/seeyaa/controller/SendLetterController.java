@@ -1,9 +1,12 @@
 package org.practice.seeyaa.controller;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -50,7 +53,17 @@ public class SendLetterController {
     }
 
     @FXML
-    public void sendLetter(ActionEvent event) throws IOException {
+    public void sendLetter(ActionEvent event) {
+        var scene = ((Node) event.getSource()).getScene();
+        Platform.runLater(() -> {
+            text.setDisable(true);
+            attachFile.setDisable(true);
+            sendLetter.setDisable(true);
+            toWhom.setDisable(true);
+            topic.setDisable(true);
+            scene.setCursor(Cursor.WAIT);
+        });
+
         Task<Void> uploadTask = new Task<>() {
             @Override
             protected Void call() {
@@ -66,10 +79,20 @@ public class SendLetterController {
         };
 
         uploadTask.setOnSucceeded(e -> {
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
+            Platform.runLater(() -> {
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.close();
+                scene.setCursor(Cursor.DEFAULT);
+            });
+            System.gc();
         });
-        uploadTask.setOnFailed(e -> showAlert("Upload Failed", uploadTask.getException().getMessage()));
+        uploadTask.setOnFailed(e -> {
+            Platform.runLater(() -> {
+                scene.setCursor(Cursor.DEFAULT);
+            });
+
+            showAlert("Upload Failed", uploadTask.getException().getMessage());
+        });
 
         new Thread(uploadTask).start();
     }
@@ -78,15 +101,37 @@ public class SendLetterController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Files");
         List<File> files = fileChooser.showOpenMultipleDialog(stage);
+
         if (files != null) {
-            for (File file : files) {
-                if (file.length() > FileSize.FIVE_HUNDRED_MB.getSize()) {
-                    showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
-                    continue;
+            var scene = attachFile.getScene();
+            Platform.runLater(() -> scene.setCursor(Cursor.WAIT));
+
+            Task<Void> fileProcessingTask = new Task<>() {
+                @Override
+                protected Void call() {
+                    selectedFiles.clear();
+                    for (File file : files) {
+                        if (file.length() > FileSize.FIVE_HUNDRED_MB.getSize()) {
+                            showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
+                            continue;
+                        }
+                        selectedFiles.add(file);
+                    }
+                    return null;
                 }
-                selectedFiles.add(file);
-            }
-            updateAttachmentLabel();
+            };
+
+            fileProcessingTask.setOnSucceeded(event -> {
+                updateAttachmentLabel();
+                scene.setCursor(Cursor.DEFAULT);
+            });
+
+            fileProcessingTask.setOnFailed(event -> {
+                showAlert("Error", "Failed to process files.");
+                scene.setCursor(Cursor.DEFAULT);
+            });
+
+            new Thread(fileProcessingTask).start();
         }
     }
 

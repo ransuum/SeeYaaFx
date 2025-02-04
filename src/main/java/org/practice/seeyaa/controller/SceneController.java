@@ -34,7 +34,7 @@ public class SceneController {
     @Autowired
     private ConfigurableApplicationContext springContext;
     @Autowired
-    private UsersService usersServiceImpl;
+    private UsersService usersService;
 
     private Stage stage;
     private Scene scene;
@@ -61,7 +61,7 @@ public class SceneController {
             root = fxmlLoader.load();
 
             EmailController emailController = fxmlLoader.getController();
-            emailController.showEmail(usersServiceImpl.findByEmailForPassword(new SignInRequest(emailInput.getText(), password.getText())));
+            emailController.showEmail(usersService.findByEmailForPassword(new SignInRequest(emailInput.getText(), password.getText())));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/email.css")).toExternalForm());

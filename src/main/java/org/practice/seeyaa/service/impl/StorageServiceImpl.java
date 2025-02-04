@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -30,11 +32,17 @@ public class StorageServiceImpl implements StorageService {
         try {
             Letter letter = letterRepo.findById(letterId)
                     .orElseThrow(() -> new RuntimeException("Letter not found with id: " + letterId));
+
+            byte[] fileData;
+            try (InputStream inputStream = file.getInputStream()) {
+                fileData = inputStream.readAllBytes();
+            }
+
             filesRepo.save(Files.builder()
                     .name(file.getOriginalFilename())
                     .type(FileType.fromFileExtension(file.getOriginalFilename()))
                     .size(file.getSize())
-                    .data(file.getBytes())
+                    .data(fileData)
                     .letter(letter)
                     .build()
             );
@@ -44,11 +52,11 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public byte[] downloadFile(String fileId) {
+    public InputStream downloadFile(String fileId) {
         Integer id = Integer.parseInt(fileId);
         Files file = filesRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("File not found with id: " + fileId));
-        return file.getData();
+        return new ByteArrayInputStream(file.getData());
     }
 
     @Override

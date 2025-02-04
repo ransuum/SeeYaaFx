@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import lombok.Data;
 import org.practice.seeyaa.models.request.EditRequest;
 import org.practice.seeyaa.service.UsersService;
-import org.practice.seeyaa.service.impl.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class EditController {
     private String idOfUser;
 
     @Autowired
-    private UsersService usersServiceImpl;
+    private UsersService usersService;
 
     @FXML
     public void initialize(){
@@ -56,7 +55,7 @@ public class EditController {
     private void updateUser(){
         if (!password1.getText().equals(password2.getText()))
             throw new RuntimeException("Passwords do not match");
-        usersServiceImpl.editProfile(new EditRequest(firstname.getText(), lastname.getText(), username.getText(), password1.getText()), idOfUser);
+        usersService.editProfile(new EditRequest(firstname.getText(), lastname.getText(), username.getText(), password1.getText()), idOfUser);
 
     }
 }

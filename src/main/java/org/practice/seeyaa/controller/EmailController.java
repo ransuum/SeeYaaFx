@@ -1,6 +1,5 @@
 package org.practice.seeyaa.controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,9 +54,9 @@ public class EmailController {
     @Autowired
     private ConfigurableApplicationContext springContext;
     @Autowired
-    private LetterService letterServiceImpl;
+    private LetterService letterService;
     @Autowired
-    private UsersService usersServiceImpl;
+    private UsersService usersService;
     @Autowired
     private List<Choice> choices;
 
@@ -118,12 +117,12 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
 
             if (inboxes.getStyleClass().contains("selected"))
-                letterServiceImpl.findAllInboxByTopic(search.getText(), usersServiceImpl.findByEmailReal(emailOfAuthUser.getText()))
+                letterService.findAllInboxByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
                                 -> addLetterToUI(letter, 1));
 
             else if (sent.getStyleClass().contains("selected"))
-                letterServiceImpl.findAllSentByTopic(search.getText(), usersServiceImpl.findByEmailReal(emailOfAuthUser.getText()))
+                letterService.findAllSentByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
                                 -> addLetterToUI(letter, 2));
 
@@ -156,7 +155,7 @@ public class EmailController {
             fxmlLoader.setControllerFactory(springContext::getBean);
             this.root = fxmlLoader.load();
 
-            UsersDto byEmail = usersServiceImpl.findByEmailWithoutLists(emailOfAuthUser.getText());
+            UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
 
             EditController controller = fxmlLoader.getController();
             controller.setIdOfUser(byEmail.id());
@@ -253,8 +252,8 @@ public class EmailController {
         });
 
         for (HBox hBox : selectedBoxes) {
-            if (moveToSpam) letterServiceImpl.setLetterToSpam(hBox.getId());
-            else letterServiceImpl.deleteById(hBox.getId());
+            if (moveToSpam) letterService.setLetterToSpam(hBox.getId());
+            else letterService.deleteById(hBox.getId());
         }
 
         hboxInsideInboxes.getChildren().removeAll(selectedBoxes);
@@ -293,7 +292,7 @@ public class EmailController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("checkLetter.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
-            LetterWithAnswers letter1 = letterServiceImpl.findById(letterId);
+            LetterWithAnswers letter1 = letterService.findById(letterId);
             stage = new Stage();
             scene = new Scene(root);
             stage.setScene(scene);
