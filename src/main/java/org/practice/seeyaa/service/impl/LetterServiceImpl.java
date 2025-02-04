@@ -1,7 +1,7 @@
 package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
-import org.practice.seeyaa.models.enums.TypeOfLetter;
+import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Users;

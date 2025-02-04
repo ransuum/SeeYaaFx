@@ -11,7 +11,7 @@ import org.practice.seeyaa.enums.FileType;
 @NoArgsConstructor
 @Data
 @Builder
-@org.springframework.data.relational.core.mapping.Table(name = "files")
+@org.springframework.data.relational.core.mapping.Table(name = "files_email")
 @Entity
 public class Files {
     @Id

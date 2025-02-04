@@ -7,7 +7,8 @@ public enum TypeOfLetter {
     INBOXES("inboxes"),
     SPAM("spam"),
     SENT("sent"),
-    GARBAGE("garbage");
+    GARBAGE("garbage"),
+    LETTER("letter");
     private final String name;
 
     TypeOfLetter(String name) {

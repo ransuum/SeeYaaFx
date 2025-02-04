@@ -1,6 +1,7 @@
 package org.practice.seeyaa.models.dto;
 
-import org.practice.seeyaa.models.enums.TypeOfLetter;
+
+import org.practice.seeyaa.enums.TypeOfLetter;
 
 import java.time.LocalDateTime;
 

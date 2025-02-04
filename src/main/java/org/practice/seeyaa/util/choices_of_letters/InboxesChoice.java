@@ -22,7 +22,7 @@ public class InboxesChoice implements Choice {
     public List<LetterDto> addToBox(int index, String email) {
         return usersService.findByEmail(email).myLetters()
                 .stream()
-                .filter(letterDto -> letterDto.typeOfLetter().equals(org.practice.seeyaa.models.enums.TypeOfLetter.LETTER))
+                .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
                 .sorted(Comparator.comparing(LetterDto::createdAt))
                 .toList();
     }

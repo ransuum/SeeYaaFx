@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.practice.seeyaa.enums.FileSize;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.service.LetterService;
@@ -23,31 +24,20 @@ import java.util.List;
 
 @Component
 public class SendLetterController {
-    @FXML
-    private Button attachFile;
-    @FXML
-    private TextField hiding;
-    @FXML
-    private Button sendLetter;
-    @FXML
-    private TextArea text;
-    @FXML
-    private TextField toWhom;
-    @FXML
-    private TextField topic;
-
-    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
+    @FXML private Button attachFile;
+    @FXML private TextField hiding;
+    @FXML private Button sendLetter;
+    @FXML private TextArea text;
+    @FXML private TextField toWhom;
+    @FXML private TextField topic;
+    @FXML private Label attachmentLabel;
 
     @Autowired
     private LetterService letterServiceImpl;
-
     @Autowired
     private StorageServiceImpl storageServiceImpl;
 
     private Stage stage;
-
-    @FXML
-    private Label attachmentLabel;
 
     private final List<File> selectedFiles = new ArrayList<>();
 
@@ -63,7 +53,7 @@ public class SendLetterController {
     public void sendLetter(ActionEvent event) throws IOException {
         Task<Void> uploadTask = new Task<>() {
             @Override
-            protected Void call() throws Exception {
+            protected Void call() {
                 LetterRequest request = new LetterRequest(text.getText(), topic.getText(), toWhom.getText(), hiding.getText());
                 Letter savedLetter = letterServiceImpl.sendLetter(request);
 
@@ -90,7 +80,7 @@ public class SendLetterController {
         List<File> files = fileChooser.showOpenMultipleDialog(stage);
         if (files != null) {
             for (File file : files) {
-                if (file.length() > MAX_FILE_SIZE) {
+                if (file.length() > FileSize.FIVE_HUNDRED_MB.getSize()) {
                     showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
                     continue;
                 }
@@ -108,11 +98,9 @@ public class SendLetterController {
     }
 
     private void updateAttachmentLabel() {
-        if (!selectedFiles.isEmpty()) {
+        if (!selectedFiles.isEmpty())
             attachmentLabel.setText("Attachments: " + selectedFiles.size());
-        } else {
-            attachmentLabel.setText("");
-        }
+        else attachmentLabel.setText("");
     }
 
     public void setHiding(String hidingEmail) {

@@ -2,8 +2,6 @@ package org.practice.seeyaa.service.impl;
 
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.entity.Answer;
-import org.practice.seeyaa.models.entity.Letter;
-import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.AnswerRequest;
 import org.practice.seeyaa.repo.AnswerRepo;
 import org.practice.seeyaa.repo.LetterRepo;
@@ -30,22 +28,20 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     @Transactional
     public AnswerDto createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
-        Letter letter = letterRepo.findById(idOfLetter)
+        var letter = letterRepo.findById(idOfLetter)
                 .orElseThrow(()
                         -> new RuntimeException("App Error"));
 
-        Users users = usersRepo.findByEmail(emailBy)
+        var users = usersRepo.findByEmail(emailBy)
                 .orElseThrow(()
                         -> new RuntimeException("App Error"));
 
-        Answer answer = Answer.builder()
+        var answer = answerRepo.save(Answer.builder()
                 .answerText(answerRequest.textOfLetter())
                 .currentLetter(letter)
                 .userByAnswered(users)
                 .createdAt(LocalDateTime.now())
-                .build();
-
-        answerRepo.save(answer);
+                .build());
 
         letter.getAnswers().add(answer);
         users.getAnswers().add(answer);
