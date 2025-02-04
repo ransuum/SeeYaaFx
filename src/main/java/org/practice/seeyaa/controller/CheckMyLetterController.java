@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,7 +70,8 @@ public class CheckMyLetterController {
 
     public void setLetter(LetterWithAnswers letter1, int function) {
         this.letterDto = letter1;
-        setTopicAndTextAndToWhom(letter1.topic(), letter1.text(), letter1.userBy().email(),
+        setTopicAndTextAndToWhom(letter1.topic(), letter1.text(),
+                (function == 1) ? letter1.userBy().email() : letter1.userTo().email(),
                 (function == 1) ? letterDto.userBy().firstname() + " " + letterDto.userBy().lastname()
                         : letterDto.userTo().firstname() + " " + letterDto.userTo().lastname());
     }
