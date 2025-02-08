@@ -89,12 +89,12 @@ public class EmailController {
 
     @FXML
     public void delete() {
-        processSelectedLetters(false);
+        processSelectedLetters(TypeOfLetter.GARBAGE);
     }
 
     @FXML
     public void spam() {
-        processSelectedLetters(true);
+        processSelectedLetters(TypeOfLetter.SPAM);
     }
 
     @FXML
@@ -265,7 +265,6 @@ public class EmailController {
     }
 
     private TextField createTextField(LetterDto letter, int function) {
-
         TextField textField = new TextField();
         textField.setCursor(Cursor.HAND);
         textField.setPrefWidth(800);
@@ -278,7 +277,6 @@ public class EmailController {
 
         textField.setText(byName + paddedTopic + checkDate(letter.createdAt()));
         textField.setEditable(false);
-
         return textField;
     }
 

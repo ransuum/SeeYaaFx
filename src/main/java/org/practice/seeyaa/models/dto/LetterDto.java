@@ -1,8 +1,5 @@
 package org.practice.seeyaa.models.dto;
 
-
-import org.practice.seeyaa.enums.TypeOfLetter;
-
 import java.time.LocalDateTime;
 
 public record LetterDto(
@@ -12,5 +9,5 @@ public record LetterDto(
         LocalDateTime createdAt,
         UsersDto userTo,
         UsersDto userBy,
-        TypeOfLetter typeOfLetter) {
+        Boolean activeLetter) {
 }

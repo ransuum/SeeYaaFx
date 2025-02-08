@@ -72,7 +72,9 @@
       </TitledPane>
       <AnchorPane layoutX="63.0" layoutY="722.0" prefHeight="71.0" prefWidth="753.0">
          <children>
-            <Button layoutX="700.0" layoutY="21.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0" stylesheets="@static/checkMyLetters.css">
+            <Button layoutX="700.0" layoutY="21.0" minHeight="32.0" minWidth="32.0"
+                    mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0"
+                    stylesheets="@static/checkMyLetters.css">
                <font>
                   <Font name="Calibri Bold" size="28.0" />
                </font>
@@ -86,13 +88,10 @@
                      </color>
                   </DropShadow>
                </effect>
-               <opaqueInsets>
-                  <Insets left="1.0" top="1.0" />
-               </opaqueInsets>
                <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="39.0" onDragDetected="#answer" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/reply.png" />
+                        <Image url="@images/reply.png"/>
                      </image>
                   </ImageView>
                </graphic>
@@ -130,10 +129,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
          <graphic>
-            <ImageView fitHeight="35.0" fitWidth="47.0" onDragDetected="#helpToUnderstandText" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/chatbot.png" />
-               </image>
+            <ImageView fitHeight="35.0" fitWidth="47.0" pickOnBounds="true"
+                       preserveRatio="true">
+               <Image url="@images/chatbot.png"/>
             </ImageView>
          </graphic>
       </Button>

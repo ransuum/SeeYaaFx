@@ -2,26 +2,25 @@ package org.practice.seeyaa.util.choices_of_letters;
 
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
-import org.practice.seeyaa.service.LetterService;
-import org.practice.seeyaa.service.impl.LetterServiceImpl;
+import org.practice.seeyaa.models.dto.MovedLetterDto;
+import org.practice.seeyaa.service.MovedLetterService;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class SpamChoice implements Choice {
-    private final LetterService letterService;
+    private final MovedLetterService movedLetterService;
 
-    public SpamChoice(LetterServiceImpl letterService) {
-        this.letterService = letterService;
+    public SpamChoice(MovedLetterService movedLetterService) {
+        this.movedLetterService = movedLetterService;
     }
 
     @Override
     public List<LetterDto> addToBox(int index, String email) {
-        return letterService.findAllByUserWithSpamLetters(email)
+        return movedLetterService.getLettersWithSpam(email)
                 .stream()
-                .sorted(Comparator.comparing(LetterDto::createdAt))
+                .map(MovedLetterDto::letter)
                 .toList();
     }
 

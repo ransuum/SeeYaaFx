@@ -13,6 +13,7 @@ import org.practice.seeyaa.repo.MovedLetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
+import org.practice.seeyaa.util.moved_letter_conf.MovedLetterConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -27,12 +28,12 @@ import java.util.stream.Collectors;
 public class LetterServiceImpl implements LetterService {
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
-    private final MovedLetterRepo movedLetterRepo;
+    private final MovedLetterConfiguration movedLetterConfiguration;
 
-    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo, MovedLetterRepo movedLetterRepo) {
+    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo, MovedLetterConfiguration movedLetterConfiguration) {
         this.letterRepo = letterRepo;
         this.usersRepo = usersRepo;
-        this.movedLetterRepo = movedLetterRepo;
+        this.movedLetterConfiguration = movedLetterConfiguration;
     }
 
     @Override
@@ -49,6 +50,7 @@ public class LetterServiceImpl implements LetterService {
                 .userTo(usersTo)
                 .text(letterRequest.text())
                 .topic(letterRequest.topic())
+                .activeLetter(Boolean.TRUE)
                 .createdAt(LocalDateTime.now())
                 .build()
         );
@@ -61,25 +63,12 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     public void setLetterToSpam(String letterId, String email) {
-        letterRepo.findById(letterId).ifPresent(letter -> {
-            movedLetterRepo.save(MovedLetter.builder()
-                    .typeOfLetter(TypeOfLetter.SPAM)
-                    .movedBy(usersRepo.findByEmail(email).get())
-                    .letter(letterRepo.findById(letterId).get())
-                    .build());
-        });
+        movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.SPAM);
     }
 
     @Override
     public void setLetterToGarbage(String letterId, String email) {
-        letterRepo.findById(letterId).ifPresent(letter -> {
-            movedLetterRepo.save(MovedLetter.builder()
-                    .typeOfLetter(TypeOfLetter.GARBAGE)
-                    .movedBy(usersRepo.findByEmail(email).get())
-                    .letter(letterRepo.findById(letterId).get())
-                    .willDeleteAt(LocalDateTime.now().plusDays(30))
-                    .build());
-        });
+        movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.GARBAGE);
     }
 
     @Override
@@ -87,30 +76,6 @@ public class LetterServiceImpl implements LetterService {
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No letter found with id: " + id)));
-    }
-
-    @Override
-    @Transactional
-    public List<LetterDto> findAllByUserWithGarbageLetters(String email) {
-        Users users = usersRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("APP ERROR"));
-
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.GARBAGE)
-                .stream()
-                .map(LetterMapper.INSTANCE::toLetterDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public List<LetterDto> findAllByUserWithSpamLetters(String email) {
-        Users users = usersRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("APP ERROR"));
-
-        return letterRepo.findAllByUserToOrUserByAndTypeOfLetter(users, TypeOfLetter.SPAM)
-                .stream()
-                .map(LetterMapper.INSTANCE::toLetterDto)
-                .collect(Collectors.toList());
     }
 
     @Override

@@ -20,9 +20,10 @@ public class InboxesChoice implements Choice {
 
     @Override
     public List<LetterDto> addToBox(int index, String email) {
-        return usersService.findByEmail(email).myLetters()
+        return usersService.findByEmail(email)
+                .myLetters()
                 .stream()
-                .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                .filter(LetterDto::activeLetter)
                 .sorted(Comparator.comparing(LetterDto::createdAt))
                 .toList();
     }

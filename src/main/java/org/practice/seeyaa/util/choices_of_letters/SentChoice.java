@@ -19,9 +19,10 @@ public class SentChoice implements Choice {
 
     @Override
     public List<LetterDto> addToBox(int index, String email) {
-        return usersService.findByEmail(email).sendLetters()
+        return usersService.findByEmail(email)
+                .sendLetters()
                 .stream()
-                .filter(letterDto -> letterDto.typeOfLetter().equals(TypeOfLetter.LETTER))
+                .filter(LetterDto::activeLetter)
                 .sorted(Comparator.comparing(LetterDto::createdAt))
                 .toList();
     }

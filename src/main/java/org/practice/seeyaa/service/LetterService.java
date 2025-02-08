@@ -14,8 +14,6 @@ public interface LetterService {
     void setLetterToSpam(String letterId, String email);
     void setLetterToGarbage(String letterId, String email);
     LetterWithAnswers findById(String id);
-    List<LetterDto> findAllByUserWithGarbageLetters(String email);
-    List<LetterDto> findAllByUserWithSpamLetters(String email);
     List<LetterDto> findAllSentByTopic(String topic, Users usersBy);
     List<LetterDto> findAllInboxByTopic(String topic, Users usersTo);
     void deleteById(String id);

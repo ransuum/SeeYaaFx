@@ -18,7 +18,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.service.StorageService;
@@ -66,18 +65,18 @@ public class CheckMyLetterController {
             Parent root = fxmlLoader.load();
 
             String prompt = String.format("""
-                Please analyze this letter and provide insights:
+                    Please analyze this letter and provide insights on language that wrote:
 
-                Topic: %s
+                    Topic: %s
 
-                Content:
-                %s
+                    Content:
+                    %s
 
-                Please provide:
-                1. A summary of the main points
-                2. The key message or request
-                3. Suggested points to consider when responding
-                """, topic.getText(), textOfLetter.getText());
+                    Please provide:
+                    1. A summary of the main points
+                    2. The key message or request
+                    3. Suggested points to consider when responding
+                    """, topic.getText(), textOfLetter.getText());
 
             aiController.setPrompt(prompt);
 
@@ -106,7 +105,8 @@ public class CheckMyLetterController {
     public void setLetter(LetterWithAnswers letter1, int function) {
         this.letterDto = letter1;
         setTopicAndTextAndToWhom(letter1.topic(), letter1.text(),
-                (function == 1) ? letter1.userBy().email() : letter1.userTo().email(),
+                (function == 1) ? letter1.userBy().email()
+                        : letter1.userTo().email(),
                 (function == 1) ? letterDto.userBy().firstname() + " " + letterDto.userBy().lastname()
                         : letterDto.userTo().firstname() + " " + letterDto.userTo().lastname());
     }
@@ -117,7 +117,7 @@ public class CheckMyLetterController {
         this.email.setText("Email:  " + byEmail);
         this.firstNameLast.setText(fullName);
 
-        for (AnswerDto answerDto : letterDto.answers()) {
+        letterDto.answers().forEach(answerDto -> {
             TextField textField = new TextField();
             textField.setCursor(Cursor.HAND);
             textField.setEditable(false);
@@ -126,10 +126,9 @@ public class CheckMyLetterController {
             textField.setOnMouseClicked(mouseEvent -> textOfLetter.setText(answerDto.answerText()));
 
             answers.getChildren().add(textField);
-        }
+        });
 
         displayFiles();
-
     }
 
     private void answerOnLetter() throws IOException {
@@ -173,15 +172,15 @@ public class CheckMyLetterController {
     }
 
     private HBox createFileRow(Files file) {
-        HBox hbox = new HBox();
+        final HBox hbox = new HBox();
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
 
-        Label fileNameLabel = new Label(file.getName());
+        final Label fileNameLabel = new Label(file.getName());
         fileNameLabel.setPrefWidth(300);
         fileNameLabel.setWrapText(true);
 
-        Button downloadButton = new Button("D");
+        final Button downloadButton = new Button("D");
         downloadButton.setPrefWidth(100);
         downloadButton.setOnAction(e -> downloadFile(file));
 
@@ -214,7 +213,7 @@ public class CheckMyLetterController {
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
+        var alert = new Alert(type);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();

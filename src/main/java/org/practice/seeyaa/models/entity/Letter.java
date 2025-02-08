@@ -42,6 +42,8 @@ public class Letter implements Serializable {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    private Boolean activeLetter;
+
     @JsonIgnore
     private LocalDateTime deleteTime;
 
