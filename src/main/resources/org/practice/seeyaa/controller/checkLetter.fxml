@@ -97,28 +97,6 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="660.0" layoutY="21.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#helpRefractorTextByAi" prefHeight="20.0" prefWidth="32.0" stylesheets="@static/checkMyLetters.css">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-               <effect>
-                  <DropShadow height="53.0" offsetX="6.0" offsetY="10.0" radius="19.0" width="25.0">
-                     <color>
-                        <Color opacity="0.7300000190734863" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="35.0" fitWidth="47.0" onDragDetected="#helpRefractorTextByAi" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/chatbot.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
             <VBox fx:id="filesContainer" layoutX="-38.0" layoutY="30.0" prefHeight="105.0" prefWidth="295.0" />
          </children>
       </AnchorPane>
@@ -136,6 +114,28 @@
                </color>
             </DropShadow>
          </effect>
+      </Button>
+      <Button layoutX="831.0" layoutY="349.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#helpToUnderstandText" onMouseClicked="#helpToUnderstandText" prefHeight="20.0" prefWidth="32.0" stylesheets="@static/checkMyLetters.css">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="53.0" offsetX="6.0" offsetY="10.0" radius="19.0" width="25.0">
+               <color>
+                  <Color opacity="0.7300000190734863" />
+               </color>
+            </DropShadow>
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="47.0" onDragDetected="#helpToUnderstandText" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/chatbot.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

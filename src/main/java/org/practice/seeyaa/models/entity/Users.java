@@ -45,4 +45,7 @@ public class Users {
     @OneToMany(mappedBy = "userByAnswered", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movedBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MovedLetter> movedLetters = new ArrayList<>();
 }

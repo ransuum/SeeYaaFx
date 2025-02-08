@@ -51,14 +51,47 @@ public class CheckMyLetterController {
     private ConfigurableApplicationContext springContext;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private AIController aiController;
 
     public void quit(ActionEvent event) {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
-    public void helpRefractorTextByAi(ActionEvent event) {
+    public void helpToUnderstandText(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ai-response.fxml"));
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            Parent root = fxmlLoader.load();
 
+            String prompt = String.format("""
+                Please analyze this letter and provide insights:
+
+                Topic: %s
+
+                Content:
+                %s
+
+                Please provide:
+                1. A summary of the main points
+                2. The key message or request
+                3. Suggested points to consider when responding
+                """, topic.getText(), textOfLetter.getText());
+
+            aiController.setPrompt(prompt);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/checkLetter.css")).toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("AI Analysis");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            log.error("Error opening AI response window", e);
+            showAlert(Alert.AlertType.ERROR, "Error", "Could not open AI analysis window: " + e.getMessage());
+        }
     }
 
     @FXML

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.practice.seeyaa.enums.TypeOfLetter;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
@@ -51,8 +50,4 @@ public class Letter implements Serializable {
 
     @OneToMany(mappedBy = "letter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Files> files = new ArrayList<>();
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TypeOfLetter typeOfLetter;
 }

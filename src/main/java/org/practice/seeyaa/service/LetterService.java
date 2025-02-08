@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface LetterService {
     Letter sendLetter(@Valid LetterRequest letterRequest);
-    void setLetterToSpam(String letterId);
-    void setLetterToGarbage(String letterId);
+    void setLetterToSpam(String letterId, String email);
+    void setLetterToGarbage(String letterId, String email);
     LetterWithAnswers findById(String id);
     List<LetterDto> findAllByUserWithGarbageLetters(String email);
     List<LetterDto> findAllByUserWithSpamLetters(String email);

@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
+import org.practice.seeyaa.models.entity.MovedLetter;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.LetterRepo;
+import org.practice.seeyaa.repo.MovedLetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
@@ -25,10 +27,12 @@ import java.util.stream.Collectors;
 public class LetterServiceImpl implements LetterService {
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
+    private final MovedLetterRepo movedLetterRepo;
 
-    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo) {
+    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo, MovedLetterRepo movedLetterRepo) {
         this.letterRepo = letterRepo;
         this.usersRepo = usersRepo;
+        this.movedLetterRepo = movedLetterRepo;
     }
 
     @Override
@@ -46,7 +50,6 @@ public class LetterServiceImpl implements LetterService {
                 .text(letterRequest.text())
                 .topic(letterRequest.topic())
                 .createdAt(LocalDateTime.now())
-                .typeOfLetter(TypeOfLetter.LETTER)
                 .build()
         );
 
@@ -57,20 +60,25 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public void setLetterToSpam(String letterId) {
+    public void setLetterToSpam(String letterId, String email) {
         letterRepo.findById(letterId).ifPresent(letter -> {
-            letter.setTypeOfLetter(TypeOfLetter.SPAM);
-            letter.setDeleteTime(LocalDateTime.now().plusDays(30));
-            letterRepo.save(letter);
+            movedLetterRepo.save(MovedLetter.builder()
+                    .typeOfLetter(TypeOfLetter.SPAM)
+                    .movedBy(usersRepo.findByEmail(email).get())
+                    .letter(letterRepo.findById(letterId).get())
+                    .build());
         });
     }
 
     @Override
-    public void setLetterToGarbage(String letterId) {
+    public void setLetterToGarbage(String letterId, String email) {
         letterRepo.findById(letterId).ifPresent(letter -> {
-            letter.setTypeOfLetter(TypeOfLetter.GARBAGE);
-            letter.setDeleteTime(LocalDateTime.now().plusDays(30));
-            letterRepo.save(letter);
+            movedLetterRepo.save(MovedLetter.builder()
+                    .typeOfLetter(TypeOfLetter.GARBAGE)
+                    .movedBy(usersRepo.findByEmail(email).get())
+                    .letter(letterRepo.findById(letterId).get())
+                    .willDeleteAt(LocalDateTime.now().plusDays(30))
+                    .build());
         });
     }
 
@@ -108,10 +116,9 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional
     public List<LetterDto> findAllSentByTopic(String topic, Users usersBy) {
-        return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
-                .stream()
-                .filter(letter -> letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
-                .collect(Collectors.toList()));
+        return LetterMapper.INSTANCE.letterListToLetterDtoList(
+                letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
+        );
     }
 
     @Override
@@ -120,7 +127,6 @@ public class LetterServiceImpl implements LetterService {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo)
                 .stream()
                 .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
-                .filter(letter -> letter.getTypeOfLetter().equals(TypeOfLetter.LETTER))
                 .collect(Collectors.toList()));
     }
 

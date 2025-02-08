@@ -241,7 +241,7 @@ public class EmailController {
         garbage.getStyleClass().remove("selected");
     }
 
-    private void processSelectedLetters(boolean moveToSpam) {
+    private void processSelectedLetters(TypeOfLetter typeOfLetter) {
         final List<HBox> selectedBoxes = new LinkedList<>();
 
         hboxInsideInboxes.getChildren().forEach(node -> {
@@ -251,10 +251,13 @@ public class EmailController {
             }
         });
 
-        for (HBox hBox : selectedBoxes) {
-            if (moveToSpam) letterService.setLetterToSpam(hBox.getId());
-            else letterService.deleteById(hBox.getId());
-        }
+        selectedBoxes.forEach(hBox -> {
+            switch (typeOfLetter) {
+                case SPAM -> letterService.setLetterToSpam(hBox.getId(), emailOfAuthUser.getText());
+                case GARBAGE -> letterService.setLetterToGarbage(hBox.getId(), emailOfAuthUser.getText());
+                default -> letterService.deleteById(hBox.getId());
+            }
+        });
 
         hboxInsideInboxes.getChildren().removeAll(selectedBoxes);
         spambutton.setVisible(false);
