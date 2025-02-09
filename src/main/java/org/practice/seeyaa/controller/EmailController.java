@@ -12,13 +12,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
@@ -38,7 +38,7 @@ import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
 
 @Component
 public class EmailController {
-    @FXML private Text emailOfAuthUser;
+    @FXML @Getter private Text emailOfAuthUser;
     @FXML private Button sent;
     @FXML private Button deleteButton;
     @FXML private Button inboxes;
@@ -46,10 +46,9 @@ public class EmailController {
     @FXML private Button spam;
     @FXML private Button garbage;
     @FXML private Button write;
-    @FXML private AnchorPane backHbox;
     @FXML private ImageView searchButton;
     @FXML private TextField search;
-    @FXML private VBox hboxInsideInboxes;
+    @FXML @Getter private VBox hboxInsideInboxes;
     @FXML private ImageView editProfile;
 
     @Autowired
@@ -72,7 +71,6 @@ public class EmailController {
         typeOfLetterChoices = choices.stream()
                 .collect(Collectors.toMap(Choice::getChoice, o -> o));
         write.setOnMouseClicked(mouseEvent -> write());
-
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
         addToBox(inboxes, 1, TypeOfLetter.INBOXES);
@@ -102,9 +100,7 @@ public class EmailController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
         root = fxmlLoader.load();
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/login.css")).toExternalForm());
         stage.centerOnScreen();
@@ -114,14 +110,12 @@ public class EmailController {
 
     private void registerSearchHandlers() {
         searchButton.setOnMouseClicked(event -> {
-
             hboxInsideInboxes.getChildren().clear();
 
             if (inboxes.getStyleClass().contains("selected"))
                 letterService.findAllInboxByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
                                 -> addLetterToUI(letter, 1));
-
             else if (sent.getStyleClass().contains("selected"))
                 letterService.findAllSentByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
                         .forEach(letter
@@ -134,11 +128,9 @@ public class EmailController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
-            this.root = fxmlLoader.load();
-
+            root = fxmlLoader.load();
             SendLetterController controller = fxmlLoader.getController();
             controller.setHiding(emailOfAuthUser.getText());
-
             stage = new Stage();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/sendLetter.css")).toExternalForm());
@@ -164,7 +156,6 @@ public class EmailController {
             controller.getFirstname().setText(byEmail.firstname());
             controller.getLastname().setText(byEmail.lastname());
             controller.getUsername().setText(byEmail.username());
-
             stage = new Stage();
             scene = new Scene(this.root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/edit.css")).toExternalForm());
@@ -179,7 +170,7 @@ public class EmailController {
         }
     }
 
-    private void addToBox(Button button, int index, TypeOfLetter choice) {
+    public void addToBox(Button button, int index, TypeOfLetter choice) {
         button.setOnMouseClicked(event -> {
             resetButtonStyles();
             hboxInsideInboxes.getChildren().clear();
@@ -199,12 +190,13 @@ public class EmailController {
         });
     }
 
-    private void addLetterToUI(LetterDto letter, int function) {
+    public void addLetterToUI(LetterDto letter, int function) {
         TextField textField = createTextField(letter, function);
         textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
+        TextField textField1 = new TextField();
+        textField1.setText(checkDate(letter.createdAt()));
 
         CheckBox checkBox = new CheckBox();
-
         checkBox.setOnAction(event -> {
             textField.setDisable(checkBox.isSelected());
             updateDeleteButtonVisibility();
@@ -212,7 +204,7 @@ public class EmailController {
 
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.getChildren().addAll(checkBox, textField);
+        hBox.getChildren().addAll(checkBox, textField, textField1);
 
         textField.setOnMouseClicked(textFieldEvent -> {
             if (!checkBox.isSelected()) handleTextFieldClick(letter.id(), function);
@@ -273,9 +265,9 @@ public class EmailController {
         String byName = ((function == 1) ?
                 String.format("%-30s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
                 : String.format("%-30s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
-        String paddedTopic = String.format("%-115s", letter.topic());
+        String paddedTopic = String.format("%-35s", letter.topic());
 
-        textField.setText(byName + paddedTopic + checkDate(letter.createdAt()));
+        textField.setText(byName + paddedTopic);
         textField.setEditable(false);
         return textField;
     }

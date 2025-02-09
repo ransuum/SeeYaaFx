@@ -25,18 +25,27 @@ public class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
         var letter = letterRepo.findById(letterId)
                 .orElseThrow(() -> new EntityNotFoundException("Letter not found"));
 
-        var movedLetter = movedLetterRepo.findByLetter(letter)
-                .orElseGet(() -> {
-                    letter.setActiveLetter(false);
-                    return MovedLetter.builder()
-                            .letter(letter)
-                            .movedBy(usersRepo.findByEmail(email)
-                                    .orElseThrow(() -> new EntityNotFoundException("User not found")))
-                            .build();
-                });
+        var movedLetterFound = movedLetterRepo.findByLetter(letter);
+        if (movedLetterFound.isPresent()
+                && movedLetterFound.get().getTypeOfLetter().equals(type)) {
+            movedLetterRepo.delete(movedLetterFound.get());
+            letter.setActiveLetter(Boolean.TRUE);
+            letterRepo.save(letter);
+        } else {
+            var movedLetter = movedLetterRepo.findByLetter(letter)
+                    .orElseGet(() -> {
+                        letter.setActiveLetter(false);
+                        return MovedLetter.builder()
+                                .letter(letter)
+                                .movedBy(usersRepo.findByEmail(email)
+                                        .orElseThrow(() -> new EntityNotFoundException("User not found")))
+                                .build();
+                    });
 
-        movedLetter.setTypeOfLetter(type);
-        movedLetterRepo.save(movedLetter);
-        letterRepo.save(letter);
+            movedLetter.setTypeOfLetter(type);
+
+            movedLetterRepo.save(movedLetter);
+            letterRepo.save(letter);
+        }
     }
 }

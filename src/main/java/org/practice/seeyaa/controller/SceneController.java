@@ -60,6 +60,8 @@ public class SceneController {
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
 
+
+
             EmailController emailController = fxmlLoader.getController();
             emailController.showEmail(usersService.findByEmailForPassword(new SignInRequest(emailInput.getText(), password.getText())));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -79,6 +81,7 @@ public class SceneController {
             incorrectInputPassword.setText("Wrong password or email");
             incorrectInputPassword.setVisible(true);
         }
+
     }
 
     private void signUp() throws IOException {
