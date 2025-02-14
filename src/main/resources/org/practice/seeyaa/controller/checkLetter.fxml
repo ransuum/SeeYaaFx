@@ -105,7 +105,7 @@
          </ImageView>
       </graphic>
    </Button>
-   <Button layoutX="828.0" layoutY="396.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="32.0" prefWidth="38.0" styleClass="answer-button">
+   <Button layoutX="831.0" layoutY="401.0" minHeight="20.0" minWidth="32.0" mnemonicParsing="false" onAction="#answer" prefHeight="20.0" prefWidth="32.0" styleClass="answer-button">
       <font>
          <Font name="Calibri Bold" size="28.0" />
       </font>
