@@ -225,7 +225,7 @@ public class CheckMyLetterController {
 
         AnswerController controller = fxmlLoader.getController();
         controller.setIdOfLetter(letterDto.id());
-        controller.setEmailBy(letterDto.userTo().email());
+        controller.setEmailBy(letterDto.userBy().email());
 
         stage = new Stage();
         Scene scene = new Scene(root);
