@@ -10,53 +10,53 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="774.0" stylesheets="@static/edit.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.EditController">
-   <children>
-      <ImageView fitHeight="256.0" fitWidth="256.0" layoutX="70.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/profile.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="414.0" layoutY="40.0" text="Edit Profile">
-         <font>
-            <Font name="Arial Bold" size="43.0" />
-         </font>
-      </Label>
-      <TextField fx:id="firstname" disable="true" layoutX="385.0" layoutY="163.0" prefHeight="29.0" prefWidth="162.0" />
-      <TextField fx:id="lastname" disable="true" layoutX="384.0" layoutY="241.0" prefHeight="29.0" prefWidth="162.0" />
-      <TextField fx:id="email" disable="true" layoutX="55.0" layoutY="379.0" prefHeight="29.0" prefWidth="162.0" />
-      <TextField fx:id="password1" disable="true" layoutX="55.0" layoutY="457.0" prefHeight="29.0" prefWidth="162.0" />
-      <TextField fx:id="password2" disable="true" layoutX="306.0" layoutY="455.0" prefHeight="29.0" prefWidth="162.0" promptText="password" />
-      <TextField fx:id="username" disable="true" layoutX="55.0" layoutY="543.0" prefHeight="29.0" prefWidth="162.0" />
-      <CheckBox fx:id="firstnameCheck" layoutX="385.0" layoutY="139.0" mnemonicParsing="false" text="First name">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="lastnameCheck" layoutX="384.0" layoutY="217.0" mnemonicParsing="false" text="Last name">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="usernameCheck" layoutX="55.0" layoutY="517.0" mnemonicParsing="false" text="Username">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="password1Check" layoutX="54.0" layoutY="432.0" mnemonicParsing="false" text="Password">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <Button layoutX="547.0" layoutY="602.0" mnemonicParsing="false" onAction="#confirm" prefHeight="49.0" prefWidth="90.0" text="Confirm">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Label layoutX="81.0" layoutY="358.0" text="Email">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0"
+            prefWidth="774.0" stylesheets="@static/edit.css" xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.EditController">
+   <ImageView fitHeight="256.0" fitWidth="256.0" layoutX="70.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@images/profile.png"/>
+   </ImageView>
+   <Label layoutX="414.0" layoutY="40.0" text="Edit Profile">
+      <font>
+         <Font name="Arial Bold" size="43.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="firstname" disable="true" layoutX="385.0" layoutY="163.0" prefHeight="29.0" prefWidth="162.0"/>
+   <TextField fx:id="lastname" disable="true" layoutX="384.0" layoutY="241.0" prefHeight="29.0" prefWidth="162.0"/>
+   <TextField fx:id="email" disable="true" layoutX="55.0" layoutY="379.0" prefHeight="29.0" prefWidth="162.0"/>
+   <TextField fx:id="password1" disable="true" layoutX="55.0" layoutY="457.0" prefHeight="29.0" prefWidth="162.0"/>
+   <TextField fx:id="password2" disable="true" layoutX="306.0" layoutY="455.0" prefHeight="29.0" prefWidth="162.0"
+              promptText="password"/>
+   <TextField fx:id="username" disable="true" layoutX="55.0" layoutY="543.0" prefHeight="29.0" prefWidth="162.0"/>
+   <CheckBox fx:id="firstnameCheck" layoutX="385.0" layoutY="139.0" mnemonicParsing="false" text="First name">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="lastnameCheck" layoutX="384.0" layoutY="217.0" mnemonicParsing="false" text="Last name">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="usernameCheck" layoutX="55.0" layoutY="517.0" mnemonicParsing="false" text="Username">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="password1Check" layoutX="54.0" layoutY="432.0" mnemonicParsing="false" text="Password">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </CheckBox>
+   <Button layoutX="547.0" layoutY="602.0" mnemonicParsing="false" onAction="#confirm" prefHeight="49.0"
+           prefWidth="90.0" text="Confirm">
+      <cursor>
+         <Cursor fx:constant="HAND"/>
+      </cursor>
+   </Button>
+   <Label layoutX="81.0" layoutY="358.0" text="Email">
+      <font>
+         <Font name="Arial" size="14.0"/>
+      </font>
+   </Label>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package org.practice.seeyaa.controller;
 
 
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +12,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
@@ -153,40 +157,68 @@ public class CheckMyLetterController {
         List<Files> files = storageService.getFilesByLetterId(letterDto.id());
         filesContainer.getChildren().clear();
 
+        filesContainer.getStyleClass().add("files-container");
         filesContainer.setSpacing(10);
         filesContainer.setPadding(new Insets(10));
 
-        files.forEach(files1 -> {
-            HBox fileRow = createFileRow(files1);
+        for (int i = 0; i < files.size(); i++) {
+            HBox fileRow = createFileRow(files.get(i));
+
+            fileRow.setOpacity(0);
+            fileRow.setTranslateY(20);
+
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(i * 100),
+                            new KeyValue(fileRow.opacityProperty(), 1, Interpolator.EASE_BOTH),
+                            new KeyValue(fileRow.translateYProperty(), 0, Interpolator.EASE_OUT)
+                    )
+            );
+
             filesContainer.getChildren().add(fileRow);
-        });
+            timeline.play();
+        }
 
         if (files.size() > 2) {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setContent(filesContainer);
             scrollPane.setFitToWidth(true);
             scrollPane.setPrefHeight(150);
+            scrollPane.getStyleClass().add("scroll-pane");
 
             ((Pane) filesContainer.getParent()).getChildren().setAll(scrollPane);
         } else ((Pane) filesContainer.getParent()).getChildren().setAll(filesContainer);
     }
 
     private HBox createFileRow(Files file) {
-        final HBox hbox = new HBox();
+        HBox hbox = new HBox();
+        hbox.getStyleClass().add("file-row");
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.setMinHeight(40);
 
-        final Label fileNameLabel = new Label(file.getName());
-        fileNameLabel.setPrefWidth(300);
+        Label fileNameLabel = new Label(file.getName());
+        fileNameLabel.getStyleClass().add("file-name-label");
         fileNameLabel.setWrapText(true);
 
-        final Button downloadButton = new Button("D");
-        downloadButton.setPrefWidth(100);
+        Button downloadButton = new Button("D");
+        downloadButton.getStyleClass().add("download-button");
         downloadButton.setOnAction(e -> downloadFile(file));
 
-        hbox.getChildren().addAll(fileNameLabel, downloadButton);
-        hbox.setPrefHeight(40);
+        hbox.setOnMouseEntered(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
+            scale.setToX(1.02);
+            scale.setToY(1.02);
+            scale.play();
+        });
 
+        hbox.setOnMouseExited(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
+            scale.setToX(1);
+            scale.setToY(1);
+            scale.play();
+        });
+
+        hbox.getChildren().addAll(fileNameLabel, downloadButton);
         return hbox;
     }
 
