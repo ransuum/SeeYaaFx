@@ -27,11 +27,6 @@ public class AnswerController {
     private AnswerService answerServiceImpl;
 
     @FXML
-    void helpRefractorTextByAi(ActionEvent event) {
-
-    }
-
-    @FXML
     void cancel(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
@@ -51,5 +46,4 @@ public class AnswerController {
     private void setInformation(){
         answerServiceImpl.createAnswer(new AnswerRequest(textOfAnswer.getText()), emailBy, idOfLetter.getText());
     }
-
 }
