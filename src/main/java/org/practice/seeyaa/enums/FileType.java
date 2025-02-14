@@ -34,7 +34,7 @@ public enum FileType {
             case "pdf", "doc", "docx" -> {
                 return DOCUMENT;
             }
-            case "jpg", "jpeg", "jpe", "gif" -> {
+            case "jpg", "jpeg", "jpe", "gif", "png" -> {
                 return IMAGE;
             }
             case "exe", "jar" -> {

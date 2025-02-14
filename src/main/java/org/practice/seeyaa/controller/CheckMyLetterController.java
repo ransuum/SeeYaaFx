@@ -7,18 +7,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
@@ -31,6 +29,7 @@ import org.springframework.stereotype.Component;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -47,6 +46,7 @@ public class CheckMyLetterController {
     @FXML private VBox filesContainer;
     @FXML private TextArea textOfLetter;
     @FXML private TextField topic;
+    @Setter private String currentEmail;
 
     private Stage stage;
 
@@ -126,7 +126,9 @@ public class CheckMyLetterController {
         answers.setPadding(new Insets(10));
 
         SequentialTransition answersTransition = new SequentialTransition();
-        List<AnswerDto> answersList = letterDto.answers();
+        List<AnswerDto> answersList = letterDto.answers().stream()
+                .sorted(Comparator.comparing(AnswerDto::createdAt).reversed())
+                .toList();
 
         IntStream.range(0, answersList.size()).forEach(i -> {
             HBox answerRow = createAnswerRow(answersList.get(i));
@@ -225,7 +227,7 @@ public class CheckMyLetterController {
 
         AnswerController controller = fxmlLoader.getController();
         controller.setIdOfLetter(letterDto.id());
-        controller.setEmailBy(letterDto.userBy().email());
+        controller.setEmailBy(currentEmail);
 
         stage = new Stage();
         Scene scene = new Scene(root);
