@@ -15,7 +15,7 @@
 <AnchorPane prefHeight="510.0" prefWidth="773.0" stylesheets="@static/sendLetter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.practice.seeyaa.controller.SendLetterController">
    <TextArea fx:id="text" layoutY="70.0" prefHeight="387.0" prefWidth="798.0" promptText=" Text">
       <font>
-         <Font name="Times New Roman" size="14.0" />
+         <Font name="Century" size="14.0" />
       </font>
    </TextArea>
    <TextField fx:id="toWhom" prefHeight="35.0" prefWidth="798.0" promptText="To whom">

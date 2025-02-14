@@ -103,8 +103,10 @@
 }
 
 #backHbox {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
     -fx-background-radius: 15px;
     -fx-border-radius: 15px;
+    -fx-border-width: 0;
     -fx-transition: all 0.4s ease;
 }
 
@@ -138,24 +140,52 @@
 }
 
 .text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-border-width: 0;
+    -fx-background-radius: 5px;
     -fx-transition: all 0.3s ease;
 }
 
 .text-field:hover {
-    -fx-background-color: #AC8888;
+    -fx-background-color: rgba(172, 136, 136, 0.7);
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 1);
 }
 
 .text-field:pressed {
-    -fx-background-color: #AC8888;
+    -fx-background-color: rgba(172, 136, 136, 0.8);
 }
 
 .text-field:disabled {
-    -fx-background-color: #8E8F8B;
+    -fx-background-color: rgba(142, 143, 139, 0.5);
     -fx-opacity: 0.7;
 }
 
 #hboxInsideInboxes {
-    -fx-spacing: 1px;
-    -fx-transition: all 0.3s ease;
+    -fx-background-color: transparent;
+    -fx-spacing: 10px;
+    -fx-padding: 5px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 1;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: #8B6464;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane > .scroll-bar:vertical > .track {
+    -fx-background-color: transparent;
 }

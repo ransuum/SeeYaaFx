@@ -102,7 +102,6 @@
 }
 
 #attachmentLabel {
-    -fx-opacity: 0;
     -fx-translate-y: 10;
 }
 
@@ -110,9 +109,4 @@
     -fx-opacity: 1;
     -fx-translate-y: 0;
     -fx-transition: all 0.3s ease-out;
-}
-
-.label{
-    -fx-font-weight: bold;
-    -fx-text-fill: #baa7d9;
 }

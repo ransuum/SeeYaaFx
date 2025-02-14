@@ -194,11 +194,15 @@ public class EmailController {
         TextField textField = createTextField(letter, function);
         textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
         TextField textField1 = new TextField();
+        textField1.setAlignment(Pos.CENTER);
+        textField1.setEditable(false);
+        textField1.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/date.css")).toExternalForm());
         textField1.setText(checkDate(letter.createdAt()));
 
         CheckBox checkBox = new CheckBox();
         checkBox.setOnAction(event -> {
             textField.setDisable(checkBox.isSelected());
+            textField1.setDisable(checkBox.isSelected());
             updateDeleteButtonVisibility();
         });
 
@@ -259,13 +263,13 @@ public class EmailController {
     private TextField createTextField(LetterDto letter, int function) {
         TextField textField = new TextField();
         textField.setCursor(Cursor.HAND);
-        textField.setPrefWidth(800);
+        textField.setPrefWidth(600);
         textField.setId(letter.id());
 
         String byName = ((function == 1) ?
-                String.format("%-30s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
-                : String.format("%-30s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
-        String paddedTopic = String.format("%-35s", letter.topic());
+                String.format("%-25s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
+                : String.format("%-25s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
+        String paddedTopic = String.format("%-30s", letter.topic());
 
         textField.setText(byName + paddedTopic);
         textField.setEditable(false);

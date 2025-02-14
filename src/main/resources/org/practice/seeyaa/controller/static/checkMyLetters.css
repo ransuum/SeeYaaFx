@@ -39,6 +39,60 @@
     -fx-transition: all 0.2s ease-out;
 }
 
+.answer-row {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-out;
+}
+
+.answer-row:hover {
+    -fx-background-color: derive(white, -2%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 3);
+}
+
+.avatar {
+    -fx-background-color: #baa7d9;
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-alignment: center;
+}
+
+.avatar-initials {
+    -fx-text-fill: white;
+    -fx-font-family: "Inter";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.answer-content {
+    -fx-spacing: 5;
+}
+
+.answer-name {
+    -fx-font-family: "Inter";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3F3131;
+}
+
+.answer-date {
+    -fx-font-family: "Inter";
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
+}
+
+#answers {
+    -fx-background-color: transparent;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
 .titled-pane {
     -fx-text-fill: #3F3131;
     -fx-font-family: "System Bold";
@@ -126,17 +180,20 @@
 }
 
 .text-area {
-    -fx-text-fill: #6D6060;
-    -fx-font-family: Inter;
-    -fx-font-size: 18;
-    -fx-wrap-text: true;
-    -fx-background-radius: 8px;
-    -fx-transition: all 0.2s ease-out;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-font-family: "Inter";
+    -fx-font-size: 14px;
+    -fx-text-fill: #3F3131;
 }
 
 .text-area:focused {
     -fx-effect: dropshadow(gaussian, rgba(186,167,217,0.4), 10, 0.5, 0, 0);
-    -fx-background-color: derive(#D9D9D9, 5%);
+}
+
+.text-area .content {
+    -fx-background-color: transparent;
 }
 
 * {
