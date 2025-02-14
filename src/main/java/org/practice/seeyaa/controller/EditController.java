@@ -149,11 +149,16 @@ public class EditController {
 
     private void updateUser() {
         try {
+            String newFirstname = firstnameCheck.isSelected() ? firstname.getText() : null;
+            String newLastname = lastnameCheck.isSelected() ? lastname.getText() : null;
+            String newUsername = usernameCheck.isSelected() ? username.getText() : null;
+            String newPassword = password1Check.isSelected() ? password1.getText().trim() : null;
+
             usersService.editProfile(new EditRequest(
-                    firstname.getText(),
-                    lastname.getText(),
-                    username.getText(),
-                    password1.getText()
+                    newFirstname,
+                    newLastname,
+                    newUsername,
+                    newPassword
             ), idOfUser);
         } catch (Exception e) {
             showError(e.getMessage());

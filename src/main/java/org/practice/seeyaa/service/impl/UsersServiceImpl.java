@@ -78,7 +78,6 @@ public class UsersServiceImpl implements UsersService {
             users.setPassword(editRequest.password());
         if (checkStringParameters(editRequest.lastname())) users.setLastname(editRequest.lastname());
         if (checkStringParameters(editRequest.username())) users.setUsername(editRequest.username());
-
         return UserMapper.INSTANCE.toUsersDto(usersRepo.save(users));
     }
 }

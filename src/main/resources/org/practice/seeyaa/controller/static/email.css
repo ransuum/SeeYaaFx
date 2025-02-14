@@ -96,6 +96,10 @@
     -fx-transition: all 0.3s ease;
 }
 
+#anc {
+    -fx-background-radius: 10px;
+}
+
 .button.selected {
     -fx-background-color: #AC8888;
     -fx-text-fill: #28032C;
