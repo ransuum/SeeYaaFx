@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.practice.seeyaa.construction.FileAction;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
@@ -26,9 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +55,8 @@ public class CheckMyLetterController {
     private StorageService storageService;
     @Autowired
     private AIController aiController;
+    @Autowired
+    private FileAction fileAction;
 
     public void quit(ActionEvent event) {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -93,7 +94,7 @@ public class CheckMyLetterController {
             stage.show();
         } catch (IOException e) {
             log.error("Error opening AI response window", e);
-            showAlert(Alert.AlertType.ERROR, "Error", "Could not open AI analysis window: " + e.getMessage());
+            fileAction.showAlert(Alert.AlertType.ERROR, "Error", "Could not open AI analysis window: " + e.getMessage());
         }
     }
 
@@ -249,7 +250,7 @@ public class CheckMyLetterController {
         SequentialTransition sequentialTransition = new SequentialTransition();
 
         for (int i = 0; i < files.size(); i++) {
-            HBox fileRow = createFileRow(files.get(i));
+            HBox fileRow = fileAction.createFillRow(files.get(i), stage);
 
             fileRow.setOpacity(0);
             fileRow.setTranslateY(20);
@@ -285,83 +286,6 @@ public class CheckMyLetterController {
         } else {
             ((Pane) filesContainer.getParent()).getChildren().setAll(filesContainer);
         }
-    }
-
-    private HBox createFileRow(Files file) {
-        HBox hbox = new HBox();
-        hbox.getStyleClass().add("file-row");
-        hbox.setSpacing(10);
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.setMinHeight(40);
-
-        Label fileNameLabel = new Label(file.getName());
-        fileNameLabel.getStyleClass().add("file-name-label");
-        fileNameLabel.setWrapText(true);
-        HBox.setHgrow(fileNameLabel, Priority.ALWAYS);
-
-        Button downloadButton = new Button("↓");
-        downloadButton.getStyleClass().add("download-button");
-        downloadButton.setOnAction(e -> downloadFile(file));
-
-        hbox.setOnMouseEntered(e -> {
-            ParallelTransition pt = new ParallelTransition();
-
-            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
-            scale.setToX(1.02);
-            scale.setToY(1.02);
-
-            FadeTransition fade = new FadeTransition(Duration.millis(200), downloadButton);
-            fade.setToValue(0.8);
-
-            pt.getChildren().addAll(scale, fade);
-            pt.play();
-        });
-
-        hbox.setOnMouseExited(e -> {
-            ParallelTransition pt = new ParallelTransition();
-
-            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
-            scale.setToX(1);
-            scale.setToY(1);
-
-            FadeTransition fade = new FadeTransition(Duration.millis(200), downloadButton);
-            fade.setToValue(1);
-
-            pt.getChildren().addAll(scale, fade);
-            pt.play();
-        });
-
-        hbox.getChildren().addAll(fileNameLabel, downloadButton);
-        return hbox;
-    }
-
-    private void downloadFile(Files file) {
-        log.info("File name: {}", file.getName());
-        var fileChooser = new FileChooser();
-        fileChooser.setTitle("Save file");
-        fileChooser.setInitialFileName(file.getName());
-        var fileToSave = fileChooser.showSaveDialog(stage);
-
-        if (fileToSave == null) return;
-
-        try (InputStream inputStream = storageService.downloadFile(file.getId().toString());
-             FileOutputStream outputStream = new FileOutputStream(fileToSave)) {
-
-            byte[] buffer = new byte[1024 * 1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) outputStream.write(buffer, 0, bytesRead);
-
-            showAlert(Alert.AlertType.CONFIRMATION, "Download Complete", "File downloaded successfully!");
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Download Failed", "Error: " + e.getMessage());
-        }
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        var alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
 }
