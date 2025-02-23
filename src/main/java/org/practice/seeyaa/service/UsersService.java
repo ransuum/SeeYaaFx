@@ -15,5 +15,5 @@ public interface UsersService {
     Users findByEmailReal(String email);
     UsersDto findByEmailForPassword(@Valid SignInRequest signInRequest);
     Users findById(String id);
-    UsersDto editProfile(@Valid EditRequest editRequest, String idOfUser);
+    void editProfile(@Valid EditRequest editRequest, String idOfUser);
 }

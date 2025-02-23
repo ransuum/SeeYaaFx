@@ -26,6 +26,7 @@ public class UsersServiceImpl implements UsersService {
         this.usersRepo = usersRepo;
     }
 
+    @Override
     public void save(@Valid SignUpRequest signUp) {
         usersRepo.save(UserMapper.INSTANCE.toUser(signUp));
     }
@@ -34,16 +35,14 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public UserWithLettersDto findByEmail(String email) {
         return LetterMapper.INSTANCE.toUserWithLettersDto(usersRepo.findByEmail(email)
-                .orElseThrow(()
-                        -> new RuntimeException("Wrong password or email")));
+                .orElseThrow(() -> new RuntimeException("Wrong password or email")));
     }
 
     @Override
     @Transactional
     public UsersDto findByEmailWithoutLists(String email) {
         return UserMapper.INSTANCE.toUsersDto(usersRepo.findByEmail(email)
-                .orElseThrow(()
-                        -> new RuntimeException("Wrong password or email")));
+                .orElseThrow(() -> new RuntimeException("Wrong password or email")));
     }
 
     @Override
@@ -69,7 +68,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @Transactional
-    public UsersDto editProfile(@Valid EditRequest editRequest, String idOfUser) {
+    public void editProfile(@Valid EditRequest editRequest, String idOfUser) {
         Users users = usersRepo.findById(idOfUser)
                 .orElseThrow(() -> new RuntimeException("Wrong id of user"));
 
@@ -78,6 +77,6 @@ public class UsersServiceImpl implements UsersService {
             users.setPassword(editRequest.password());
         if (checkStringParameters(editRequest.lastname())) users.setLastname(editRequest.lastname());
         if (checkStringParameters(editRequest.username())) users.setUsername(editRequest.username());
-        return UserMapper.INSTANCE.toUsersDto(usersRepo.save(users));
+        UserMapper.INSTANCE.toUsersDto(usersRepo.save(users));
     }
 }

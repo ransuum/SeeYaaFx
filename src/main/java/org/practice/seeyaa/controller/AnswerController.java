@@ -17,14 +17,16 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 public class AnswerController {
-    @FXML private Button circleButton;
     @FXML private Label idOfLetter;
     @FXML private TextArea textOfAnswer;
 
     private String emailBy;
 
-    @Autowired
-    private AnswerService answerServiceImpl;
+    private final AnswerService answerServiceImpl;
+
+    public AnswerController(AnswerService answerServiceImpl) {
+        this.answerServiceImpl = answerServiceImpl;
+    }
 
     @FXML
     void cancel(ActionEvent event) {

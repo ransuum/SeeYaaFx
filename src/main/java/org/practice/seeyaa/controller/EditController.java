@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.practice.seeyaa.models.request.EditRequest;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +28,24 @@ import java.util.List;
 
 
 @Component
-@Data
 public class EditController {
-    @FXML private TextField email;
-    @FXML private TextField firstname;
+    @FXML @Getter private TextField email;
+    @FXML @Getter private TextField firstname;
     @FXML private CheckBox firstnameCheck;
-    @FXML private TextField lastname;
+    @FXML @Getter private TextField lastname;
     @FXML private CheckBox lastnameCheck;
     @FXML private TextField password1;
     @FXML private CheckBox password1Check;
     @FXML private TextField password2;
-    @FXML private TextField username;
+    @FXML @Getter private TextField username;
     @FXML private CheckBox usernameCheck;
+    @Setter private String idOfUser;
 
-    private String idOfUser;
-    @Autowired
-    private UsersService usersService;
+    public EditController(UsersService usersService) {
+        this.usersService = usersService;
+    }
+
+    private final UsersService usersService;
 
     @FXML
     public void initialize() {

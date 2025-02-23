@@ -52,25 +52,26 @@ public class EmailController {
     @FXML @Getter private VBox hboxInsideInboxes;
     @FXML private ImageView editProfile;
 
-    @Autowired
-    private ConfigurableApplicationContext springContext;
-    @Autowired
-    private LetterService letterService;
-    @Autowired
-    private UsersService usersService;
-    @Autowired
-    private List<Choice> choices;
+    private final ConfigurableApplicationContext springContext;
+    private final LetterService letterService;
+    private final UsersService usersService;
+    private final Map<TypeOfLetter, Choice> typeOfLetterChoices;
 
     private final Map<String, Stage> openStages = new HashMap<>();
-    private Map<TypeOfLetter, Choice> typeOfLetterChoices;
+
     private Stage stage;
     private Scene scene;
     private Parent root;
 
+    public EmailController(ConfigurableApplicationContext springContext, LetterService letterService, UsersService usersService, List<Choice> choices) {
+        this.springContext = springContext;
+        this.letterService = letterService;
+        this.usersService = usersService;
+        this.typeOfLetterChoices = choices.stream().collect(Collectors.toMap(Choice::getChoice, o -> o));;
+    }
+
     @FXML
     public void initialize() {
-        typeOfLetterChoices = choices.stream()
-                .collect(Collectors.toMap(Choice::getChoice, o -> o));
         write.setOnMouseClicked(mouseEvent -> write());
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 

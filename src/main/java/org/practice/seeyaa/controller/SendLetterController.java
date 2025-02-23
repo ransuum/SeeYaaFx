@@ -34,14 +34,17 @@ public class SendLetterController {
     @FXML private TextField topic;
     @FXML private Label attachmentLabel;
 
-    @Autowired
-    private LetterService letterServiceImpl;
-    @Autowired
-    private StorageServiceImpl storageServiceImpl;
+    private final LetterService letterServiceImpl;
+    private final StorageServiceImpl storageServiceImpl;
 
     private Stage stage;
 
     private final List<File> selectedFiles = new ArrayList<>();
+
+    public SendLetterController(LetterService letterServiceImpl, StorageServiceImpl storageServiceImpl) {
+        this.letterServiceImpl = letterServiceImpl;
+        this.storageServiceImpl = storageServiceImpl;
+    }
 
     @FXML
     public void initialize() {

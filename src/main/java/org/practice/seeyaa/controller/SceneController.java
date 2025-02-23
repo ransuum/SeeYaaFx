@@ -31,14 +31,17 @@ public class SceneController {
     @FXML private Label incorrectInputEmail;
     @FXML private Label incorrectInputPassword;
 
-    @Autowired
-    private ConfigurableApplicationContext springContext;
-    @Autowired
-    private UsersService usersService;
+    private final ConfigurableApplicationContext springContext;
+    private final UsersService usersService;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    public SceneController(ConfigurableApplicationContext springContext, UsersService usersService) {
+        this.springContext = springContext;
+        this.usersService = usersService;
+    }
 
     @FXML
     public void initialize() {

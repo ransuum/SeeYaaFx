@@ -12,10 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.construction.FileAction;
@@ -49,21 +51,25 @@ public class CheckMyLetterController {
 
     private Stage stage;
 
-    @Autowired
-    private ConfigurableApplicationContext springContext;
-    @Autowired
-    private StorageService storageService;
-    @Autowired
-    private AIController aiController;
-    @Autowired
-    private FileAction fileAction;
+    private final ConfigurableApplicationContext springContext;
+    private final StorageService storageService;
+    private final AIController aiController;
+    private final FileAction fileAction;
+
+    public CheckMyLetterController(ConfigurableApplicationContext springContext, StorageService storageService,
+                                   AIController aiController, FileAction fileAction) {
+        this.springContext = springContext;
+        this.storageService = storageService;
+        this.aiController = aiController;
+        this.fileAction = fileAction;
+    }
 
     public void quit(ActionEvent event) {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
-    public void helpToUnderstandText(ActionEvent event) {
+    public void helpToUnderstandText() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ai-response.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
@@ -99,7 +105,7 @@ public class CheckMyLetterController {
     }
 
     @FXML
-    public void answer(ActionEvent event) {
+    public void answer() {
         try {
             answerOnLetter();
         } catch (IOException e) {

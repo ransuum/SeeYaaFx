@@ -38,7 +38,7 @@ public class AIController {
     }
 
     private void analyzeText() {
-        try (final VertexAI vertexAi = new VertexAI(PROJECT_ID, LOCATION);) {
+        try (final VertexAI vertexAi = new VertexAI(PROJECT_ID, LOCATION)) {
             GenerationConfig generationConfig =
                     GenerationConfig.newBuilder()
                             .setMaxOutputTokens(8192)
@@ -85,9 +85,7 @@ public class AIController {
                         .getText();
                 fullResponse.append(chunk);
 
-                Platform.runLater(() -> {
-                    responseAi.setText(fullResponse.toString());
-                });
+                Platform.runLater(() -> responseAi.setText(fullResponse.toString()));
             });
         } catch (IOException e) {
             log.info("Error occurred while generating the model: {}", e.getMessage());

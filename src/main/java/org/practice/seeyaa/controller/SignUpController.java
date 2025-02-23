@@ -18,16 +18,17 @@ public class SignUpController {
     @FXML private TextField password;
     @FXML private TextField username;
 
-    private Stage stage;
+    private final UsersService usersService;
 
-    @Autowired
-    private UsersService usersService;
+    public SignUpController(UsersService usersService) {
+        this.usersService = usersService;
+    }
 
     @FXML
     public void signUp(ActionEvent event) {
         registry();
 
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
