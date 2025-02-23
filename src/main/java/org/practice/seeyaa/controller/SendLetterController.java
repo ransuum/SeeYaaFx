@@ -16,6 +16,7 @@ import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.impl.StorageServiceImpl;
 import org.practice.seeyaa.util.file_configuration.PathMultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,7 +70,11 @@ public class SendLetterController {
         Task<Void> uploadTask = new Task<>() {
             @Override
             protected Void call() {
-                LetterRequest request = new LetterRequest(text.getText(), topic.getText(), toWhom.getText(), hiding.getText());
+                LetterRequest request = new LetterRequest(
+                        text.getText(),
+                        topic.getText(),
+                        toWhom.getText(),
+                        SecurityContextHolder.getContext().getAuthentication().getName());
                 Letter savedLetter = letterServiceImpl.sendLetter(request);
 
                 for (File file : selectedFiles) {

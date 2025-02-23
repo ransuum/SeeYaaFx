@@ -8,6 +8,7 @@ import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.AnswerService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public AnswerDto createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
         var letter = letterRepo.findById(idOfLetter)

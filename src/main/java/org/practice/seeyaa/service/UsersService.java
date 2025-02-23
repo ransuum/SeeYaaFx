@@ -10,10 +10,10 @@ import org.practice.seeyaa.models.request.SignUpRequest;
 
 public interface UsersService {
     void save(@Valid SignUpRequest signUp);
-    UserWithLettersDto findByEmail(String email);
-    UsersDto findByEmailWithoutLists(String email);
+    UserWithLettersDto findByEmail();
+    UsersDto findByEmailWithoutLists();
     Users findByEmailReal(String email);
     UsersDto findByEmailForPassword(@Valid SignInRequest signInRequest);
     Users findById(String id);
-    void editProfile(@Valid EditRequest editRequest, String idOfUser);
+    void editProfile(@Valid EditRequest editRequest);
 }

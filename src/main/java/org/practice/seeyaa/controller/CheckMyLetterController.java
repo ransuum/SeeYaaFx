@@ -1,6 +1,5 @@
 package org.practice.seeyaa.controller;
 
-
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +14,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.construction.FileAction;
@@ -25,7 +21,6 @@ import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.service.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -113,13 +108,13 @@ public class CheckMyLetterController {
         }
     }
 
-    public void setLetter(LetterWithAnswers letter1, int function) {
-        this.letterDto = letter1;
-        setTopicAndTextAndToWhom(letter1.topic(), letter1.text(),
-                (function == 1) ? letter1.userBy().email()
-                        : letter1.userTo().email(),
-                (function == 1) ? letterDto.userBy().firstname() + " " + letterDto.userBy().lastname()
-                        : letterDto.userTo().firstname() + " " + letterDto.userTo().lastname());
+        public void setLetter(LetterWithAnswers letter1, int function) {
+            this.letterDto = letter1;
+            setTopicAndTextAndToWhom(letter1.topic(), letter1.text(),
+                    (function == 1) ? letter1.userBy().email()
+                            : letter1.userTo().email(),
+                    (function == 1) ? letterDto.userBy().firstname() + " " + letterDto.userBy().lastname()
+                            : letterDto.userTo().firstname() + " " + letterDto.userTo().lastname());
     }
 
     private void setTopicAndTextAndToWhom(String topic, String text, String byEmail, String fullName) {

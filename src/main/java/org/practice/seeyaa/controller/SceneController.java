@@ -18,6 +18,11 @@ import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.util.authField.AuthorizationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -32,15 +37,15 @@ public class SceneController {
     @FXML private Label incorrectInputPassword;
 
     private final ConfigurableApplicationContext springContext;
-    private final UsersService usersService;
+    private final AuthenticationManager authenticationManager;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
-    public SceneController(ConfigurableApplicationContext springContext, UsersService usersService) {
+    public SceneController(ConfigurableApplicationContext springContext, AuthenticationManager authenticationManager) {
         this.springContext = springContext;
-        this.usersService = usersService;
+        this.authenticationManager = authenticationManager;
     }
 
     @FXML
@@ -58,15 +63,15 @@ public class SceneController {
     public void go(ActionEvent event) throws IOException {
         incorrectInputEmail.setVisible(false);
         incorrectInputPassword.setVisible(false);
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(emailInput.getText(), password.getText());
+
         try {
+            Authentication auth = authenticationManager.authenticate(authToken);
+            SecurityContextHolder.getContext().setAuthentication(auth);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("email.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
-
-
-
-            EmailController emailController = fxmlLoader.getController();
-            emailController.showEmail(usersService.findByEmailForPassword(new SignInRequest(emailInput.getText(), password.getText())));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/email.css")).toExternalForm());
@@ -80,7 +85,7 @@ public class SceneController {
             check.checkFieldsLogin(e);
             incorrectInputPassword = check.getIncorrectInputPassword();
             incorrectInputEmail = check.getIncorrectInputEmail();
-        } catch (RuntimeException e) {
+        } catch (AuthenticationException e) {
             incorrectInputPassword.setText("Wrong password or email");
             incorrectInputPassword.setVisible(true);
         }

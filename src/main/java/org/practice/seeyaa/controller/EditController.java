@@ -21,6 +21,7 @@ import lombok.Setter;
 import org.practice.seeyaa.models.request.EditRequest;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -39,7 +40,6 @@ public class EditController {
     @FXML private TextField password2;
     @FXML @Getter private TextField username;
     @FXML private CheckBox usernameCheck;
-    @Setter private String idOfUser;
 
     public EditController(UsersService usersService) {
         this.usersService = usersService;
@@ -163,7 +163,7 @@ public class EditController {
                     newLastname,
                     newUsername,
                     newPassword
-            ), idOfUser);
+            ));
         } catch (Exception e) {
             showError(e.getMessage());
         }

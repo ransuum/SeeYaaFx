@@ -7,6 +7,7 @@ import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.FilesRepo;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.service.StorageService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void uploadFile(MultipartFile file, String letterId) {
         try {
             Letter letter = letterRepo.findById(letterId)
@@ -52,6 +54,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public InputStream downloadFile(String fileId) {
         Integer id = Integer.parseInt(fileId);
         Files file = filesRepo.findById(id)
@@ -60,6 +63,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public List<Files> getFilesByLetterId(String letterId) {
         return filesRepo.findAllByLetter_Id(letterId);

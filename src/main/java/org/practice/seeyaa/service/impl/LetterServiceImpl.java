@@ -12,6 +12,7 @@ import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
 import org.practice.seeyaa.util.moved_letter_conf.MovedLetterConfiguration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +37,7 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Letter sendLetter(@Valid LetterRequest letterRequest) {
         Users usersBy = usersRepo.findByEmail(letterRequest.userBy())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -50,8 +52,7 @@ public class LetterServiceImpl implements LetterService {
                 .topic(letterRequest.topic())
                 .activeLetter(Boolean.TRUE)
                 .createdAt(LocalDateTime.now())
-                .build()
-        );
+                .build());
 
         usersBy.getSendLetters().add(letter);
         usersTo.getMyLetters().add(letter);
@@ -60,16 +61,19 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void setLetterToSpam(String letterId, String email) {
         movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.SPAM);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void setLetterToGarbage(String letterId, String email) {
         movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.GARBAGE);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
@@ -77,23 +81,30 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
-    public List<LetterDto> findAllSentByTopic(String topic, Users usersBy) {
+    public List<LetterDto> findAllSentByTopic(String topic, String userBy) {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(
-                letterRepo.findAllByTopicContainingAndUserBy(topic, usersBy)
+                letterRepo.findAllByTopicContainingAndUserBy(
+                        topic,
+                        usersRepo.findByEmail(userBy).orElse(null))
         );
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
-    public List<LetterDto> findAllInboxByTopic(String topic, Users usersTo) {
-        return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(topic, usersTo)
+    public List<LetterDto> findAllInboxByTopic(String topic, String userTo) {
+        return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(
+                        topic,
+                        usersRepo.findByEmail(userTo).orElse(null))
                 .stream()
                 .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
                 .collect(Collectors.toList()));
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public void deleteById(String id) {
         letterRepo.findById(id).ifPresent(letter1 -> {

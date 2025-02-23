@@ -3,6 +3,7 @@ package org.practice.seeyaa.service;
 import jakarta.validation.Valid;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
+import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.LetterRequest;
@@ -14,7 +15,7 @@ public interface LetterService {
     void setLetterToSpam(String letterId, String email);
     void setLetterToGarbage(String letterId, String email);
     LetterWithAnswers findById(String id);
-    List<LetterDto> findAllSentByTopic(String topic, Users usersBy);
-    List<LetterDto> findAllInboxByTopic(String topic, Users usersTo);
+    List<LetterDto> findAllSentByTopic(String topic, String userTo);
+    List<LetterDto> findAllInboxByTopic(String topic, String userBy);
     void deleteById(String id);
 }

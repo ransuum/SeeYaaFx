@@ -4,6 +4,7 @@ import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.service.impl.UsersServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -18,8 +19,9 @@ public class SentChoice implements Choice {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<LetterDto> addToBox(int index, String email) {
-        return usersService.findByEmail(email)
+        return usersService.findByEmail()
                 .sendLetters()
                 .stream()
                 .filter(LetterDto::activeLetter)

@@ -7,12 +7,17 @@ import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Objects;
 
 public class SeeYaaApplicationFX extends javafx.application.Application {
 
     private ConfigurableApplicationContext springContext;
+
+    static {
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
 
     @Override
     public void init() {
@@ -28,7 +33,6 @@ public class SeeYaaApplicationFX extends javafx.application.Application {
         String css = Objects.requireNonNull(this.getClass().getResource("controller/static/login.css")).toExternalForm();
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(css);
-
         stage.setScene(scene);
         stage.setTitle("SeeYaa");
         stage.show();

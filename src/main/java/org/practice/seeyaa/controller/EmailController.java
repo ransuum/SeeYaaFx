@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -27,8 +26,8 @@ import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.util.choices_of_letters.Choice;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -72,6 +71,7 @@ public class EmailController {
 
     @FXML
     public void initialize() {
+        emailOfAuthUser.setText(SecurityContextHolder.getContext().getAuthentication().getName());
         write.setOnMouseClicked(mouseEvent -> write());
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
@@ -80,11 +80,6 @@ public class EmailController {
         addToBox(spam, 3, TypeOfLetter.SPAM);
         addToBox(garbage, 4, TypeOfLetter.GARBAGE);
         registerSearchHandlers();
-    }
-
-
-    public void showEmail(UsersDto usersDto) {
-        emailOfAuthUser.setText(usersDto.email());
     }
 
     @FXML
@@ -115,11 +110,11 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
 
             if (inboxes.getStyleClass().contains("selected"))
-                letterService.findAllInboxByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
+                letterService.findAllInboxByTopic(search.getText(), emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, 1));
             else if (sent.getStyleClass().contains("selected"))
-                letterService.findAllSentByTopic(search.getText(), usersService.findByEmailReal(emailOfAuthUser.getText()))
+                letterService.findAllSentByTopic(search.getText(), emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, 2));
 
@@ -150,10 +145,9 @@ public class EmailController {
             fxmlLoader.setControllerFactory(springContext::getBean);
             this.root = fxmlLoader.load();
 
-            UsersDto byEmail = usersService.findByEmailWithoutLists(emailOfAuthUser.getText());
+            UsersDto byEmail = usersService.findByEmailWithoutLists();
 
             EditController controller = fxmlLoader.getController();
-            controller.setIdOfUser(byEmail.id());
             controller.getEmail().setText(byEmail.email());
             controller.getFirstname().setText(byEmail.firstname());
             controller.getLastname().setText(byEmail.lastname());
