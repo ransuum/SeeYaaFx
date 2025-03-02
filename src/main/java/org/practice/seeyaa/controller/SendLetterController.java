@@ -118,7 +118,7 @@ public class SendLetterController {
                 protected Void call() {
                     selectedFiles.clear();
                     for (File file : files) {
-                        if (file.length() > FileSize.FIVE_HUNDRED_MB.getSize()) {
+                        if (file.length() > FileSize.ONE_GB.getSize()) {
                             showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
                             continue;
                         }

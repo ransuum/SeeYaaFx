@@ -1,6 +1,5 @@
 package org.practice.seeyaa.service.impl;
 
-import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.entity.Answer;
 import org.practice.seeyaa.models.request.AnswerRequest;
 import org.practice.seeyaa.repo.AnswerRepo;
@@ -29,7 +28,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
-    public AnswerDto createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
+    public void createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
         var letter = letterRepo.findById(idOfLetter)
                 .orElseThrow(() -> new RuntimeException("App Error"));
 
@@ -46,6 +45,6 @@ public class AnswerServiceImpl implements AnswerService {
         letter.getAnswers().add(answer);
         users.getAnswers().add(answer);
 
-        return LetterMapper.INSTANCE.toAnswerDto(answer);
+        LetterMapper.INSTANCE.toAnswerDto(answer);
     }
 }
