@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface MovedLetterService {
     List<MovedLetterDto> getLettersWithSpam(String email);
+
     List<MovedLetterDto> getLettersWithGarbage(String email);
 }

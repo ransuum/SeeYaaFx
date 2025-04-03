@@ -43,7 +43,7 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public UserWithLettersDto findByEmail() {
         return LetterMapper.INSTANCE.toUserWithLettersDto(usersRepo.findByEmail(
-                SecurityContextHolder.getContext().getAuthentication().getName())
+                        SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new RuntimeException("Wrong password or email")));
     }
 
@@ -52,7 +52,7 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public UsersDto findByEmailWithoutLists() {
         return UserMapper.INSTANCE.toUsersDto(usersRepo.findByEmail(
-                SecurityContextHolder.getContext().getAuthentication().getName())
+                        SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new RuntimeException("Wrong password or email")));
     }
 
