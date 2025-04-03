@@ -6,22 +6,16 @@ import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.practice.seeyaa.models.request.EditRequest;
 import org.practice.seeyaa.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -30,16 +24,30 @@ import java.util.List;
 
 @Component
 public class EditController {
-    @FXML @Getter private TextField email;
-    @FXML @Getter private TextField firstname;
-    @FXML private CheckBox firstnameCheck;
-    @FXML @Getter private TextField lastname;
-    @FXML private CheckBox lastnameCheck;
-    @FXML private TextField password1;
-    @FXML private CheckBox password1Check;
-    @FXML private TextField password2;
-    @FXML @Getter private TextField username;
-    @FXML private CheckBox usernameCheck;
+    @FXML
+    @Getter
+    private TextField email;
+    @FXML
+    @Getter
+    private TextField firstname;
+    @FXML
+    private CheckBox firstnameCheck;
+    @FXML
+    @Getter
+    private TextField lastname;
+    @FXML
+    private CheckBox lastnameCheck;
+    @FXML
+    private TextField password1;
+    @FXML
+    private CheckBox password1Check;
+    @FXML
+    private TextField password2;
+    @FXML
+    @Getter
+    private TextField username;
+    @FXML
+    private CheckBox usernameCheck;
 
     public EditController(UsersService usersService) {
         this.usersService = usersService;
@@ -77,16 +85,14 @@ public class EditController {
                 new Pair<>(usernameCheck, username)
         );
 
-        fieldPairs.forEach(pair -> {
-            pair.getKey().setOnAction(e -> {
-                boolean selected = pair.getKey().isSelected();
-                FadeTransition fade = new FadeTransition(Duration.millis(300), pair.getValue());
-                fade.setFromValue(selected ? 0.6 : 1);
-                fade.setToValue(selected ? 1 : 0.6);
-                fade.play();
-                pair.getValue().setDisable(!selected);
-            });
-        });
+        fieldPairs.forEach(pair -> pair.getKey().setOnAction(e -> {
+                    boolean selected = pair.getKey().isSelected();
+                    FadeTransition fade = new FadeTransition(Duration.millis(300), pair.getValue());
+                    fade.setFromValue(selected ? 0.6 : 1);
+                    fade.setToValue(selected ? 1 : 0.6);
+                    fade.play();
+                    pair.getValue().setDisable(!selected);
+                }));
 
         password1Check.setOnAction(e -> {
             boolean selected = password1Check.isSelected();

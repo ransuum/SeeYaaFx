@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import static org.practice.seeyaa.util.dateCheck.StringCheck.checkStringParameters;
+import static org.practice.seeyaa.util.datecheck.StringCheck.checkStringParameters;
 
 @Service
 @Validated

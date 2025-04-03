@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.moved_letter_conf;
+package org.practice.seeyaa.util.movedletterconf;
 
 import org.practice.seeyaa.enums.TypeOfLetter;
 

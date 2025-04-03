@@ -1,8 +1,12 @@
-package org.practice.seeyaa.util.dateCheck;
+package org.practice.seeyaa.util.datecheck;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateChecking {
 
     public static String checkDate(LocalDateTime date) {

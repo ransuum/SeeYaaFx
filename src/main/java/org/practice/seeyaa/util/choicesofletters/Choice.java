@@ -1,6 +1,5 @@
-package org.practice.seeyaa.util.choices_of_letters;
+package org.practice.seeyaa.util.choicesofletters;
 
-import javafx.scene.layout.VBox;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
+import static org.practice.seeyaa.util.datecheck.DateChecking.checkDate;
 
 @Component
 @Slf4j

@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.letter_listener;
+package org.practice.seeyaa.util.letterlistener;
 
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.entity.MovedLetter;

@@ -25,7 +25,7 @@ import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
-import org.practice.seeyaa.util.choices_of_letters.Choice;
+import org.practice.seeyaa.util.choicesofletters.Choice;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.practice.seeyaa.util.dateCheck.DateChecking.checkDate;
+import static org.practice.seeyaa.util.datecheck.DateChecking.checkDate;
 
 @Component
 public class EmailController {
@@ -66,7 +66,7 @@ public class EmailController {
         this.springContext = springContext;
         this.letterService = letterService;
         this.usersService = usersService;
-        this.typeOfLetterChoices = choices.stream().collect(Collectors.toMap(Choice::getChoice, o -> o));;
+        this.typeOfLetterChoices = choices.stream().collect(Collectors.toMap(Choice::getChoice, o -> o));
     }
 
     @FXML
@@ -216,10 +216,10 @@ public class EmailController {
 
     private void updateDeleteButtonVisibility() {
         final boolean anySelected = hboxInsideInboxes.getChildren().stream()
-                .filter(node -> node instanceof HBox)
-                .map(node -> (HBox) node)
+                .filter(HBox.class::isInstance)
+                .map(HBox.class::cast)
                 .flatMap(hbox -> hbox.getChildren().stream())
-                .filter(child -> child instanceof CheckBox)
+                .filter(CheckBox.class::isInstance)
                 .anyMatch(child -> ((CheckBox) child).isSelected());
 
         spambutton.setVisible(anySelected);

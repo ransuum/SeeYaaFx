@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.authField;
+package org.practice.seeyaa.util.authfield;
 
 import javafx.scene.control.Label;
 import lombok.Getter;

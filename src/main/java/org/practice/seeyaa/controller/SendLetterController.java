@@ -14,8 +14,7 @@ import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.models.request.LetterRequest;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.impl.StorageServiceImpl;
-import org.practice.seeyaa.util.file_configuration.PathMultipartFile;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.practice.seeyaa.util.fileconfiguration.PathMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,12 +90,9 @@ public class SendLetterController {
                 stage.close();
                 scene.setCursor(Cursor.DEFAULT);
             });
-            System.gc();
         });
         uploadTask.setOnFailed(e -> {
-            Platform.runLater(() -> {
-                scene.setCursor(Cursor.DEFAULT);
-            });
+            Platform.runLater(() -> scene.setCursor(Cursor.DEFAULT));
 
             showAlert("Upload Failed", uploadTask.getException().getMessage());
         });

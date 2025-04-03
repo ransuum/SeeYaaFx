@@ -11,7 +11,7 @@ import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.util.mappers.LetterMapper;
-import org.practice.seeyaa.util.moved_letter_conf.MovedLetterConfiguration;
+import org.practice.seeyaa.util.movedletterconf.MovedLetterConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -100,7 +99,7 @@ public class LetterServiceImpl implements LetterService {
                         usersRepo.findByEmail(userTo).orElse(null))
                 .stream()
                 .sorted(Comparator.comparing(Letter::getCreatedAt).reversed())
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     @Override
