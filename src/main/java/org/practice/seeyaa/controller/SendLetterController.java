@@ -26,13 +26,20 @@ import java.util.List;
 
 @Component
 public class SendLetterController {
-    @FXML private Button attachFile;
-    @FXML private TextField hiding;
-    @FXML private Button sendLetter;
-    @FXML private TextArea text;
-    @FXML private TextField toWhom;
-    @FXML private TextField topic;
-    @FXML private Label attachmentLabel;
+    @FXML
+    private Button attachFile;
+    @FXML
+    private TextField hiding;
+    @FXML
+    private Button sendLetter;
+    @FXML
+    private TextArea text;
+    @FXML
+    private TextField toWhom;
+    @FXML
+    private TextField topic;
+    @FXML
+    private Label attachmentLabel;
 
     private final LetterService letterServiceImpl;
     private final StorageServiceImpl storageServiceImpl;
@@ -84,13 +91,12 @@ public class SendLetterController {
             }
         };
 
-        uploadTask.setOnSucceeded(e -> {
-            Platform.runLater(() -> {
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.close();
-                scene.setCursor(Cursor.DEFAULT);
-            });
-        });
+        uploadTask.setOnSucceeded(e ->
+                Platform.runLater(() -> {
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.close();
+                    scene.setCursor(Cursor.DEFAULT);
+                }));
         uploadTask.setOnFailed(e -> {
             Platform.runLater(() -> scene.setCursor(Cursor.DEFAULT));
 

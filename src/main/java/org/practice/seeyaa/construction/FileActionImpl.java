@@ -37,25 +37,25 @@ public class FileActionImpl implements FileAction {
 
     @Override
     public HBox createFillRow(Files files, Stage stage) {
-        HBox hbox = new HBox();
+        var hbox = new HBox();
         hbox.getStyleClass().add("file-row");
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
         hbox.setMinHeight(40);
 
-        Label fileNameLabel = new Label(files.getName());
+        var fileNameLabel = new Label(files.getName());
         fileNameLabel.getStyleClass().add("file-name-label");
         fileNameLabel.setWrapText(true);
         HBox.setHgrow(fileNameLabel, Priority.ALWAYS);
 
-        Label fileSizeLabel = new Label(formatFileSize(files.getSize()));
+        var fileSizeLabel = new Label(formatFileSize(files.getSize()));
         fileSizeLabel.getStyleClass().add("file-size-label");
 
-        VBox fileInfoBox = new VBox(5);
+        var fileInfoBox = new VBox(5);
         fileInfoBox.getChildren().addAll(fileNameLabel, fileSizeLabel);
         HBox.setHgrow(fileInfoBox, Priority.ALWAYS);
 
-        Trio<HBox, Button, ProgressIndicator> object = createObjects();
+        final Trio<HBox, Button, ProgressIndicator> object = createObjects();
         var downloadButton = object.second();
         var progressIndicator = object.third();
         var buttonBox = object.first();
@@ -90,13 +90,13 @@ public class FileActionImpl implements FileAction {
         });
 
         hbox.setOnMouseEntered(e -> {
-            ParallelTransition pt = new ParallelTransition();
+            var pt = new ParallelTransition();
 
-            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
+            var scale = new ScaleTransition(Duration.millis(200), hbox);
             scale.setToX(1.02);
             scale.setToY(1.02);
 
-            FadeTransition fade = new FadeTransition(Duration.millis(200), downloadButton);
+            var fade = new FadeTransition(Duration.millis(200), downloadButton);
             fade.setToValue(0.8);
 
             pt.getChildren().addAll(scale, fade);
@@ -104,13 +104,13 @@ public class FileActionImpl implements FileAction {
         });
 
         hbox.setOnMouseExited(e -> {
-            ParallelTransition pt = new ParallelTransition();
+            var pt = new ParallelTransition();
 
-            ScaleTransition scale = new ScaleTransition(Duration.millis(200), hbox);
+            var scale = new ScaleTransition(Duration.millis(200), hbox);
             scale.setToX(1);
             scale.setToY(1);
 
-            FadeTransition fade = new FadeTransition(Duration.millis(200), downloadButton);
+            var fade = new FadeTransition(Duration.millis(200), downloadButton);
             fade.setToValue(1);
 
             pt.getChildren().addAll(scale, fade);
