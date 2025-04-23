@@ -1,12 +1,11 @@
 package org.practice.seeyaa.service.impl;
 
 import org.practice.seeyaa.models.entity.Answer;
-import org.practice.seeyaa.models.request.AnswerRequest;
+import org.practice.seeyaa.models.request.AnswerRequestDto;
 import org.practice.seeyaa.repo.AnswerRepo;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.AnswerService;
-import org.practice.seeyaa.util.mappers.LetterMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,23 +27,18 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
-    public void createAnswer(AnswerRequest answerRequest, String emailBy, String idOfLetter) {
-        var letter = letterRepo.findById(idOfLetter)
+    public void createAnswer(AnswerRequestDto answerRequestDto, String emailBy, String idOfLetter) {
+        final var letter = letterRepo.findById(idOfLetter)
                 .orElseThrow(() -> new RuntimeException("App Error"));
 
-        var users = usersRepo.findByEmail(emailBy)
+        final var users = usersRepo.findByEmail(emailBy)
                 .orElseThrow(() -> new RuntimeException("App Error"));
 
-        var answer = answerRepo.save(Answer.builder()
-                .answerText(answerRequest.textOfLetter())
+        answerRepo.save(Answer.builder()
+                .answerText(answerRequestDto.textOfLetter())
                 .currentLetter(letter)
                 .userByAnswered(users)
                 .createdAt(LocalDateTime.now())
                 .build());
-
-        letter.getAnswers().add(answer);
-        users.getAnswers().add(answer);
-
-        LetterMapper.INSTANCE.toAnswerDto(answer);
     }
 }

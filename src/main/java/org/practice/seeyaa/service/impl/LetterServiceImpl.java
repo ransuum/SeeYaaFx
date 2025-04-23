@@ -5,13 +5,13 @@ import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Users;
-import org.practice.seeyaa.models.request.LetterRequest;
+import org.practice.seeyaa.models.request.LetterRequestDto;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.LetterService;
-import org.practice.seeyaa.util.mappers.LetterMapper;
-import org.practice.seeyaa.util.movedletterconf.MovedLetterConfiguration;
+import org.practice.seeyaa.mappers.LetterMapper;
+import org.practice.seeyaa.configuration.movedletterconf.MovedLetterConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,26 +37,20 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Letter sendLetter(@Valid LetterRequest letterRequest) {
-        Users usersBy = usersRepo.findByEmail(letterRequest.userBy())
+    public LetterDto sendLetter(@Valid LetterRequestDto letterRequestDto) {
+        final Users usersBy = usersRepo.findByEmail(letterRequestDto.userBy())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Users usersTo = usersRepo.findByEmail(letterRequest.userTo())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        var letter = letterRepo.save(Letter.builder()
-                .userBy(usersBy)
-                .userTo(usersTo)
-                .text(letterRequest.text())
-                .topic(letterRequest.topic())
-                .activeLetter(Boolean.TRUE)
-                .createdAt(LocalDateTime.now())
-                .build());
-
-        usersBy.getSendLetters().add(letter);
-        usersTo.getMyLetters().add(letter);
-
-        return letter;
+        return usersRepo.findByEmail(letterRequestDto.userTo())
+                .map(userTo -> LetterMapper.INSTANCE.toLetterDto(letterRepo.save(
+                        Letter.builder()
+                                .userBy(usersBy)
+                                .userTo(userTo)
+                                .text(letterRequestDto.text())
+                                .topic(letterRequestDto.topic())
+                                .activeLetter(Boolean.TRUE)
+                                .createdAt(LocalDateTime.now())
+                                .build()))
+                ).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
@@ -106,10 +100,6 @@ public class LetterServiceImpl implements LetterService {
     @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public void deleteById(String id) {
-        letterRepo.findById(id).ifPresent(letter1 -> {
-            letter1.getUserBy().getSendLetters().remove(letter1);
-            letter1.getUserTo().getMyLetters().remove(letter1);
-            letterRepo.delete(letter1);
-        });
+        letterRepo.findById(id).ifPresent(letterRepo::delete);
     }
 }

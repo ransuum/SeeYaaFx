@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.fileconfiguration;
+package org.practice.seeyaa.configuration.fileconfiguration;
 
 import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;

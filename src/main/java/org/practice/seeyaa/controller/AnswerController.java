@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import lombok.Setter;
-import org.practice.seeyaa.models.request.AnswerRequest;
+import org.practice.seeyaa.models.request.AnswerRequestDto;
 import org.practice.seeyaa.service.AnswerService;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class AnswerController {
 
     @FXML
     void cancel(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        final Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
@@ -38,11 +38,11 @@ public class AnswerController {
     @FXML
     void answer(ActionEvent event) {
         setInformation();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        final Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     private void setInformation(){
-        answerServiceImpl.createAnswer(new AnswerRequest(textOfAnswer.getText()), emailBy, idOfLetter.getText());
+        answerServiceImpl.createAnswer(new AnswerRequestDto(textOfAnswer.getText()), emailBy, idOfLetter.getText());
     }
 }

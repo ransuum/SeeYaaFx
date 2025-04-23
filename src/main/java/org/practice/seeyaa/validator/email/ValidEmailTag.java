@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.validator.email;
+package org.practice.seeyaa.validator.email;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

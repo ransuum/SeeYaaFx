@@ -5,7 +5,7 @@ import org.practice.seeyaa.models.dto.MovedLetterDto;
 import org.practice.seeyaa.repo.MovedLetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.practice.seeyaa.service.MovedLetterService;
-import org.practice.seeyaa.util.mappers.MovedLetterMapper;
+import org.practice.seeyaa.mappers.MovedLetterMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +24,23 @@ public class MovedLetterServiceImpl implements MovedLetterService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<MovedLetterDto> getLettersWithSpam(String email) {
-        return movedLetterRepo.findAllByMovedByAndTypeOfLetter(usersRepo.findByEmail(email).get(), TypeOfLetter.SPAM)
-                .stream()
-                .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
-                .toList();
+        return usersRepo.findByEmail(email)
+                .map(movedBy -> movedLetterRepo.findAllByMovedByAndTypeOfLetter(movedBy, TypeOfLetter.SPAM)
+                        .stream()
+                        .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
+                        .toList())
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<MovedLetterDto> getLettersWithGarbage(String email) {
-        return movedLetterRepo.findAllByMovedByAndTypeOfLetter(usersRepo.findByEmail(email).get(), TypeOfLetter.GARBAGE)
-                .stream()
-                .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
-                .toList();
+        return usersRepo.findByEmail(email)
+                .map(movedBy -> movedLetterRepo.findAllByMovedByAndTypeOfLetter(movedBy, TypeOfLetter.GARBAGE)
+                        .stream()
+                        .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
+                        .toList())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
     }
 }

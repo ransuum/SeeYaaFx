@@ -23,18 +23,18 @@ import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.dto.UsersDto;
+import org.practice.seeyaa.security.SecurityService;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.util.choicesofletters.Choice;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.practice.seeyaa.util.datecheck.DateChecking.checkDate;
+import static org.practice.seeyaa.util.fieldvalidation.FieldUtil.refractorDate;
 
 @Component
 public class EmailController {
@@ -55,6 +55,7 @@ public class EmailController {
     private final LetterService letterService;
     private final UsersService usersService;
     private final Map<TypeOfLetter, Choice> typeOfLetterChoices;
+    private final SecurityService securityService;
 
     private final Map<String, Stage> openStages = new HashMap<>();
 
@@ -62,16 +63,18 @@ public class EmailController {
     private Scene scene;
     private Parent root;
 
-    public EmailController(ConfigurableApplicationContext springContext, LetterService letterService, UsersService usersService, List<Choice> choices) {
+    public EmailController(ConfigurableApplicationContext springContext, LetterService letterService,
+                           UsersService usersService, List<Choice> choices, SecurityService securityService) {
         this.springContext = springContext;
         this.letterService = letterService;
         this.usersService = usersService;
         this.typeOfLetterChoices = choices.stream().collect(Collectors.toMap(Choice::getChoice, o -> o));
+        this.securityService = securityService;
     }
 
     @FXML
     public void initialize() {
-        emailOfAuthUser.setText(SecurityContextHolder.getContext().getAuthentication().getName());
+        emailOfAuthUser.setText(securityService.getCurrentUserEmail());
         write.setOnMouseClicked(mouseEvent -> write());
         editProfile.setOnMouseClicked(mouseEvent -> editProfile());
 
@@ -187,22 +190,22 @@ public class EmailController {
     }
 
     public void addLetterToUI(LetterDto letter, int function) {
-        TextField textField = createTextField(letter, function);
+        final TextField textField = createTextField(letter, function);
         textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
-        TextField textField1 = new TextField();
+        final TextField textField1 = new TextField();
         textField1.setAlignment(Pos.CENTER);
         textField1.setEditable(false);
         textField1.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/date.css")).toExternalForm());
-        textField1.setText(checkDate(letter.createdAt()));
+        textField1.setText(refractorDate(letter.createdAt()));
 
-        CheckBox checkBox = new CheckBox();
+        final CheckBox checkBox = new CheckBox();
         checkBox.setOnAction(event -> {
             textField.setDisable(checkBox.isSelected());
             textField1.setDisable(checkBox.isSelected());
             updateDeleteButtonVisibility();
         });
 
-        HBox hBox = new HBox(10);
+        final HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().addAll(checkBox, textField, textField1);
 
@@ -257,15 +260,15 @@ public class EmailController {
     }
 
     private TextField createTextField(LetterDto letter, int function) {
-        TextField textField = new TextField();
+        final TextField textField = new TextField();
         textField.setCursor(Cursor.HAND);
         textField.setPrefWidth(600);
         textField.setId(letter.id());
 
-        String byName = ((function == 1) ?
+        final String byName = ((function == 1) ?
                 String.format("%-25s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
                 : String.format("%-25s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
-        String paddedTopic = String.format("%-30s", letter.topic());
+        final String paddedTopic = String.format("%-30s", letter.topic());
 
         textField.setText(byName + paddedTopic);
         textField.setEditable(false);
@@ -285,12 +288,12 @@ public class EmailController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("checkLetter.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
-            LetterWithAnswers letter1 = letterService.findById(letterId);
+            final LetterWithAnswers letter1 = letterService.findById(letterId);
             stage = new Stage();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Check Letter");
-            CheckMyLetterController controller = fxmlLoader.getController();
+            final CheckMyLetterController controller = fxmlLoader.getController();
             controller.setLetter(letter1, function);
             controller.setCurrentEmail(emailOfAuthUser.getText());
             stage.widthProperty().addListener((obs, oldVal, newVal) -> stage.centerOnScreen());

@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.authfield;
+package org.practice.seeyaa.validator.errorvalidator;
 
 import javafx.scene.control.Label;
 import lombok.Getter;
@@ -36,7 +36,7 @@ public class DefaultErrorLabelHandler implements ErrorLabelHandler {
 
     @Override
     public void showAppError() {
-        incorrectInputPassword.setText("APP ERROR");
+        incorrectInputPassword.setText("APPLICATION ERROR");
         incorrectInputEmail.setVisible(true);
     }
 }

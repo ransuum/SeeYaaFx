@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.authfield;
+package org.practice.seeyaa.validator.errorvalidator;
 
 public interface ErrorLabelHandler {
     void resetLabels();

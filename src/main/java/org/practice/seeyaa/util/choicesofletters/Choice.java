@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface Choice {
     List<LetterDto> addToBox(int index, String email);
+
     TypeOfLetter getChoice();
 }

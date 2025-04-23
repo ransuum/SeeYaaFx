@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.mappers;
+package org.practice.seeyaa.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

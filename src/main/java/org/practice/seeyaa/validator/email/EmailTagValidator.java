@@ -1,4 +1,4 @@
-package org.practice.seeyaa.util.validator.email;
+package org.practice.seeyaa.validator.email;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

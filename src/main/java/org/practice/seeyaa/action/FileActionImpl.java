@@ -1,4 +1,4 @@
-package org.practice.seeyaa.construction;
+package org.practice.seeyaa.action;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;

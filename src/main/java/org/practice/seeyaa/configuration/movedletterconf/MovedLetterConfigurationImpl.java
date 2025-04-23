@@ -1,6 +1,7 @@
-package org.practice.seeyaa.util.movedletterconf;
+package org.practice.seeyaa.configuration.movedletterconf;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.models.entity.MovedLetter;
 import org.practice.seeyaa.repo.LetterRepo;
@@ -9,7 +10,8 @@ import org.practice.seeyaa.repo.UsersRepo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
+@Slf4j
+public final class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
     private final LetterRepo letterRepo;
     private final MovedLetterRepo movedLetterRepo;
     private final UsersRepo usersRepo;
@@ -22,10 +24,10 @@ public class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
 
     @Override
     public void setLetterType(String letterId, String email, TypeOfLetter type) {
-        var letter = letterRepo.findById(letterId)
+        final var letter = letterRepo.findById(letterId)
                 .orElseThrow(() -> new EntityNotFoundException("Letter not found"));
 
-        var movedLetterFound = movedLetterRepo.findByLetter(letter);
+        final var movedLetterFound = movedLetterRepo.findByLetter(letter);
         if (movedLetterFound.isPresent()
                 && movedLetterFound.get().getTypeOfLetter().equals(type)) {
             movedLetterRepo.delete(movedLetterFound.get());

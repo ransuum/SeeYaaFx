@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import lombok.Getter;
-import org.practice.seeyaa.models.request.EditRequest;
+import org.practice.seeyaa.models.request.EditRequestDto;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.stereotype.Component;
 
@@ -79,7 +79,7 @@ public class EditController {
 //    }
 
     private void setupFieldListeners() {
-        List<Pair<CheckBox, TextField>> fieldPairs = Arrays.asList(
+        final List<Pair<CheckBox, TextField>> fieldPairs = Arrays.asList(
                 new Pair<>(firstnameCheck, firstname),
                 new Pair<>(lastnameCheck, lastname),
                 new Pair<>(usernameCheck, username)
@@ -95,11 +95,11 @@ public class EditController {
                 }));
 
         password1Check.setOnAction(e -> {
-            boolean selected = password1Check.isSelected();
+            final boolean selected = password1Check.isSelected();
             ParallelTransition parallel = new ParallelTransition();
 
             Arrays.asList(password1, password2).forEach(field -> {
-                FadeTransition fade = new FadeTransition(Duration.millis(300), field);
+                final FadeTransition fade = new FadeTransition(Duration.millis(300), field);
                 fade.setFromValue(selected ? 0.6 : 1);
                 fade.setToValue(selected ? 1 : 0.6);
                 parallel.getChildren().add(fade);
@@ -122,15 +122,15 @@ public class EditController {
     @FXML
     void confirm(ActionEvent event) {
         if (validateForm()) {
-            Button source = (Button) event.getSource();
-            RotateTransition rotate = new RotateTransition(Duration.millis(180), source);
+            final Button source = (Button) event.getSource();
+            final RotateTransition rotate = new RotateTransition(Duration.millis(180), source);
             rotate.setByAngle(360);
 
             ScaleTransition scale = new ScaleTransition(Duration.millis(180), source);
             scale.setToX(0);
             scale.setToY(0);
 
-            ParallelTransition parallel = new ParallelTransition(rotate, scale);
+            final ParallelTransition parallel = new ParallelTransition(rotate, scale);
             parallel.setOnFinished(e -> {
                 updateUser();
                 Stage stage = (Stage) source.getScene().getWindow();
@@ -150,7 +150,7 @@ public class EditController {
     }
 
     private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        final Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -159,12 +159,12 @@ public class EditController {
 
     private void updateUser() {
         try {
-            String newFirstname = firstnameCheck.isSelected() ? firstname.getText() : null;
-            String newLastname = lastnameCheck.isSelected() ? lastname.getText() : null;
-            String newUsername = usernameCheck.isSelected() ? username.getText() : null;
-            String newPassword = password1Check.isSelected() ? password1.getText().trim() : null;
+            final String newFirstname = firstnameCheck.isSelected() ? firstname.getText() : null;
+            final String newLastname = lastnameCheck.isSelected() ? lastname.getText() : null;
+            final String newUsername = usernameCheck.isSelected() ? username.getText() : null;
+            final String newPassword = password1Check.isSelected() ? password1.getText().trim() : null;
 
-            usersService.editProfile(new EditRequest(
+            usersService.editProfile(new EditRequestDto(
                     newFirstname,
                     newLastname,
                     newUsername,

@@ -1,8 +1,8 @@
-package org.practice.seeyaa.util.authfield;
+package org.practice.seeyaa.validator.errorvalidator;
 
 import jakarta.validation.ValidationException;
 
-public interface Check {
+public sealed interface Check permits AuthorizationValidator {
     void checkFieldsRegistration();
     void checkFieldsLogin(ValidationException e);
 }

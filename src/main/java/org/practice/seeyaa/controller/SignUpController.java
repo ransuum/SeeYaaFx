@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.practice.seeyaa.models.request.SignUpRequest;
+import org.practice.seeyaa.models.request.SignUpRequestDto;
 import org.practice.seeyaa.service.UsersService;
 import org.springframework.stereotype.Component;
 
@@ -26,12 +26,12 @@ public class SignUpController {
     @FXML
     public void signUp(ActionEvent event) {
         registry();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        final Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     private void registry(){
-        usersService.save(new SignUpRequest(
+        usersService.save(new SignUpRequestDto(
                 email.getText(), username.getText(), password.getText(),
                 firstName.getText(), lastName.getText())
         );

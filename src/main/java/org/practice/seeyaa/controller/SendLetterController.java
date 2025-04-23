@@ -10,12 +10,11 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.practice.seeyaa.enums.FileSize;
-import org.practice.seeyaa.models.entity.Letter;
-import org.practice.seeyaa.models.request.LetterRequest;
+import org.practice.seeyaa.models.request.LetterRequestDto;
+import org.practice.seeyaa.security.SecurityService;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.impl.StorageServiceImpl;
-import org.practice.seeyaa.util.fileconfiguration.PathMultipartFile;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.practice.seeyaa.configuration.fileconfiguration.PathMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,14 +42,16 @@ public class SendLetterController {
 
     private final LetterService letterServiceImpl;
     private final StorageServiceImpl storageServiceImpl;
+    private final SecurityService securityService;
 
     private Stage stage;
 
     private final List<File> selectedFiles = new ArrayList<>();
 
-    public SendLetterController(LetterService letterServiceImpl, StorageServiceImpl storageServiceImpl) {
+    public SendLetterController(LetterService letterServiceImpl, StorageServiceImpl storageServiceImpl, SecurityService securityService) {
         this.letterServiceImpl = letterServiceImpl;
         this.storageServiceImpl = storageServiceImpl;
+        this.securityService = securityService;
     }
 
     @FXML
@@ -63,7 +64,7 @@ public class SendLetterController {
 
     @FXML
     public void sendLetter(ActionEvent event) {
-        var scene = ((Node) event.getSource()).getScene();
+        final var scene = ((Node) event.getSource()).getScene();
         Platform.runLater(() -> {
             text.setDisable(true);
             attachFile.setDisable(true);
@@ -76,16 +77,16 @@ public class SendLetterController {
         Task<Void> uploadTask = new Task<>() {
             @Override
             protected Void call() {
-                LetterRequest request = new LetterRequest(
+                LetterRequestDto request = new LetterRequestDto(
                         text.getText(),
                         topic.getText(),
                         toWhom.getText(),
-                        SecurityContextHolder.getContext().getAuthentication().getName());
-                Letter savedLetter = letterServiceImpl.sendLetter(request);
+                        securityService.getCurrentUserEmail());
+                final var savedLetter = letterServiceImpl.sendLetter(request);
 
                 for (File file : selectedFiles) {
                     MultipartFile multipartFile = new PathMultipartFile(file);
-                    storageServiceImpl.uploadFile(multipartFile, savedLetter.getId());
+                    storageServiceImpl.uploadFile(multipartFile, savedLetter.id());
                 }
                 return null;
             }
@@ -107,9 +108,9 @@ public class SendLetterController {
     }
 
     private void attachFile() {
-        FileChooser fileChooser = new FileChooser();
+        final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Files");
-        List<File> files = fileChooser.showOpenMultipleDialog(stage);
+        final List<File> files = fileChooser.showOpenMultipleDialog(stage);
 
         if (files != null) {
             var scene = attachFile.getScene();
@@ -145,7 +146,7 @@ public class SendLetterController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        final Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();

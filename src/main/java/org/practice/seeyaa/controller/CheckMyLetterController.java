@@ -20,7 +20,7 @@ import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.practice.seeyaa.construction.FileAction;
+import org.practice.seeyaa.action.FileAction;
 import org.practice.seeyaa.enums.FileType;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.FileMetadataDto;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-import static org.practice.seeyaa.util.datecheck.DateChecking.checkDate;
+import static org.practice.seeyaa.util.fieldvalidation.FieldUtil.refractorDate;
 
 @Component
 @Slf4j
@@ -81,11 +81,11 @@ public class CheckMyLetterController {
 
     public void helpToUnderstandText() {
         try {
-            var fxmlLoader = new FXMLLoader(getClass().getResource("ai-response.fxml"));
+            final var fxmlLoader = new FXMLLoader(getClass().getResource("ai-response.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             Parent root = fxmlLoader.load();
 
-            var prompt = String.format("""
+            final var prompt = String.format("""
                     Please analyze this letter and provide insights on language that wrote:
 
                     Topic: %s
@@ -101,8 +101,8 @@ public class CheckMyLetterController {
 
             aiController.setPrompt(prompt);
 
-            var aiStage = new Stage();
-            var scene = new Scene(root);
+            final var aiStage = new Stage();
+            final var scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/checkLetter.css")).toExternalForm());
             aiStage.setScene(scene);
             aiStage.setTitle("AI Analysis");
@@ -148,24 +148,24 @@ public class CheckMyLetterController {
         answers.setSpacing(10);
         answers.setPadding(new Insets(10));
 
-        var answersTransition = new SequentialTransition();
-        var answersList = letterDto.answers().stream()
+        final var answersTransition = new SequentialTransition();
+        final var answersList = letterDto.answers().stream()
                 .sorted(Comparator.comparing(AnswerDto::createdAt).reversed())
                 .toList();
 
         IntStream.range(0, answersList.size()).forEach(i -> {
-            var answerRow = createAnswerRow(answersList.get(i));
+            final var answerRow = createAnswerRow(answersList.get(i));
 
             answerRow.setOpacity(0);
             answerRow.setTranslateX(-20);
 
-            var parallelTransition = new ParallelTransition();
+            final var parallelTransition = new ParallelTransition();
 
-            var fadeIn = new FadeTransition(Duration.millis(300), answerRow);
+            final var fadeIn = new FadeTransition(Duration.millis(300), answerRow);
             fadeIn.setFromValue(0);
             fadeIn.setToValue(1);
 
-            var slideIn = new TranslateTransition(Duration.millis(300), answerRow);
+            final var slideIn = new TranslateTransition(Duration.millis(300), answerRow);
             slideIn.setFromX(-20);
             slideIn.setToX(0);
 
@@ -180,11 +180,11 @@ public class CheckMyLetterController {
     }
 
     private void loadFileMetadataAsync() {
-        var loadingLabel = new Label("Loading file information...");
+        final var loadingLabel = new Label("Loading file information...");
         ProgressIndicator progressIndicator = new ProgressIndicator();
         progressIndicator.setMaxSize(25, 25);
 
-        var loadingBox = new HBox(10, progressIndicator, loadingLabel);
+        final var loadingBox = new HBox(10, progressIndicator, loadingLabel);
         loadingBox.setAlignment(Pos.CENTER);
         loadingBox.setPadding(new Insets(10));
 
@@ -236,18 +236,18 @@ public class CheckMyLetterController {
         for (int i = 0; i < files.size(); i++) {
             FileMetadataDto fileMetadata = files.get(i);
 
-            var fileRow = createFileRow(fileMetadata);
+            final var fileRow = createFileRow(fileMetadata);
 
             fileRow.setOpacity(0);
             fileRow.setTranslateY(20);
 
-            var parallelTransition = new ParallelTransition();
+            final var parallelTransition = new ParallelTransition();
 
-            var fadeTransition = new FadeTransition(Duration.millis(200), fileRow);
+            final var fadeTransition = new FadeTransition(Duration.millis(200), fileRow);
             fadeTransition.setFromValue(0);
             fadeTransition.setToValue(1);
 
-            var translateTransition = new TranslateTransition(Duration.millis(200), fileRow);
+            final var translateTransition = new TranslateTransition(Duration.millis(200), fileRow);
             translateTransition.setFromY(20);
             translateTransition.setToY(0);
 
@@ -274,27 +274,27 @@ public class CheckMyLetterController {
     }
 
     private HBox createFileRow(FileMetadataDto fileMetadata) {
-        var fileRow = new HBox();
+        final var fileRow = new HBox();
         fileRow.getStyleClass().add("file-row");
         fileRow.setSpacing(10);
         fileRow.setAlignment(Pos.CENTER_LEFT);
         fileRow.setMinHeight(40);
 
-        Node fileIcon = createFileTypeIcon(fileMetadata.type());
+        final Node fileIcon = createFileTypeIcon(fileMetadata.type());
 
-        var fileInfo = new VBox(5);
+        final var fileInfo = new VBox(5);
         HBox.setHgrow(fileInfo, Priority.ALWAYS);
 
-        var nameLabel = new Label(fileMetadata.name());
+        final var nameLabel = new Label(fileMetadata.name());
         nameLabel.getStyleClass().add("file-name-label");
         nameLabel.setWrapText(true);
 
-        var sizeLabel = new Label(formatFileSize(fileMetadata.size()));
+        final var sizeLabel = new Label(formatFileSize(fileMetadata.size()));
         sizeLabel.getStyleClass().add("file-size-label");
 
         fileInfo.getChildren().addAll(nameLabel, sizeLabel);
 
-        Trio<HBox, Button, ProgressIndicator> object = fileAction.createObjects();
+        final Trio<HBox, Button, ProgressIndicator> object = fileAction.createObjects();
         var downloadButton = object.second();
         var progressIndicator = object.third();
         var buttonBox = object.first();
@@ -343,12 +343,12 @@ public class CheckMyLetterController {
         return new Task<>() {
             @Override
             protected Void call() {
-                FileChooser fileChooser = new FileChooser();
+                final FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Save File");
                 fileChooser.setInitialFileName(completeFile.getName());
 
                 Platform.runLater(() -> {
-                    File saveFile = fileChooser.showSaveDialog(stage);
+                    final File saveFile = fileChooser.showSaveDialog(stage);
                     if (saveFile != null) {
                         saveFileToSystem(completeFile, saveFile);
                     }
@@ -422,24 +422,24 @@ public class CheckMyLetterController {
     }
 
     private HBox createAnswerRow(AnswerDto answerDto) {
-        var answerRow = new HBox();
+        final var answerRow = new HBox();
         answerRow.getStyleClass().add("answer-row");
         answerRow.setSpacing(10);
         answerRow.setAlignment(Pos.CENTER_LEFT);
 
-        var avatar = createAvatar(answerDto.userByAnswered().firstname());
+        final var avatar = createAvatar(answerDto.userByAnswered().firstname());
 
-        var contentBox = new VBox(5);
+        final var contentBox = new VBox(5);
         contentBox.getStyleClass().add("answer-content");
         HBox.setHgrow(contentBox, Priority.ALWAYS);
 
-        var nameLabel = new Label(answerDto.userByAnswered().firstname());
+        final var nameLabel = new Label(answerDto.userByAnswered().firstname());
         nameLabel.getStyleClass().add("answer-name");
 
-        var dateLabel = new Label(checkDate(answerDto.createdAt()));
+        final var dateLabel = new Label(refractorDate(answerDto.createdAt()));
         dateLabel.getStyleClass().add("answer-date");
 
-        var headerBox = new HBox(10);
+        final var headerBox = new HBox(10);
         headerBox.setAlignment(Pos.CENTER_LEFT);
         headerBox.getChildren().addAll(nameLabel, dateLabel);
 
@@ -474,10 +474,10 @@ public class CheckMyLetterController {
     }
 
     private StackPane createAvatar(String firstName) {
-        var avatar = new StackPane();
+        final var avatar = new StackPane();
         avatar.getStyleClass().add("avatar");
 
-        var initials = new Label(firstName.substring(0, 1).toUpperCase());
+        final var initials = new Label(firstName.substring(0, 1).toUpperCase());
         initials.getStyleClass().add("avatar-initials");
 
         avatar.getChildren().add(initials);
@@ -485,16 +485,16 @@ public class CheckMyLetterController {
     }
 
     private void answerOnLetter() throws IOException {
-        var fxmlLoader = new FXMLLoader(getClass().getResource("answer.fxml"));
+        final var fxmlLoader = new FXMLLoader(getClass().getResource("answer.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
         Parent root = fxmlLoader.load();
 
-        AnswerController controller = fxmlLoader.getController();
+        final AnswerController controller = fxmlLoader.getController();
         controller.setIdOfLetter(letterDto.id());
         controller.setEmailBy(currentEmail);
 
         stage = new Stage();
-        Scene scene = new Scene(root);
+        final Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/answer.css")).toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Answer");
