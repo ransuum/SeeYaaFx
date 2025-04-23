@@ -3,6 +3,8 @@ package org.practice.seeyaa.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.enums.FileType;
+import org.practice.seeyaa.exception.NotFoundException;
+import org.practice.seeyaa.exception.StorageException;
 import org.practice.seeyaa.models.dto.FileMetadataDto;
 import org.practice.seeyaa.models.entity.Files;
 import org.practice.seeyaa.repo.FilesRepo;
@@ -31,7 +33,7 @@ public class StorageServiceImpl implements StorageService {
     public void uploadFile(MultipartFile file, String letterId) {
         try {
             final var letter = letterRepo.findById(letterId)
-                    .orElseThrow(() -> new RuntimeException("Letter not found with id: " + letterId));
+                    .orElseThrow(() -> new NotFoundException("Letter not found with id: " + letterId));
 
             byte[] fileData;
             try (InputStream inputStream = file.getInputStream()) {
@@ -46,7 +48,7 @@ public class StorageServiceImpl implements StorageService {
                     .letter(letter)
                     .build());
         } catch (IOException e) {
-            throw new RuntimeException("Failed to upload file", e);
+            throw new StorageException("Failed to upload file", e);
         }
     }
 
@@ -56,7 +58,7 @@ public class StorageServiceImpl implements StorageService {
         Integer id = Integer.parseInt(fileId);
         return filesRepo.findById(id)
                 .map(file -> new ByteArrayInputStream(file.getData()))
-                .orElseThrow(() -> new RuntimeException("File not found with id: " + fileId));
+                .orElseThrow(() -> new NotFoundException("File not found with id: " + fileId));
     }
 
     @Override
@@ -82,6 +84,6 @@ public class StorageServiceImpl implements StorageService {
     public Files getFileById(Integer fileId) {
         log.info("Loading complete file data for file ID: {}", fileId);
         return filesRepo.findById(fileId)
-                .orElseThrow(() -> new RuntimeException("File not found with id: " + fileId));
+                .orElseThrow(() -> new NotFoundException("File not found with id: " + fileId));
     }
 }

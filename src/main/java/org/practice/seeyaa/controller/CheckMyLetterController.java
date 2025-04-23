@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.practice.seeyaa.action.FileAction;
 import org.practice.seeyaa.enums.FileType;
+import org.practice.seeyaa.exception.ActionException;
 import org.practice.seeyaa.models.dto.AnswerDto;
 import org.practice.seeyaa.models.dto.FileMetadataDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
@@ -119,7 +120,7 @@ public class CheckMyLetterController {
         try {
             answerOnLetter();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ActionException(e);
         }
     }
 

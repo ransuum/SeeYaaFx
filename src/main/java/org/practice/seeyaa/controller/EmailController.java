@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.practice.seeyaa.enums.TypeOfLetter;
+import org.practice.seeyaa.exception.ActionException;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.dto.UsersDto;
@@ -50,6 +51,8 @@ public class EmailController {
     @FXML private TextField search;
     @FXML @Getter private VBox hboxInsideInboxes;
     @FXML private ImageView editProfile;
+
+    private static final String SELECTED = "selected";
 
     private final ConfigurableApplicationContext springContext;
     private final LetterService letterService;
@@ -112,11 +115,11 @@ public class EmailController {
         searchButton.setOnMouseClicked(event -> {
             hboxInsideInboxes.getChildren().clear();
 
-            if (inboxes.getStyleClass().contains("selected"))
+            if (inboxes.getStyleClass().contains(SELECTED))
                 letterService.findAllInboxByTopic(search.getText(), emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, 1));
-            else if (sent.getStyleClass().contains("selected"))
+            else if (sent.getStyleClass().contains(SELECTED))
                 letterService.findAllSentByTopic(search.getText(), emailOfAuthUser.getText())
                         .forEach(letter
                                 -> addLetterToUI(letter, 2));
@@ -138,7 +141,7 @@ public class EmailController {
             stage.setTitle("Send Letter");
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ActionException(e);
         }
     }
 
@@ -165,7 +168,7 @@ public class EmailController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ActionException(e);
         }
     }
 
@@ -173,7 +176,7 @@ public class EmailController {
         button.setOnMouseClicked(event -> {
             resetButtonStyles();
             hboxInsideInboxes.getChildren().clear();
-            button.getStyleClass().add("selected");
+            button.getStyleClass().add(SELECTED);
 
             List<LetterDto> letters = typeOfLetterChoices.get(choice)
                     .addToBox(index, emailOfAuthUser.getText());
@@ -230,10 +233,10 @@ public class EmailController {
     }
 
     private void resetButtonStyles() {
-        inboxes.getStyleClass().remove("selected");
-        sent.getStyleClass().remove("selected");
-        spam.getStyleClass().remove("selected");
-        garbage.getStyleClass().remove("selected");
+        inboxes.getStyleClass().remove(SELECTED);
+        sent.getStyleClass().remove(SELECTED);
+        spam.getStyleClass().remove(SELECTED);
+        garbage.getStyleClass().remove(SELECTED);
     }
 
     private void processSelectedLetters(TypeOfLetter typeOfLetter) {
@@ -304,7 +307,7 @@ public class EmailController {
             openStages.put(letterId, stage);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ActionException(e);
         }
     }
 }

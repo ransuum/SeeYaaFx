@@ -1,5 +1,6 @@
 package org.practice.seeyaa.service.impl;
 
+import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.entity.Answer;
 import org.practice.seeyaa.models.request.AnswerRequestDto;
 import org.practice.seeyaa.repo.AnswerRepo;
@@ -29,10 +30,10 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     public void createAnswer(AnswerRequestDto answerRequestDto, String emailBy, String idOfLetter) {
         final var letter = letterRepo.findById(idOfLetter)
-                .orElseThrow(() -> new RuntimeException("App Error"));
+                .orElseThrow(() -> new NotFoundException("App Error"));
 
         final var users = usersRepo.findByEmail(emailBy)
-                .orElseThrow(() -> new RuntimeException("App Error"));
+                .orElseThrow(() -> new NotFoundException("App Error"));
 
         answerRepo.save(Answer.builder()
                 .answerText(answerRequestDto.textOfLetter())

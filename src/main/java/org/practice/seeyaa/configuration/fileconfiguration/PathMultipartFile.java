@@ -40,7 +40,7 @@ public class PathMultipartFile implements MultipartFile {
     }
 
     @Override
-    public byte[] getBytes() throws IOException {
+    public byte @NonNull [] getBytes() throws IOException {
         return Files.readAllBytes(file.toPath());
     }
 

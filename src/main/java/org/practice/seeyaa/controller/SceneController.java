@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.practice.seeyaa.exception.ActionException;
 import org.practice.seeyaa.security.SecurityService;
 import org.practice.seeyaa.validator.errorvalidator.AuthorizationValidator;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -54,7 +55,7 @@ public class SceneController {
             try {
                 signUp();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ActionException(e);
             }
         });
     }

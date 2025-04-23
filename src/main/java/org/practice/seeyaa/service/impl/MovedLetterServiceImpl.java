@@ -1,6 +1,7 @@
 package org.practice.seeyaa.service.impl;
 
 import org.practice.seeyaa.enums.TypeOfLetter;
+import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.dto.MovedLetterDto;
 import org.practice.seeyaa.repo.MovedLetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
@@ -29,7 +30,7 @@ public class MovedLetterServiceImpl implements MovedLetterService {
                         .stream()
                         .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
                         .toList())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Override
@@ -40,7 +41,7 @@ public class MovedLetterServiceImpl implements MovedLetterService {
                         .stream()
                         .map(MovedLetterMapper.INSTANCE::movedLetterToMovedLetterDto)
                         .toList())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
     }
 }

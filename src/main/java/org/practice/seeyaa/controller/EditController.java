@@ -57,26 +57,9 @@ public class EditController {
 
     @FXML
     public void initialize() {
-//        setupAnimations();
         setupFieldListeners();
         setupValidation();
     }
-
-//    private void setupAnimations() {
-//        profileImage.setOnMouseEntered(e -> {
-//            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImage);
-//            scale.setToX(1.05);
-//            scale.setToY(1.05);
-//            scale.play();
-//        });
-//
-//        profileImage.setOnMouseExited(e -> {
-//            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImage);
-//            scale.setToX(1);
-//            scale.setToY(1);
-//            scale.play();
-//        });
-//    }
 
     private void setupFieldListeners() {
         final List<Pair<CheckBox, TextField>> fieldPairs = Arrays.asList(

@@ -11,7 +11,9 @@ public final class AuthorizationValidator extends DefaultErrorLabelHandler imple
     }
 
     @Override
-    public void checkFieldsRegistration() {}
+    public void checkFieldsRegistration() {
+        // Noncompliant - method is empty
+    }
 
     @Override
     public void checkFieldsLogin(ValidationException e) {

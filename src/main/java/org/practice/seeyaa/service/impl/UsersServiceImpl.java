@@ -2,6 +2,7 @@ package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.dto.UserWithLettersDto;
 import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.models.request.EditRequestDto;
@@ -40,7 +41,7 @@ public class UsersServiceImpl implements UsersService {
     public UserWithLettersDto findByEmail() {
         return LetterMapper.INSTANCE.toUserWithLettersDto(usersRepo.findByEmail(
                         securityService.getCurrentUserEmail())
-                .orElseThrow(() -> new RuntimeException("Wrong password or email")));
+                .orElseThrow(() -> new NotFoundException("Wrong password or email")));
     }
 
     @Override
@@ -49,7 +50,7 @@ public class UsersServiceImpl implements UsersService {
     public UsersDto findByEmailWithoutLists() {
         return UserMapper.INSTANCE.toUsersDto(usersRepo.findByEmail(
                         securityService.getCurrentUserEmail())
-                .orElseThrow(() -> new RuntimeException("Wrong password or email")));
+                .orElseThrow(() -> new NotFoundException("Wrong password or email")));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public void editProfile(@Valid EditRequestDto editRequestDto) {
         final var users = usersRepo.findByEmail(securityService.getCurrentUserEmail())
-                .orElseThrow(() -> new RuntimeException("Wrong email of user"));
+                .orElseThrow(() -> new NotFoundException("Wrong email of user"));
 
         if (isValid(editRequestDto.firstname())) users.setFirstname(editRequestDto.firstname());
         if (isValid(editRequestDto.password())) users.setPassword(passwordEncoder.encode(editRequestDto.password()));

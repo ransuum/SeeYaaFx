@@ -2,6 +2,7 @@ package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
 import org.practice.seeyaa.enums.TypeOfLetter;
+import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
 import org.practice.seeyaa.models.entity.Users;
@@ -39,7 +40,7 @@ public class LetterServiceImpl implements LetterService {
     @PreAuthorize("hasRole('ROLE_USER')")
     public LetterDto sendLetter(@Valid LetterRequestDto letterRequestDto) {
         final Users usersBy = usersRepo.findByEmail(letterRequestDto.userBy())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
         return usersRepo.findByEmail(letterRequestDto.userTo())
                 .map(userTo -> LetterMapper.INSTANCE.toLetterDto(letterRepo.save(
                         Letter.builder()
@@ -50,7 +51,7 @@ public class LetterServiceImpl implements LetterService {
                                 .activeLetter(Boolean.TRUE)
                                 .createdAt(LocalDateTime.now())
                                 .build()))
-                ).orElseThrow(() -> new RuntimeException("User not found"));
+                ).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("No letter found with id: " + id)));
+                .orElseThrow(() -> new NotFoundException("No letter found with id: " + id)));
     }
 
     @Override

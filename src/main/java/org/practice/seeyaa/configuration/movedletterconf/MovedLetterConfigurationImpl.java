@@ -3,6 +3,7 @@ package org.practice.seeyaa.configuration.movedletterconf;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.enums.TypeOfLetter;
+import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.entity.MovedLetter;
 import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.MovedLetterRepo;
@@ -25,7 +26,7 @@ public final class MovedLetterConfigurationImpl implements MovedLetterConfigurat
     @Override
     public void setLetterType(String letterId, String email, TypeOfLetter type) {
         final var letter = letterRepo.findById(letterId)
-                .orElseThrow(() -> new EntityNotFoundException("Letter not found"));
+                .orElseThrow(() -> new NotFoundException("Letter not found"));
 
         final var movedLetterFound = movedLetterRepo.findByLetter(letter);
         if (movedLetterFound.isPresent()
@@ -40,7 +41,7 @@ public final class MovedLetterConfigurationImpl implements MovedLetterConfigurat
                         return MovedLetter.builder()
                                 .letter(letter)
                                 .movedBy(usersRepo.findByEmail(email)
-                                        .orElseThrow(() -> new EntityNotFoundException("User not found")))
+                                        .orElseThrow(() -> new NotFoundException("User not found")))
                                 .build();
                     });
 

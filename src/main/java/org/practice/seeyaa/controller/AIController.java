@@ -26,11 +26,11 @@ public class AIController {
     @Setter private String prompt;
 
     @Value("${vertex.project_id}")
-    private String PROJECT_ID;
+    private String projectId;
     @Value("${vertex.location}")
-    private String LOCATION;
+    private String locationId;
     @Value("${vertex.model_id}")
-    private String MODEL_ID;
+    private String modelId;
 
     @FXML
     public void initialize() {
@@ -38,7 +38,7 @@ public class AIController {
     }
 
     private void analyzeText() {
-        try (final VertexAI vertexAi = new VertexAI(PROJECT_ID, LOCATION)) {
+        try (final VertexAI vertexAi = new VertexAI(projectId, locationId)) {
             GenerationConfig generationConfig =
                     GenerationConfig.newBuilder()
                             .setMaxOutputTokens(8192)
@@ -64,7 +64,7 @@ public class AIController {
                             .build());
             GenerativeModel model =
                     new GenerativeModel.Builder()
-                            .setModelName(MODEL_ID)
+                            .setModelName(modelId)
                             .setVertexAi(vertexAi)
                             .setGenerationConfig(generationConfig)
                             .setSafetySettings(safetySettings)
