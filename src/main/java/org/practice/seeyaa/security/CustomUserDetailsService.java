@@ -1,8 +1,8 @@
 package org.practice.seeyaa.security;
 
 import org.practice.seeyaa.repo.UsersRepo;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,13 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return usersRepo.findByEmail(email)
-                .map(user -> {
-                    final List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
-                    return new org.springframework.security.core.userdetails.User(
-                            user.getEmail(),
-                            user.getPassword(),
-                            authorities);
-                })
+                .map(user -> new User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        List.of(new SimpleGrantedAuthority("ROLE_USER")))
+                )
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

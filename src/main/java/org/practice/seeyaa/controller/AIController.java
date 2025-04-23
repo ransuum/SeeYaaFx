@@ -39,13 +39,13 @@ public class AIController {
 
     private void analyzeText() {
         try (final VertexAI vertexAi = new VertexAI(projectId, locationId)) {
-            GenerationConfig generationConfig =
+            final GenerationConfig generationConfig =
                     GenerationConfig.newBuilder()
                             .setMaxOutputTokens(8192)
                             .setTemperature(1F)
                             .setTopP(0.95F)
                             .build();
-            List<SafetySetting> safetySettings = Arrays.asList(
+            final List<SafetySetting> safetySettings = Arrays.asList(
                     SafetySetting.newBuilder()
                             .setCategory(HarmCategory.HARM_CATEGORY_HATE_SPEECH)
                             .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE)
@@ -62,7 +62,7 @@ public class AIController {
                             .setCategory(HarmCategory.HARM_CATEGORY_HARASSMENT)
                             .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE)
                             .build());
-            GenerativeModel model =
+            final GenerativeModel model =
                     new GenerativeModel.Builder()
                             .setModelName(modelId)
                             .setVertexAi(vertexAi)
@@ -71,15 +71,15 @@ public class AIController {
                             .build();
 
 
-            var content = ContentMaker.fromMultiModalData(prompt);
-            ResponseStream<GenerateContentResponse> responseStream =
+            final var content = ContentMaker.fromMultiModalData(prompt);
+            final ResponseStream<GenerateContentResponse> responseStream =
                     model.generateContentStream(content);
 
-            StringBuilder fullResponse = new StringBuilder();
+            final StringBuilder fullResponse = new StringBuilder();
 
 
             responseStream.forEach(response -> {
-                String chunk = response.getCandidates(0)
+                final String chunk = response.getCandidates(0)
                         .getContent()
                         .getParts(0)
                         .getText();

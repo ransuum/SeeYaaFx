@@ -71,7 +71,8 @@ public class EmailController {
         this.springContext = springContext;
         this.letterService = letterService;
         this.usersService = usersService;
-        this.typeOfLetterChoices = choices.stream().collect(Collectors.toMap(Choice::getChoice, o -> o));
+        this.typeOfLetterChoices = choices.stream()
+                .collect(Collectors.toMap(Choice::getChoice, o -> o));
         this.securityService = securityService;
     }
 
@@ -100,7 +101,7 @@ public class EmailController {
 
     @FXML
     public void exit(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+        final var fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
         root = fxmlLoader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -129,7 +130,7 @@ public class EmailController {
 
     private void write() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
+            final var fxmlLoader = new FXMLLoader(getClass().getResource("send.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
             SendLetterController controller = fxmlLoader.getController();
@@ -147,13 +148,13 @@ public class EmailController {
 
     private void editProfile() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
+            final var fxmlLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             this.root = fxmlLoader.load();
 
-            UsersDto byEmail = usersService.findByEmailWithoutLists();
+            final var byEmail = usersService.findByEmailWithoutLists();
 
-            EditController controller = fxmlLoader.getController();
+            final EditController controller = fxmlLoader.getController();
             controller.getEmail().setText(byEmail.email());
             controller.getFirstname().setText(byEmail.firstname());
             controller.getLastname().setText(byEmail.lastname());
@@ -178,11 +179,11 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
             button.getStyleClass().add(SELECTED);
 
-            List<LetterDto> letters = typeOfLetterChoices.get(choice)
+            final List<LetterDto> letters = typeOfLetterChoices.get(choice)
                     .addToBox(index, emailOfAuthUser.getText());
 
             if (letters.isEmpty()) {
-                Text noLetters = new Text("No letters found in this category");
+                final Text noLetters = new Text("No letters found in this category");
                 noLetters.setTextAlignment(TextAlignment.CENTER);
                 hboxInsideInboxes.getChildren().add(noLetters);
             } else

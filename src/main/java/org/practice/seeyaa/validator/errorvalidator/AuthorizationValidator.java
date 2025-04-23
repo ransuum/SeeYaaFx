@@ -4,7 +4,7 @@ import jakarta.validation.ValidationException;
 import javafx.scene.control.Label;
 import org.practice.seeyaa.enums.PatternError;
 
-public final class AuthorizationValidator extends DefaultErrorLabelHandler implements Check {
+public class AuthorizationValidator extends DefaultErrorLabelHandler implements Check {
 
     public AuthorizationValidator(Label incorrectInputEmail, Label incorrectInputPassword) {
         super(incorrectInputEmail, incorrectInputPassword);
@@ -17,8 +17,8 @@ public final class AuthorizationValidator extends DefaultErrorLabelHandler imple
 
     @Override
     public void checkFieldsLogin(ValidationException e) {
-        String errorMessage = e.getLocalizedMessage();
-        boolean[] errors = new boolean[]{
+        final String errorMessage = e.getLocalizedMessage();
+        final boolean[] errors = new boolean[]{
                 errorMessage.contains(PatternError.EMAIL_PATTERN.getValue()),
                 errorMessage.contains(PatternError.PASSWORD_PATTERN.getValue())
         };
