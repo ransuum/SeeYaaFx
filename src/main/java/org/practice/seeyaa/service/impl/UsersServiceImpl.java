@@ -37,7 +37,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Transactional
+    @Transactional(readOnly = true)
     public UserWithLettersDto findByEmail() {
         return LetterMapper.INSTANCE.toUserWithLettersDto(usersRepo.findByEmail(
                         securityService.getCurrentUserEmail())
@@ -46,7 +46,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Transactional
+    @Transactional(readOnly = true)
     public UsersDto findByEmailWithoutLists() {
         return UserMapper.INSTANCE.toUsersDto(usersRepo.findByEmail(
                         securityService.getCurrentUserEmail())

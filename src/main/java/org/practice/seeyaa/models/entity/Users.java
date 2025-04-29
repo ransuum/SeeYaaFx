@@ -37,9 +37,11 @@ public class Users {
     private String username;
 
     @OneToMany(mappedBy = "userBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Letter> sendLetters = new ArrayList<>();
 
     @OneToMany(mappedBy = "userTo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Letter> myLetters = new ArrayList<>();
 
     @OneToMany(mappedBy = "userByAnswered", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -47,5 +49,6 @@ public class Users {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "movedBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<MovedLetter> movedLetters = new ArrayList<>();
 }

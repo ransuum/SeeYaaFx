@@ -9,6 +9,7 @@ import org.practice.seeyaa.service.MovedLetterService;
 import org.practice.seeyaa.mappers.MovedLetterMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class MovedLetterServiceImpl implements MovedLetterService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional(readOnly = true)
     public List<MovedLetterDto> getLettersWithSpam(String email) {
         return usersRepo.findByEmail(email)
                 .map(movedBy -> movedLetterRepo.findAllByMovedByAndTypeOfLetter(movedBy, TypeOfLetter.SPAM)
@@ -35,6 +37,7 @@ public class MovedLetterServiceImpl implements MovedLetterService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional(readOnly = true)
     public List<MovedLetterDto> getLettersWithGarbage(String email) {
         return usersRepo.findByEmail(email)
                 .map(movedBy -> movedLetterRepo.findAllByMovedByAndTypeOfLetter(movedBy, TypeOfLetter.GARBAGE)
