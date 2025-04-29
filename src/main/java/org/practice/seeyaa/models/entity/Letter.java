@@ -48,8 +48,8 @@ public class Letter implements Serializable {
     private LocalDateTime deleteTime;
 
     @OneToMany(mappedBy = "currentLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Answer> answers = new ArrayList<>();
+    private List<Answer> answers;
 
     @OneToMany(mappedBy = "letter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Files> files = new ArrayList<>();
+    private List<Files> files;
 }

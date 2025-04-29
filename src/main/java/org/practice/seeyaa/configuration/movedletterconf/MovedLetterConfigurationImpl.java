@@ -1,6 +1,5 @@
 package org.practice.seeyaa.configuration.movedletterconf;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.exception.NotFoundException;
@@ -9,10 +8,11 @@ import org.practice.seeyaa.repo.LetterRepo;
 import org.practice.seeyaa.repo.MovedLetterRepo;
 import org.practice.seeyaa.repo.UsersRepo;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-public final class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
+public class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
     private final LetterRepo letterRepo;
     private final MovedLetterRepo movedLetterRepo;
     private final UsersRepo usersRepo;
@@ -24,31 +24,27 @@ public final class MovedLetterConfigurationImpl implements MovedLetterConfigurat
     }
 
     @Override
+    @Transactional
     public void setLetterType(String letterId, String email, TypeOfLetter type) {
-        final var letter = letterRepo.findById(letterId)
-                .orElseThrow(() -> new NotFoundException("Letter not found"));
+        final var user = usersRepo.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        final var movedLetterFound = movedLetterRepo.findByLetter(letter);
-        if (movedLetterFound.isPresent()
-                && movedLetterFound.get().getTypeOfLetter().equals(type)) {
-            movedLetterRepo.delete(movedLetterFound.get());
-            letter.setActiveLetter(Boolean.TRUE);
-            letterRepo.save(letter);
-        } else {
-            var movedLetter = movedLetterRepo.findByLetter(letter)
-                    .orElseGet(() -> {
-                        letter.setActiveLetter(false);
-                        return MovedLetter.builder()
-                                .letter(letter)
-                                .movedBy(usersRepo.findByEmail(email)
-                                        .orElseThrow(() -> new NotFoundException("User not found")))
-                                .build();
-                    });
+        final var movedLetterEntity = movedLetterRepo.findByLetterId(letterId).map(movedLetter -> {
+            movedLetterRepo.delete(movedLetter);
+            letterRepo.updateActiveLetterById(letterId, true);
+            return movedLetter;
+        }).orElseGet(() -> {
+            letterRepo.updateActiveLetterById(letterId, false);
+            final var letter = letterRepo.findById(letterId)
+                    .orElseThrow(() -> new NotFoundException("Letter not found"));
 
-            movedLetter.setTypeOfLetter(type);
-
-            movedLetterRepo.save(movedLetter);
-            letterRepo.save(letter);
-        }
+            final var movedLetterBuild = MovedLetter.builder()
+                    .letter(letter)
+                    .typeOfLetter(type)
+                    .movedBy(user)
+                    .build();
+            return movedLetterRepo.save(movedLetterBuild);
+        });
+        log.info("Letter that moved: {}", movedLetterEntity.getLetter().getId());
     }
 }

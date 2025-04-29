@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,15 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.practice.seeyaa.configuration.movedletterconf.MovedLetterConfiguration;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.exception.ActionException;
 import org.practice.seeyaa.models.dto.LetterDto;
-import org.practice.seeyaa.models.dto.LetterWithAnswers;
-import org.practice.seeyaa.models.dto.UsersDto;
 import org.practice.seeyaa.security.SecurityService;
 import org.practice.seeyaa.service.LetterService;
 import org.practice.seeyaa.service.UsersService;
@@ -35,22 +32,37 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.practice.seeyaa.ui.LetterUIFactory.createTextField;
 import static org.practice.seeyaa.util.fieldvalidation.FieldUtil.refractorDate;
 
 @Component
 public class EmailController {
-    @FXML @Getter private Text emailOfAuthUser;
-    @FXML private Button sent;
-    @FXML private Button deleteButton;
-    @FXML private Button inboxes;
-    @FXML private Button spambutton;
-    @FXML private Button spam;
-    @FXML private Button garbage;
-    @FXML private Button write;
-    @FXML private ImageView searchButton;
-    @FXML private TextField search;
-    @FXML @Getter private VBox hboxInsideInboxes;
-    @FXML private ImageView editProfile;
+    @FXML
+    @Getter
+    private Text emailOfAuthUser;
+    @FXML
+    private Button sent;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button inboxes;
+    @FXML
+    private Button spambutton;
+    @FXML
+    private Button spam;
+    @FXML
+    private Button garbage;
+    @FXML
+    private Button write;
+    @FXML
+    private ImageView searchButton;
+    @FXML
+    private TextField search;
+    @FXML
+    @Getter
+    private VBox hboxInsideInboxes;
+    @FXML
+    private ImageView editProfile;
 
     private static final String SELECTED = "selected";
 
@@ -59,21 +71,24 @@ public class EmailController {
     private final UsersService usersService;
     private final Map<TypeOfLetter, Choice> typeOfLetterChoices;
     private final SecurityService securityService;
-
-    private final Map<String, Stage> openStages = new HashMap<>();
+    private final MovedLetterConfiguration letterMoveService;
+    private final Map<String, Stage> openStages;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     public EmailController(ConfigurableApplicationContext springContext, LetterService letterService,
-                           UsersService usersService, List<Choice> choices, SecurityService securityService) {
+                           UsersService usersService, List<Choice> choices,
+                           SecurityService securityService, MovedLetterConfiguration letterMoveService, Map<String, Stage> openStages) {
         this.springContext = springContext;
         this.letterService = letterService;
         this.usersService = usersService;
         this.typeOfLetterChoices = choices.stream()
                 .collect(Collectors.toMap(Choice::getChoice, o -> o));
         this.securityService = securityService;
+        this.letterMoveService = letterMoveService;
+        this.openStages = openStages;
     }
 
     @FXML
@@ -179,22 +194,23 @@ public class EmailController {
             hboxInsideInboxes.getChildren().clear();
             button.getStyleClass().add(SELECTED);
 
-            final List<LetterDto> letters = typeOfLetterChoices.get(choice)
-                    .addToBox(index, emailOfAuthUser.getText());
+            final var letters = typeOfLetterChoices.get(choice)
+                    .addToBox(index, emailOfAuthUser.getText())
+                    .stream()
+                    .sorted(Comparator.comparing(LetterDto::createdAt).reversed())
+                    .toList();
 
-            if (letters.isEmpty()) {
-                final Text noLetters = new Text("No letters found in this category");
-                noLetters.setTextAlignment(TextAlignment.CENTER);
-                hboxInsideInboxes.getChildren().add(noLetters);
-            } else
-                letters.stream()
-                        .sorted(Comparator.comparing(LetterDto::createdAt).reversed()).toList()
-                        .forEach(letter -> addLetterToUI(letter, index));
+            Optional.of(letters)
+                    .filter(list -> !list.isEmpty())
+                    .ifPresentOrElse(
+                            list -> list.forEach(letter -> addLetterToUI(letter, index)),
+                            () -> hboxInsideInboxes.getChildren().add(new Text("No letters found in this category"))
+                    );
         });
     }
 
     public void addLetterToUI(LetterDto letter, int function) {
-        final TextField textField = createTextField(letter, function);
+        final var textField = createTextField(letter, function);
         textField.getStylesheets().add(Objects.requireNonNull(getClass().getResource("static/letters.css")).toExternalForm());
         final TextField textField1 = new TextField();
         textField1.setAlignment(Pos.CENTER);
@@ -242,7 +258,6 @@ public class EmailController {
 
     private void processSelectedLetters(TypeOfLetter typeOfLetter) {
         final List<HBox> selectedBoxes = new LinkedList<>();
-
         hboxInsideInboxes.getChildren().forEach(node -> {
             if (node instanceof HBox hBox) {
                 CheckBox checkBox = (CheckBox) hBox.getChildren().getFirst();
@@ -250,33 +265,19 @@ public class EmailController {
             }
         });
 
+        final var email = emailOfAuthUser.getText();
         selectedBoxes.forEach(hBox -> {
+            final String letterId = hBox.getId();
             switch (typeOfLetter) {
-                case SPAM -> letterService.setLetterToSpam(hBox.getId(), emailOfAuthUser.getText());
-                case GARBAGE -> letterService.setLetterToGarbage(hBox.getId(), emailOfAuthUser.getText());
-                default -> letterService.deleteById(hBox.getId());
+                case SPAM -> letterMoveService.setLetterType(letterId, email, TypeOfLetter.SPAM);
+                case GARBAGE -> letterMoveService.setLetterType(letterId, email, TypeOfLetter.GARBAGE);
+                default -> letterService.deleteById(letterId);
             }
         });
 
         hboxInsideInboxes.getChildren().removeAll(selectedBoxes);
         spambutton.setVisible(false);
         deleteButton.setVisible(false);
-    }
-
-    private TextField createTextField(LetterDto letter, int function) {
-        final TextField textField = new TextField();
-        textField.setCursor(Cursor.HAND);
-        textField.setPrefWidth(600);
-        textField.setId(letter.id());
-
-        final String byName = ((function == 1) ?
-                String.format("%-25s", " By: " + letter.userBy().firstname() + " " + letter.userBy().lastname())
-                : String.format("%-25s", " To: " + letter.userTo().firstname() + " " + letter.userTo().lastname()));
-        final String paddedTopic = String.format("%-30s", letter.topic());
-
-        textField.setText(byName + paddedTopic);
-        textField.setEditable(false);
-        return textField;
     }
 
     private void handleTextFieldClick(String letterId, int function) {
@@ -292,7 +293,7 @@ public class EmailController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("checkLetter.fxml"));
             fxmlLoader.setControllerFactory(springContext::getBean);
             root = fxmlLoader.load();
-            final LetterWithAnswers letter1 = letterService.findById(letterId);
+            final var letter1 = letterService.findById(letterId);
             stage = new Stage();
             scene = new Scene(root);
             stage.setScene(scene);

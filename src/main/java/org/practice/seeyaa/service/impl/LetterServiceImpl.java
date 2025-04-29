@@ -56,19 +56,21 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional
     public void setLetterToSpam(String letterId, String email) {
         movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.SPAM);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional
     public void setLetterToGarbage(String letterId, String email) {
         movedLetterConfiguration.setLetterType(letterId, email, TypeOfLetter.GARBAGE);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Transactional
+    @Transactional(readOnly = true)
     public LetterWithAnswers findById(String id) {
         return LetterMapper.INSTANCE.toLetterWithAnswers(letterRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("No letter found with id: " + id)));
@@ -76,7 +78,7 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Transactional
+    @Transactional(readOnly = true)
     public List<LetterDto> findAllSentByTopic(String topic, String userBy) {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(
                 letterRepo.findAllByTopicContainingAndUserBy(
@@ -87,7 +89,7 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Transactional
+    @Transactional(readOnly = true)
     public List<LetterDto> findAllInboxByTopic(String topic, String userTo) {
         return LetterMapper.INSTANCE.letterListToLetterDtoList(letterRepo.findAllByTopicContainingAndUserTo(
                         topic,

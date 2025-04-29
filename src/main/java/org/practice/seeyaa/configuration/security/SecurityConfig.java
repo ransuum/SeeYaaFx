@@ -1,4 +1,4 @@
-package org.practice.seeyaa.config;
+package org.practice.seeyaa.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

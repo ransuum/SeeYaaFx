@@ -6,6 +6,7 @@ import org.practice.seeyaa.service.UsersService;
 import org.practice.seeyaa.service.impl.UsersServiceImpl;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +22,7 @@ public class InboxesChoice implements Choice {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional(readOnly = true)
     public List<LetterDto> addToBox(int index, String email) {
         return usersService.findByEmail()
                 .myLetters()

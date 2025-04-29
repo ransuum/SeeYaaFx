@@ -26,10 +26,11 @@ public class Files {
     private Long size;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "data")
     private byte[] data;
 
     @ManyToOne
-    @JoinColumn(name = "file_id", referencedColumnName = "id")
+    @JoinColumn(name = "letter_id", referencedColumnName = "id")
     private Letter letter;
 }

@@ -4,7 +4,7 @@ import jakarta.validation.ValidationException;
 import javafx.scene.control.Label;
 import org.practice.seeyaa.enums.PatternError;
 
-public class AuthorizationValidator extends DefaultErrorLabelHandler implements Check {
+public final class AuthorizationValidator extends DefaultErrorLabelHandler implements Check {
 
     public AuthorizationValidator(Label incorrectInputEmail, Label incorrectInputPassword) {
         super(incorrectInputEmail, incorrectInputPassword);

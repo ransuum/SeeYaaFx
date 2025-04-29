@@ -6,6 +6,7 @@ import org.practice.seeyaa.models.dto.MovedLetterDto;
 import org.practice.seeyaa.service.MovedLetterService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class GarbageChoice implements Choice {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Transactional(readOnly = true)
     public List<LetterDto> addToBox(int index, String email) {
         return movedLetterService.getLettersWithGarbage(email)
                 .stream()
