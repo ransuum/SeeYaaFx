@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-@org.springframework.data.relational.core.mapping.Table(name = "users")
+@Table(name = "users")
 @Entity
 public class Users {
     @Id

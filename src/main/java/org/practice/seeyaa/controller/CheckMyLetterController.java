@@ -201,7 +201,7 @@ public class CheckMyLetterController {
     private void fileDownload(FileMetadataDto meta) {
         Task<Files> loadTask = fileDownloadService.createFileLoadTask(meta.id());
         loadTask.setOnSucceeded(e -> {
-            Files completeFile = loadTask.getValue();
+            final Files completeFile = loadTask.getValue();
             Task<Void> downloadTask = fileDownloadService.createDownloadTask(
                     completeFile, stage,
                     () -> {},

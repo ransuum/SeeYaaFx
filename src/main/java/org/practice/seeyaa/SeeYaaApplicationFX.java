@@ -15,12 +15,10 @@ public class SeeYaaApplicationFX extends javafx.application.Application {
 
     private ConfigurableApplicationContext springContext;
 
-    static {
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-    }
 
     @Override
     public void init() {
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
         springContext = new SpringApplicationBuilder(SeeYaaApplication.class).run();
     }
 

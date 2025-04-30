@@ -14,7 +14,8 @@ public class FileUiUtils {
         var icon = new FontIcon();
         switch (type) {
             case IMAGE -> icon.setIconLiteral("fas-file-image");
-            case DOCUMENT -> icon.setIconLiteral("fas-file-word");
+            case WORD -> icon.setIconLiteral("fas-file-word");
+            case PDF -> icon.setIconLiteral("fas-file-pdf");
             case AUDIO -> icon.setIconLiteral("fas-file-audio");
             case VIDEO -> icon.setIconLiteral("fas-file-video");
             default -> icon.setIconLiteral("fas-file");
