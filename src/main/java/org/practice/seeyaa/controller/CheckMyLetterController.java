@@ -32,6 +32,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import static org.practice.seeyaa.util.AlertWindow.showAlert;
+
 @Component
 @Slf4j
 public class CheckMyLetterController {
@@ -105,6 +107,7 @@ public class CheckMyLetterController {
             aiStage.show();
         } catch (IOException e) {
             log.error("Error opening AI response window", e);
+            showAlert("Ai window didn't open", "Error opening AI response window: " + e.getMessage());
         }
     }
 
@@ -167,7 +170,8 @@ public class CheckMyLetterController {
         };
 
         task.setOnSucceeded(evt -> Platform.runLater(() -> showFiles(task.getValue())));
-        task.setOnFailed(evt -> {/* error handling */});
+        task.setOnFailed(evt -> showAlert("Error",
+                "Failed to load files metadata: " + task.getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -209,7 +213,7 @@ public class CheckMyLetterController {
             );
             new Thread(downloadTask).start();
         });
-        loadTask.setOnFailed(e -> {/* error */});
+        loadTask.setOnFailed(e -> showAlert("File download error", loadTask.getException().getMessage()));
         new Thread(loadTask).start();
     }
 

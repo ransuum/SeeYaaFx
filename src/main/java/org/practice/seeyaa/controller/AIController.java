@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import static org.practice.seeyaa.util.AlertWindow.showAlert;
+
 @Component
 @Slf4j
 public class AIController {
@@ -89,8 +91,8 @@ public class AIController {
             });
         } catch (IOException e) {
             log.info("Error occurred while generating the model: {}", e.getMessage());
+            showAlert("AI didn't response", e.getMessage());
         }
 
     }
-
 }

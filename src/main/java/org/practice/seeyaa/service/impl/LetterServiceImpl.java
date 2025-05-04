@@ -1,11 +1,11 @@
 package org.practice.seeyaa.service.impl;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.dto.LetterDto;
 import org.practice.seeyaa.models.dto.LetterWithAnswers;
-import org.practice.seeyaa.models.entity.Users;
 import org.practice.seeyaa.models.request.LetterRequestDto;
 import org.practice.seeyaa.models.entity.Letter;
 import org.practice.seeyaa.repo.LetterRepo;
@@ -24,22 +24,17 @@ import java.util.List;
 
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LetterServiceImpl implements LetterService {
     private final LetterRepo letterRepo;
     private final UsersRepo usersRepo;
     private final MovedLetterConfiguration movedLetterConfiguration;
 
-    public LetterServiceImpl(LetterRepo letterRepo, UsersRepo usersRepo, MovedLetterConfiguration movedLetterConfiguration) {
-        this.letterRepo = letterRepo;
-        this.usersRepo = usersRepo;
-        this.movedLetterConfiguration = movedLetterConfiguration;
-    }
-
     @Override
     @Transactional
     @PreAuthorize("hasRole('ROLE_USER')")
     public LetterDto sendLetter(@Valid LetterRequestDto letterRequestDto) {
-        final Users usersBy = usersRepo.findByEmail(letterRequestDto.userBy())
+        final var usersBy = usersRepo.findByEmail(letterRequestDto.userBy())
                 .orElseThrow(() -> new NotFoundException("User not found"));
         return usersRepo.findByEmail(letterRequestDto.userTo())
                 .map(userTo -> LetterMapper.INSTANCE.toLetterDto(letterRepo.save(

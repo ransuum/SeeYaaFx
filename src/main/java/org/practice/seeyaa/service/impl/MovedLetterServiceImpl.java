@@ -1,5 +1,6 @@
 package org.practice.seeyaa.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.practice.seeyaa.enums.TypeOfLetter;
 import org.practice.seeyaa.exception.NotFoundException;
 import org.practice.seeyaa.models.dto.MovedLetterDto;
@@ -14,14 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MovedLetterServiceImpl implements MovedLetterService {
     private final MovedLetterRepo movedLetterRepo;
     private final UsersRepo usersRepo;
-
-    public MovedLetterServiceImpl(MovedLetterRepo movedLetterRepo, UsersRepo usersRepo) {
-        this.movedLetterRepo = movedLetterRepo;
-        this.usersRepo = usersRepo;
-    }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")

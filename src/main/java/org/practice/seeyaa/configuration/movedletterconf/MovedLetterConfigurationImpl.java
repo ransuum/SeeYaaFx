@@ -23,6 +23,14 @@ public class MovedLetterConfigurationImpl implements MovedLetterConfiguration {
         this.usersRepo = usersRepo;
     }
 
+    /**
+     * Updates the type of letter, moving it or restoring it as needed.
+     *
+     * @param letterId    the ID of the letter to update
+     * @param email       the email of the acting user
+     * @param type     the new type for the letter
+     * @throws NotFoundException if the letter or user does not exist
+     */
     @Override
     @Transactional
     public void setLetterType(String letterId, String email, TypeOfLetter type) {

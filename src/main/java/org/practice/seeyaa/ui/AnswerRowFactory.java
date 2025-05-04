@@ -31,7 +31,7 @@ public class AnswerRowFactory {
         final var nameLabel = new Label(answerDto.userByAnswered().firstname());
         nameLabel.getStyleClass().add("answer-name");
 
-        final var dateLabel = new Label(answerDto.createdAt().toString()); // replace with refractorDate if needed
+        final var dateLabel = new Label(answerDto.createdAt().toString());
         dateLabel.getStyleClass().add("answer-date");
 
         final var headerBox = new HBox(10);

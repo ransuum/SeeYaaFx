@@ -13,6 +13,7 @@ import org.practice.seeyaa.enums.FileSize;
 import org.practice.seeyaa.models.request.LetterRequestDto;
 import org.practice.seeyaa.security.SecurityService;
 import org.practice.seeyaa.service.LetterService;
+import org.practice.seeyaa.service.StorageService;
 import org.practice.seeyaa.service.impl.StorageServiceImpl;
 import org.practice.seeyaa.configuration.fileconfiguration.PathMultipartFile;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.practice.seeyaa.util.AlertWindow.showAlert;
 
 
 @Component
@@ -40,17 +43,17 @@ public class SendLetterController {
     @FXML
     private Label attachmentLabel;
 
-    private final LetterService letterServiceImpl;
-    private final StorageServiceImpl storageServiceImpl;
+    private final LetterService letterService;
+    private final StorageService storageService;
     private final SecurityService securityService;
 
     private Stage stage;
 
     private final List<File> selectedFiles = new ArrayList<>();
 
-    public SendLetterController(LetterService letterServiceImpl, StorageServiceImpl storageServiceImpl, SecurityService securityService) {
-        this.letterServiceImpl = letterServiceImpl;
-        this.storageServiceImpl = storageServiceImpl;
+    public SendLetterController(LetterService letterService, StorageServiceImpl storageService, SecurityService securityService) {
+        this.letterService = letterService;
+        this.storageService = storageService;
         this.securityService = securityService;
     }
 
@@ -82,11 +85,11 @@ public class SendLetterController {
                         topic.getText(),
                         toWhom.getText(),
                         securityService.getCurrentUserEmail());
-                final var savedLetter = letterServiceImpl.sendLetter(request);
+                final var savedLetter = letterService.sendLetter(request);
 
                 for (File file : selectedFiles) {
                     MultipartFile multipartFile = new PathMultipartFile(file);
-                    storageServiceImpl.uploadFile(multipartFile, savedLetter.id());
+                    storageService.uploadFile(multipartFile, savedLetter.id());
                 }
                 return null;
             }
@@ -122,7 +125,8 @@ public class SendLetterController {
                     selectedFiles.clear();
                     for (File file : files) {
                         if (file.length() > FileSize.ONE_GB.getSize()) {
-                            showAlert("File Too Large", "File exceeds 10MB limit: " + file.getName());
+                            showAlert("File Too Large", "File exceeds %d MB limit: %.2f MB"
+                                    .formatted(FileSize.ONE_GB.getSize(), file.length() / (1024.0 * 1024.0)));
                             continue;
                         }
                         selectedFiles.add(file);
@@ -143,13 +147,6 @@ public class SendLetterController {
 
             new Thread(fileProcessingTask).start();
         }
-    }
-
-    private void showAlert(String title, String content) {
-        final Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
     private void updateAttachmentLabel() {
